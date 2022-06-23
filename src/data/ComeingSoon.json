@@ -1,0 +1,14 @@
+[
+    {
+      "id": 1,
+      "name": "หน้าหลัก",
+      "url":"/",
+      "img":"banner/banner1.png"
+    },
+    {
+      "id": 2,
+      "name": "รู้จัก YFHS",
+      "url":"/about",
+      "img":"banner/banner2.png"    
+    }
+  ]

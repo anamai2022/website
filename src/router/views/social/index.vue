@@ -1,0 +1,36 @@
+<script>
+import appConfig from "@/app.config";
+import Footer from "@/components/footers.vue";
+import Menu from "@/components/Menu.vue";
+import ComingSoon from "@/components/widgets/ComingSoon.vue";
+export default {
+  page: {
+    title: "Social",
+    meta: [
+      {
+        name: "description",
+        content: appConfig.description,
+      },
+    ],
+  },
+  components: { Footer,Menu,ComingSoon },
+  data() {
+    return {
+      title: appConfig.description,       
+    };
+  },
+  computed: {},
+  methods: {},
+  mounted() {},
+};
+</script>
+
+<template>
+  <div>
+    <Menu />
+    <ComingSoon />
+    <Footer />
+  </div>
+</template>
+
+<style lang="scss" module></style>
