@@ -21,7 +21,7 @@
             class="navbar-nav ms-auto"
             id="topnav-menu"
             v-scroll-spy-active="{ selector: 'a.nav-link' }"
-          >
+          >          
             <li class="nav-item" v-for="link in setMenu" :key="link.id">
               <a class="nav-link" :href="link.url">{{link.name}}</a>
             </li>
@@ -56,6 +56,9 @@ export default {
   },
   computed: {},
   methods: {
+   created() {
+    console.log("ssss",this.MenuData)
+   },
    windowScroll() {
       const navbar = document.getElementById("navbar");
       if (

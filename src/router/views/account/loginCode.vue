@@ -1,14 +1,7 @@
 <script>
 import axios from "axios";
-
+import moment from "moment";
 import Layout from "../../layouts/auth";
-import {
-  authMethods,
-  authFackMethods,
-  notificationMethods,
-} from "@/state/helpers";
-import { mapState } from "vuex";
-
 import appConfig from "@/app.config";
 import { required, email } from "vuelidate/lib/validators";
 
@@ -43,6 +36,7 @@ export default {
       DonAccount: appConfig.DonAccount,
       Login: appConfig.Login,
       titleImage: appConfig.title,
+      message:null,
     };
   },
   validations: {
@@ -54,34 +48,39 @@ export default {
       required,
     },
   },
-  computed: {
-    ...mapState("authfack", ["status"]),
-    notification() {
-      return this.$store ? this.$store.state.notification : null;
-    },
-  },
+  computed: {},
   methods: {
-    ...authMethods,
-    ...authFackMethods,
-    ...notificationMethods,
     tryToLogIn() {
       this.submitted = true;
-      this.$v.$touch();
-
-      if (this.$v.$invalid) {
-        return;
-      } else {
-         if (process.env.VUE_APP_DEFAULT_AUTH === "authapi") {
           axios
-            .post("http://127.0.0.1:8000/api/login", {
-              email: this.email,
-              password: this.password,
+          .post(`${process.env.VUE_APP_ENDPOINT}`+'/logincode', {
+            f_login: this.password,
+          })
+            .then((response) => {
+              console.log('Login passing : ',response.data.messagesboxs)
+              if(response.data.messagesboxs == 'Success'){
+              let data = response.data.result[0];          
+              localStorage.setItem('token', response.data.token);
+              this.$router.push('/profile')
+              }else{
+                  this.$swal({
+                    icon: "error",
+                    title: "ไม่พบผู้ใช้งานในระบบ",
+                    text: response.data.messagesboxs,
+                    allowOutsideClick: false,
+                  });
+                  this.$router.push('/logincode');
+              }
             })
-            .then((res) => {
-              return res;
-            });
-        }
-      }
+            .catch(error => {
+              this.$swal({
+                    icon: "error",
+                    title: "ไม่สามารถเข้าสู่ระบบได้",
+                    text: 'กรุณาติดต่อเจ้าหน้าที่ : '+ error,
+                    allowOutsideClick: false,
+                  });
+              this.$router.push('/');                  
+            })
     },
   },
   mounted() {},
@@ -97,8 +96,8 @@ export default {
             <div class="row">
               <div class="col-7">
                 <div class="text-primary p-4">
-                  <h5 class="text-primary">{{logointitle}}</h5>
-                  <p>{{titleHeader}}.</p>
+                  <h5 class="text-primary">{{ logointitle }}</h5>
+                  <p>{{ titleHeader }}.</p>
                 </div>
               </div>
               <div class="col-5 align-self-end">
@@ -115,7 +114,11 @@ export default {
               <router-link tag="a" to="/">
                 <div class="avatar-md profile-user-wid mb-4">
                   <span class="avatar-title rounded-circle bg-light">
-                    <img src="@/assets/images/rh_anamai.png" :alt="titleImage" height="80" />
+                    <img
+                      src="@/assets/images/rh_anamai.png"
+                      :alt="titleImage"
+                      height="80"
+                    />
                   </span>
                 </div>
               </router-link>
@@ -127,15 +130,9 @@ export default {
               dismissible
               >{{ authError }}</b-alert
             >
-            <div
-              v-if="notification.message"
-              :class="'alert ' + notification.type"
-            >
-              {{ notification.message }}
-            </div>
 
             <b-form class="p-2" @submit.prevent="tryToLogIn">
-                <b-form-group
+              <b-form-group
                 class="mb-3"
                 id="input-group-2"
                 label="Password"
@@ -155,11 +152,13 @@ export default {
                   Password is required.
                 </div>
               </b-form-group>
-                <router-link tag="a" to="/forgot-password" class="text-muted">
-                  <i class="mdi mdi-lock me-1"></i> {{ForgotYourPassword}}
-                </router-link>
+              <router-link tag="a" to="/forgot-password" class="text-muted">
+                <i class="mdi mdi-lock me-1"></i> {{ ForgotYourPassword }}
+              </router-link>
               <div class="mt-3 d-grid">
-                <b-button type="submit" variant="primary" class="btn-block">{{Login}}</b-button>
+                <b-button type="submit" variant="primary" class="btn-block">{{
+                  Login
+                }}</b-button>
               </div>
             </b-form>
           </div>
@@ -167,17 +166,17 @@ export default {
 
         <div class="mt-5 text-center">
           <p>
-            {{DonAccount}}
+            {{ DonAccount }}
             <router-link
               tag="a"
               to="/register"
               class="fw-medium text-primary"
-              >{{Signup}}</router-link
+              >{{ Signup }}</router-link
             >
           </p>
           <p>
-            © {{ new Date().getFullYear() }} YFHS. {{CreateWith}}
-            <i class="mdi mdi-heart text-danger"></i> by {{footerDesign}}
+            © {{ new Date().getFullYear() }} YFHS. {{ CreateWith }}
+            <i class="mdi mdi-heart text-danger"></i> by {{ footerDesign }}
           </p>
         </div>
       </div>

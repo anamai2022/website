@@ -31,5 +31,11 @@
   "informationHeader":"อยู่ระหว่างการปรับปรุงระบบ",
   "informationDetail":"หน้าเว็บนี้ยังไม่ได้ทำการพัฒนาหรือรอระหว่างการพัฒนาระบบ",
   "linkeHome":"กลับไปหน้าหลัก",
+  "logout":"ออกจากระบบ",
+  "hospitalname":"โรงพยาบาล",
+  "hospitalProfile":"ข้อมูลโรงพยาบาล",
+  "budgetYear":"ปีงบประมาณ",
+  "selfAssessmentResults":"ผลการประเมินตนเอง",
+  "gradePoint":"เกรดคะแนน",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }

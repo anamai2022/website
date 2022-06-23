@@ -5,7 +5,7 @@ import appConfig from "@/app.config";
 import { form } from "@/router/views/questionnaire/configs/list.js";
 import questionnaireData from "@/data/questionnaire.json";
 import Footer from "@/components/footers.vue";
-import Menu from "@/components/Menu.vue";
+import UserMenu from "@/components/UserMenu.vue";
 import Questionnaire from "@/components/widgets/Questionnaire.vue";
 export default {
   page: {
@@ -17,7 +17,7 @@ export default {
       },
     ],
   },
-  components: { Footer, Menu, Questionnaire },
+  components: { Footer, UserMenu, Questionnaire },
   data() {
     return {
       title: appConfig.description,
@@ -29,6 +29,14 @@ export default {
     };
   },
   computed: {},
+  created() {
+    var username = localStorage.getItem('token')
+      if (!username) {
+        this.$router.push('/logincode')
+      } else {
+        this.setUserProfile = localStorage.getItem('token')
+      }
+  },  
   beforeMount() {
     this.$route.query.id;
     if (this.$route.params.id != null) {
@@ -57,7 +65,7 @@ export default {
 
 <template>
   <div>
-    <Menu />
+    <UserMenu />
     <form class="needs-validation"  @submit.prevent="submitItem()">
       <Questionnaire class="section bg-white ex1"  :form="form" :mode="mode" :questionnaire="questionnaire" />
     </form>

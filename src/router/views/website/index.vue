@@ -39,4 +39,6 @@ export default {
   </div>
 </template>
 
-<style lang="scss" module></style>
+<style scoped>
+
+</style>

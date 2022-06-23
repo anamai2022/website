@@ -7,7 +7,7 @@ import loadFormA from "@/data/formA.json";
 import loadFormB from "@/data/formB.json";
 import loadFormC from "@/data/formC.json";
 import Footer from "@/components/footers.vue";
-import Menu from "@/components/Menu.vue";
+import UserMenu from "@/components/UserMenu.vue";
 import Poll from "@/components/widgets/Poll.vue";
 export default {
   name: "PollView",
@@ -20,7 +20,7 @@ export default {
       },
     ],
   },
-  components: { Footer, Menu, Poll, },
+  components: { Footer, UserMenu, Poll, },
   data() {
     return {
       title: appConfig.description,
@@ -32,6 +32,14 @@ export default {
     };
   },
   computed: {},
+  created() {
+    var username = localStorage.getItem('token')
+      if (!username) {
+        this.$router.push('/logincode')
+      } else {
+        this.setUserProfile = localStorage.getItem('token')
+      }
+  },  
   beforeMount() {
     if (this.$route.params.id != null) {      
       this.mode = "Upadate";
@@ -71,7 +79,7 @@ export default {
 
 <template>
   <div>
-    <Menu />
+    <UserMenu />
     <form class="needs-validation"  @submit.prevent="submitItem()">
       <Poll class="section bg-white ex1"  :form="form" :mode="mode" :poll="PollDataSet" />
     </form>

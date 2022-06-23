@@ -27,6 +27,11 @@ export default [
     component: () => import("./views/information/index"),
   },
   {
+    path: "/informations",
+    name: "informations",
+    component: () => import("./views/information/information"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("./views/account/login"),
@@ -113,5 +118,13 @@ export default [
     path: "/poll",
     name: "poll",
     component: () => import("./views/poll"),
-  },
+  },{
+    path: "/profile",
+    name: "profile",
+    component: () => import("./views/profile"),
+  },{
+    path: "/logout",
+    name: "logout",
+    component: () => import("./views/website"),
+  }
 ];

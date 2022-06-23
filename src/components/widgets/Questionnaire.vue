@@ -24,10 +24,6 @@
 import appConfig from "@/app.config";
 import StepHeader from "@/components/widgets/StepHeader.vue";
 import StepDetail from "@/components/widgets/StepDetail.vue";
-import Step2 from "@/components/widgets/Step2.vue";
-import Step3 from "@/components/widgets/Step3.vue";
-import Step4 from "@/components/widgets/Step4.vue";
-import Step5 from "@/components/widgets/Step5.vue";
 export default {
   name: "QuestionnaireComponents",
   props: ["form", "mode", "questionnaire"],

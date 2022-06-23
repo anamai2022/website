@@ -1,5 +1,5 @@
 <template>
-      <section class="section hero-section" id="landing">
+      <section class="section hero-section top" id="landing">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
@@ -97,3 +97,8 @@ export default {
 mounted() {},
 };
 </script>
+<style scoped>
+.top {
+  margin-top: 40px;
+}
+</style>
