@@ -53,9 +53,12 @@
                         <p class="mb-0">{{hospitalName}}</p>
                       </div>
                     </div>
-                    <b-button  v-b-modal.modal-hospital variant="light" right>
+                    <b-button v-b-modal.modal-hospital variant="primary" right>
                       <i class="bx bx-pencil font-size-16 align-middle me-2"></i>{{hospitalProfile}}
                     </b-button>
+                    <b-modal id="modal-hospital" :title="hospitalProfile" title-class="font-18">
+                       <popupProfile :form="form" :mode="mode" :questionnaire="questionnaire" />
+                    </b-modal>
                   </div>
                   <hr />
                   <div class="row">
@@ -88,6 +91,7 @@
 </template>
 <script>
 import Dataquestionnaire from "@/data/questionnaire.json";
+import popupProfile from "@/components/widgets/profile/popupProfile.vue";
 import appConfig from "@/app.config";
 import moment from "moment";
 export default {
@@ -101,6 +105,8 @@ export default {
       },
     ],
   },
+  props: ["form", "mode", "questionnaire"],
+  components: { popupProfile, },
   data() {
     return {
       DataSetQuestionnaire: Dataquestionnaire,

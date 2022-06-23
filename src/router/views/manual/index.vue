@@ -1,10 +1,12 @@
 <script>
+import _ from "underscore";
+import { uuid } from "uuidv4";
 import appConfig from "@/app.config";
 import Footer from "@/components/footers.vue";
 import UserMenu from "@/components/UserMenu.vue";
-import ProfileDetail from "@/components/widgets/profile/ProfileDetail.vue";
+import ComingSoon from "@/components/widgets/ComingSoon.vue";
 export default {
-  name:"Profile",
+  name: "SummaryView",
   page: {
     title: appConfig.shortname,
     meta: [
@@ -14,13 +16,18 @@ export default {
       },
     ],
   },
-  components: { Footer,UserMenu, ProfileDetail,},
+  components: { Footer, UserMenu, ComingSoon, },
   data() {
     return {
-      title: appConfig.description,   
-      setUserProfile: null,    
+      title: appConfig.description,
+      mode: null,
+      PollDataSet: null,
+      form: null,
+      btnPermisActionName: null,
+      btnPermisFunctionName: null,
     };
   },
+  computed: {},
   created() {
     var username = localStorage.getItem('token')
       if (!username) {
@@ -28,9 +35,11 @@ export default {
       } else {
         this.setUserProfile = localStorage.getItem('token')
       }
+  },  
+  beforeMount() { 
   },
-  computed: {},
-  methods: {},
+  methods: {
+  },
   mounted() {},
 };
 </script>
@@ -38,9 +47,13 @@ export default {
 <template>
   <div>
     <UserMenu />
-    <ProfileDetail />
+    <ComingSoon />
     <Footer />
   </div>
 </template>
 
-<style lang="scss" module></style>
+<style scoped>
+.ex1 {
+  margin-left: 20px;
+}
+</style>

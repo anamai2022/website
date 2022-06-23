@@ -126,5 +126,13 @@ export default [
     path: "/logout",
     name: "logout",
     component: () => import("./views/website"),
+  },{
+    path: "/summary",
+    name: "summary",
+    component: () => import("./views/summary/index"),
+  },{
+    path: "/manual",
+    name: "manual",
+    component: () => import("./views/manual/index"),
   }
 ];

@@ -29,9 +29,16 @@
     },
     {
       "id": 5,
-      "name": "รายงาน",
-      "url":"/report",
+      "name": "ข้อมูลสรุป",
+      "url":"/summary",
       "menuType":"user",
       "img":"https://www.lovecarestation.com/wp-content/uploads/2020/07/allnewlogolc-01-1024x868.png"    
-    }  
+    },
+    {
+      "id": 6,
+      "name": "คู่มือ",
+      "url":"/manual",
+      "menuType":"user",
+      "img":"https://www.lovecarestation.com/wp-content/uploads/2020/07/allnewlogolc-01-1024x868.png"    
+    }    
   ]
