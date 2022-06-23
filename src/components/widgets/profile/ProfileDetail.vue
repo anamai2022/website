@@ -1,128 +1,171 @@
 <template>
- <section class="section" id="profileDetail">
-  <div class="row pageset">
-    <div class="col-xl-4">
-      <div class="card overflow-hidden">
-        <div class="bg-soft bg-primary">
-          <div class="row">
-            <div class="col-7">
-              <div class="text-primary p-3">
-                <h5 class="text-primary">{{Welcome}}</h5>
-                <p>{{title}}</p>
+  <section class="section" id="profileDetail">
+    <div class="row pageset">
+      <div class="col-xl-4">
+        <div class="card overflow-hidden">
+          <div class="bg-soft bg-primary">
+            <div class="row">
+              <div class="col-7">
+                <div class="text-primary p-3">
+                  <h5 class="text-primary">{{ Welcome }}</h5>
+                  <p>{{ title }}</p>
+                </div>
               </div>
-            </div>
-            <div class="col-5 align-self-end">
-              <img
-                src="@/assets/images/profile-img.png"
-                alt
-                class="img-fluid"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="avatar-md profile-user-wid mb-4">
+              <div class="col-5 align-self-end">
                 <img
-                  src="@/assets/images/users/avatar-1.jpg"
+                  src="@/assets/images/profile-img.png"
                   alt
-                  class="img-thumbnail rounded-circle"
+                  class="img-fluid"
                 />
               </div>
-              <h4 class="font-size-14 text-truncate">{{hospital}}</h4>
-              <p class="text-muted mb-0 text-truncate">{{hospitalName}}</p>
             </div>
-
-            <div class="col-sm-8">
-              <div class="pt-4">
-                <div class="row">
-                  <div class="col-6">
-                    <h5 class="font-size-15">{{budgetYearName}}</h5>
-                    <p class="text-muted mb-0">{{budgetYear}}</p>
-                  </div>
-                  <div class="col-6">
-                    <h5 class="font-size-15">{{selfAssessmentResults}}</h5>
-                    <p class="text-muted mb-0">{{statusSelfAssessmentResults}}</p>
-                  </div>
+          </div>
+          <div class="card-body pt-0">
+            <div class="row">
+              <div class="col-sm-5">
+                <div class="avatar-md profile-user-wid mb-4">
+                  <img
+                    src="@/assets/images/users/avatar-1.jpg"
+                    alt
+                    class="img-thumbnail rounded-circle"
+                  />
                 </div>
-                <div class="mt-4">
+                <h4 class="font-size-14 text-truncate">{{ hospital }}</h4>
+                <p class="text-muted mb-0 text-truncate">{{ hospitalName }}</p>
+              </div>
+
+              <div class="col-sm-7">
+                <div class="pt-4">
+                  <div class="row">
+                    <div class="col-6">
+                      <h5 class="font-size-15">{{ budgetYearName }}</h5>
+                      <p class="text-muted mb-0">{{ budgetYear }}</p>
+                    </div>
+                    <div class="col-6">
+                      <h5 class="font-size-15">{{ selfAssessmentResults }}</h5>
+                      <p class="text-muted mb-0">
+                        {{ statusSelfAssessmentResults }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="mt-4">
                     <b-button v-b-modal.modal-hospital variant="primary" right>
-                      <i class="fas fa-hospital-user font-size-16 align-middle me-2"></i>{{hospitalProfile}}
+                      <i
+                        class="fas fa-hospital-user font-size-16 align-middle me-2"
+                      ></i
+                      >{{ hospitalProfile }}
                     </b-button>
-                    <b-modal id="modal-hospital" :title="hospitalProfile" title-class="font-18">
-                       <popupProfile :form="form" :mode="mode" :questionnaire="questionnaire" />
+                    <b-modal
+                      id="modal-hospital"
+                      :title="hospitalProfile"
+                      title-class="font-18"
+                      hide-footer
+                    >
+                      <popupProfile
+                        :form="form"
+                        :mode="mode"
+                        :questionnaire="questionnaire"
+                      />
                     </b-modal>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title mb-4">{{OrganizationalCharacteristics}}</h4>
-          <p class="text-muted mb-4">
-            <b-button v-b-modal.modal-Organizational variant="success">
-              <i class="fas fa-address-book font-size-16 align-middle me-2"></i>{{OrganizationalData}}
-            </b-button>
-            <b-modal id="modal-Organizational" :title="OrganizationalCharacteristics" title-class="font-18">
-              <Organizational :form="form" :mode="mode" :questionnaire="questionnaire" />
-            </b-modal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b-button v-b-modal.modal-Organizational variant="danger" left>
-              <i class="fas fa-address-card font-size-16 align-middle me-2"></i>{{PersonInChargeOfAdolescentClinic}}
-            </b-button>            
-          </p>
-          <div class="table-responsive ">
-            <table class="table table-nowrap mb-0">
-              <tbody>
-                <tr>
-                  <th scope="row">{{vision}} :</th>
-                  <td>Cynthia Price</td>
-                </tr>
-                <tr>
-                  <th scope="row">{{mission}} :</th>
-                  <td>(123) 123 1234</td>
-                </tr>
-                <tr>
-                  <th scope="row">{{goal}} :</th>
-                  <td>cynthiaskote@gmail.com</td>
-                </tr>
-                <tr>
-                  <th scope="row">{{policy}} :</th>
-                  <td>California, United States</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-4">{{ OrganizationalCharacteristics }}</h4>
+            <p class="text-muted mb-4">
+              <b-button v-b-modal.modal-Organizational variant="success">
+                <i
+                  class="fas fa-address-book font-size-16 align-middle me-2"
+                ></i
+                >{{ OrganizationalData }}
+              </b-button>
+              <b-modal
+                id="modal-Organizational"
+                :title="OrganizationalCharacteristics"
+                title-class="font-18"
+                hide-footer
+              >
+                <Organizational
+                  :form="form"
+                  :mode="mode"
+                  :questionnaire="questionnaire"
+                  :visionData="visionData"
+                  :missionData="missionData"
+                  :goalData="goalData"
+                  :policyData="policyData"
+                /></b-modal
+              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b-button v-b-modal.modal-OrganizationalPerson variant="danger" left>
+                <i
+                  class="fas fa-address-card font-size-16 align-middle me-2"
+                ></i
+                >{{ PersonInChargeOfAdolescentClinic }}
+              </b-button>
+              <b-modal
+                id="modal-OrganizationalPerson"
+                :title="PersonInChargeOfAdolescentClinic"
+                title-class="font-18"
+                hide-footer
+              ><PersonInChargeOfAdolescentClinic                   
+                  :form="form"
+                  :mode="mode"
+                  :questionnaire="questionnaire"/></b-modal>
+            </p>
+            <div class="table-responsive ">
+              <table class="table table-nowrap mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row">{{ vision }} :</th>
+                    <td>{{visionData}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{{ mission }} :</th>
+                    <td>{{missionData}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{{ goal }} :</th>
+                    <td>{{goalData}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{{ policy }} :</th>
+                    <td>{{policyData}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+        </div>
+
+        <div class="card">
+          <assessmentStatus />
         </div>
       </div>
 
-      <div class="card">
-        <assessmentStatus />
+      <div class="col-xl-8">
+        <div class="card">
+          <historyProfile />
+        </div>
+        <div class="card">
+          <Lightbox />
+        </div>
       </div>
     </div>
-
-    <div class="col-xl-8">
-      <div class="card">
-        <historyProfile />
-      </div>
-      <div class="card">
-        <Lightbox />
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 </template>
 <script>
 import Dataquestionnaire from "@/data/questionnaire.json";
 import popupProfile from "@/components/widgets/profile/popupProfile.vue";
 import Organizational from "@/components/widgets/profile/Organizational.vue";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
-import historyProfile from "@/components/widgets/profile/historyProfile.vue"; 
+import historyProfile from "@/components/widgets/profile/historyProfile.vue";
 import assessmentStatus from "@/components/widgets/profile/assessmentStatus.vue"; 
-
+import PersonInChargeOfAdolescentClinic from "@/components/widgets/profile/PersonInChargeOfAdolescentClinic.vue"; 
+import axios from "axios";
 import appConfig from "@/app.config";
 import moment from "moment";
 export default {
@@ -137,7 +180,14 @@ export default {
     ],
   },
   props: ["form", "mode", "questionnaire"],
-  components: { popupProfile, Organizational, Lightbox, historyProfile, assessmentStatus, },
+  components: {
+    popupProfile,
+    Organizational,
+    Lightbox,
+    historyProfile,
+    assessmentStatus,
+    PersonInChargeOfAdolescentClinic,
+  },
   data() {
     return {
       DataSetQuestionnaire: Dataquestionnaire,
@@ -145,6 +195,7 @@ export default {
       informationDetail: appConfig.informationDetail,
       linkeHome: appConfig.linkeHome,
       hospital: appConfig.hospitalname,
+      hospitalName: null,
       hospitalProfile: appConfig.hospitalProfile,
       budgetYearName: appConfig.budgetYear,
       selfAssessmentResults: appConfig.selfAssessmentResults,
@@ -159,6 +210,11 @@ export default {
       mission: appConfig.mission,
       goal: appConfig.goal,
       policy: appConfig.policy,
+      OrganizationalCharacteristicsData:null,
+      visionData: null,
+      missionData: null,
+      goalData: null,
+      policyData: null,      
       assessmentStatus: appConfig.assessmentStatus,
       historyProfile: appConfig.historyProfile,
       Questions: appConfig.Questions,
@@ -168,7 +224,7 @@ export default {
       QuestionsAttachment: appConfig.QuestionsAttachment,
       QuestionsGroup: appConfig.QuestionsGroup,
       OrganizationalData: appConfig.OrganizationalData,
-      PersonInChargeOfAdolescentClinic: appConfig.PersonInChargeOfAdolescentClinic,
+      PersonInChargeOfAdolescentClinic:appConfig.PersonInChargeOfAdolescentClinic,
     };
   },
   created() {
@@ -188,9 +244,68 @@ export default {
     if (this.gradeSelfAssessmentResults == null) {
       this.gradeSelfAssessmentResults = "F";
     }
-    if (this.hospitalName == null) {
-      this.hospitalName = "ไม่ระบุ";
-    }
+
+    axios
+      .get(
+        `${process.env.VUE_APP_ENDPOINT}` +
+          "/hospital/" +
+          localStorage.getItem("profile")
+      )
+      .then((response) => {
+        console.log(response.data.result);
+        if (response.data.messagesboxs == "Success") {
+          console.log(response.data.result[0])
+          this.hospitalName = response.data.result[0].f_hospitalname
+        }else{
+          this.$swal({
+            icon: "error",
+            title: "ไม่สามารถเข้าสู่ระบบได้",
+            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+            allowOutsideClick: false,
+          });          
+        }
+      })
+      .catch((error) => {
+        this.$swal({
+          icon: "error",
+          title: "ไม่สามารถเข้าสู่ระบบได้",
+          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+          allowOutsideClick: false,
+        });
+      });
+
+    axios
+      .get(
+        `${process.env.VUE_APP_ENDPOINT}` +
+          "/profile/" +
+          localStorage.getItem("profile")
+      )
+      .then((response) => {
+        console.log(response.data.result);
+        if (response.data.messagesboxs == "Success") {
+          console.log(response.data.result[0])   
+          this.OrganizationalCharacteristicsData = response.data.result[0];
+          this.visionData = response.data.result[0].f_vsion;
+          this.missionData = response.data.result[0].f_mistion;
+          this.goalData = response.data.result[0].f_gotoKnow;
+          this.policyData = response.data.result[0].f_policy;
+        }else{
+          this.$swal({
+            icon: "error",
+            title: "ไม่สามารถเข้าสู่ระบบได้",
+            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+            allowOutsideClick: false,
+          });          
+        }
+      })
+      .catch((error) => {
+        this.$swal({
+          icon: "error",
+          title: "ไม่สามารถเข้าสู่ระบบได้",
+          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+          allowOutsideClick: false,
+        });
+      });
   },
 };
 </script>

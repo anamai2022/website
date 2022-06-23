@@ -109,6 +109,10 @@
                   </gmap-map>
                 </div>                              
               </div>
+                    <b-button variant="success" class="btn-label">
+                      <i class="bx bx-save label-icon"></i>
+                        บันทึกข้อมูล
+                    </b-button>              
             </b-form>      
     </div>
 </template>

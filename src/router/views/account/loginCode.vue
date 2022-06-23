@@ -57,9 +57,10 @@ export default {
             f_login: this.password,
           })
             .then((response) => {
-              console.log('Login passing : ',response.data.messagesboxs)
               if(response.data.messagesboxs == 'Success'){
-              let data = response.data.result[0];          
+              let data = response.data.result[0];             
+              localStorage.setItem('f_code',this.password);
+              localStorage.setItem('profile',data.f_contactId);          
               localStorage.setItem('token', response.data.token);
               this.$router.push('/profile')
               }else{
