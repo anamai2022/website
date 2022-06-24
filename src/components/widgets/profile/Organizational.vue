@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <p>ลักษณะสำคัญขององค์กร</p>
-    <div class="col-lg-6">
+    <div class="col-12">
       <p>วิสัยทัศน์</p>
       <textarea id="w3review" name="w3review" rows="4" cols="50">{{visionData}}</textarea>
       <p>พันธกิจ</p>
@@ -11,10 +11,17 @@
       <p>นโยบาย</p>
       <textarea id="w3review" name="w3review" rows="4" cols="50">{{policyData}}</textarea>
     </div>
-                        <b-button variant="success" class="btn-label">
-                      <i class="bx bx-save label-icon"></i>
-                        บันทึกข้อมูล
-                    </b-button>
+     <div class="col-6">
+      <b-button variant="danger" class="btn-label">
+        <i class="bx bx-trash label-icon"></i>
+        ยกเลิก
+      </b-button>
+      &nbsp;&nbsp;&nbsp;&nbsp;     
+      <b-button variant="success" class="btn-label">
+        <i class="bx bx-save label-icon"></i>
+        บันทึกข้อมูล
+      </b-button>
+    </div>
   </div>
 </template>
 <script>

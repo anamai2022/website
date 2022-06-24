@@ -111,6 +111,12 @@
           </gmap-map>
         </div>
       </div>
+      <br>
+      <b-button variant="danger" class="btn-label">
+        <i class="bx bx-trash label-icon"></i>
+        ยกเลิก
+      </b-button>
+      &nbsp;&nbsp;&nbsp;&nbsp;     
       <b-button variant="success" class="btn-label">
         <i class="bx bx-save label-icon"></i>
         บันทึกข้อมูล
@@ -122,7 +128,7 @@
 import appConfig from "@/app.config";
 export default {
   name: "PopupProfile",
-  props: ["form", "mode", "questionnaire"],
+  props: ["form", "mode", "questionnaire","hospitalData"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -185,7 +191,7 @@ export default {
   created() {
     this.handleGetlocationMapPressed();
     this.handleGetIpAddress();
-
+    console.log('Data  :', this.hospitalData)
   },
   beforeMount() {},
   mounted() {},

@@ -71,18 +71,20 @@
                   type="text"
                 ></b-form-input>
               </b-form-group>                            
-              <div class="row justify-content-end">
-                <div class="col-sm-9">
-                  <div>
-                    <b-button variant="success" class="btn-label">
-                      <i class="bx bx-save label-icon"></i>
-                        บันทึกข้อมูล
-                    </b-button>
-                  </div>
-                </div>
-              </div>
+
             </b-form>
     </div>
+     <div class="col-6">
+      <b-button variant="danger" class="btn-label">
+        <i class="bx bx-trash label-icon"></i>
+        ยกเลิก
+      </b-button>
+      &nbsp;&nbsp;&nbsp;&nbsp;     
+      <b-button variant="success" class="btn-label">
+        <i class="bx bx-save label-icon"></i>
+        บันทึกข้อมูล
+      </b-button>
+    </div>    
   </div>
 </template>
 <script>

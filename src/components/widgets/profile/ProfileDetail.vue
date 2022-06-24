@@ -65,6 +65,7 @@
                         :form="form"
                         :mode="mode"
                         :questionnaire="questionnaire"
+                        :hospitalData="hospitalData"
                       />
                     </b-modal>
                   </div>
@@ -214,7 +215,8 @@ export default {
       visionData: null,
       missionData: null,
       goalData: null,
-      policyData: null,      
+      policyData: null,
+      hospitalData:[],      
       assessmentStatus: appConfig.assessmentStatus,
       historyProfile: appConfig.historyProfile,
       Questions: appConfig.Questions,
@@ -228,7 +230,6 @@ export default {
     };
   },
   created() {
-    console.log("Check login : ", localStorage.getItem("token"));
     var username = localStorage.getItem("token");
     if (!username) {
       this.$router.push("/logincode");
@@ -254,8 +255,21 @@ export default {
       .then((response) => {
         console.log(response.data.result);
         if (response.data.messagesboxs == "Success") {
-          console.log(response.data.result[0])
-          this.hospitalName = response.data.result[0].f_hospitalname
+          console.log('hospital : ',response.data.result[0])
+          this.hospitalName = response.data.result[0].f_hospitalname 
+          this.hospitalData ={
+            hospitalCode: response.data.result[0].f_hospitalcode,
+            loginCode: response.data.result[0].f_login,
+            hospitalname: response.data.result[0].f_hospitalname,
+            address: response.data.result[0].f_address,
+            subdistrict: response.data.result[0].f_subdistrict,
+            district: response.data.result[0].f_district,
+            province: response.data.result[0].f_province,
+            zipcode: response.data.result[0].f_zipcode,
+            latitude: response.data.result[0].f_latitude,
+            longitude: response.data.result[0].f_longitude,
+            zoneArea: response.data.result[0].f_zoneArea,
+          }        
         }else{
           this.$swal({
             icon: "error",
@@ -283,7 +297,7 @@ export default {
       .then((response) => {
         console.log(response.data.result);
         if (response.data.messagesboxs == "Success") {
-          console.log(response.data.result[0])   
+          console.log('profile : ',response.data.result[0])   
           this.OrganizationalCharacteristicsData = response.data.result[0];
           this.visionData = response.data.result[0].f_vsion;
           this.missionData = response.data.result[0].f_mistion;
