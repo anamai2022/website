@@ -57,5 +57,8 @@
   "Markers":"แผนที่",
   "MarkersAppove":"กรุณากดอนุญาตการเข้าถึงที่อยู่ของแผนที่",
   "PersonInChargeOfAdolescentClinic":"ผู้รับผิดชอบคลินิกวัยรุ่น",
+  "historyProfiles":"ข้อมูลประวัติการกรอกข้อมูลเข้าระบบประจำปี",
+  "latitude":"latitude :",
+  "longitude":"longitude :",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }

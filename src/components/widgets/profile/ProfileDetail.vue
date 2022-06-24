@@ -25,7 +25,7 @@
               <div class="col-sm-5">
                 <div class="avatar-md profile-user-wid mb-4">
                   <img
-                    src="@/assets/images/users/avatar-1.jpg"
+                    src="@/assets/images/logobig.png"
                     alt
                     class="img-thumbnail rounded-circle"
                   />
@@ -148,7 +148,7 @@
 
       <div class="col-xl-8">
         <div class="card">
-          <historyProfile />
+          <historyProfile :budgetYear="budgetYear" />
         </div>
         <div class="card">
           <Lightbox />
