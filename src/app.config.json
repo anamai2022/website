@@ -60,5 +60,6 @@
   "historyProfiles":"ข้อมูลประวัติการกรอกข้อมูลเข้าระบบประจำปี",
   "latitude":"latitude :",
   "longitude":"longitude :",
+  "placeholderSelect":"โปรดระบุ",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }

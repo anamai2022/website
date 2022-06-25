@@ -46,36 +46,31 @@
             type="email"
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          class="mb-4"
-          label="ชื่อผู้อำนวยการ:"
-          label-for="horizontal-password-input"
-          label-cols-sm="3"
-        >
-          <b-form-input
-            id="horizontal-password-input"
-            type="text"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="mb-4"
-          label="ชื่อแพทย์ผู้รับผิดชอบ:"
-          label-for="horizontal-password-input"
-          label-cols-sm="3"
-        >
-        <b-form-input >        
-        </b-form-input>
-        </b-form-group>
+        <div class="col-6">
+          ชื่อผู้อำนวยการ :
+        </div>
+        <div class="col-6">
+          <el-select v-model="value" filterable placeholder="placeholderSelect">
+            <el-option
+              v-for="item in ContactData"
+              :key="item.f_contactId"
+              :label="item.f_firstName +' '+item.f_lastName"
+              :value="item.f_contactId"
+            >
+            </el-option>
+          </el-select>          
+        </div>
+
         <div class="col-6">
           ชื่อแพทย์ผู้รับผิดชอบ :
         </div>
         <div class="col-6">
-          <el-select v-model="value" filterable placeholder="Select">
+          <el-select v-model="value" filterable placeholder="placeholderSelect">
             <el-option
-              v-for="item in contactOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in ContactData"
+              :key="item.f_contactId"
+              :label="item.f_firstName +' '+item.f_lastName"
+              :value="item.f_contactId"
             >
             </el-option>
           </el-select>          
@@ -101,7 +96,7 @@ import appConfig from "@/app.config";
 
 export default {
   name: "PersonInChargeOfAdolescentClinic",
-  props: ["form", "mode", "dataSet"],
+  props: ["form", "mode", "ContactData"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -118,29 +113,7 @@ export default {
       DataPollSet: this.poll,
       Statement: appConfig.Statement,
       Remark: appConfig.Remark,
-      contactOptions: [
-        {
-          value: "Option1",
-          label: "Option1",
-        },
-        {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
-      value: "",
+      placeholderSelect: appConfig.placeholderSelect,
     };
   },
   computed: {},
@@ -151,8 +124,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    console.log('Data : ',this.dataSet.contact)
-    this.contactOptions
+    console.log('Data : ',this.ContactData)
   },
   beforeMount() {},
   mounted() {},

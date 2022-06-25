@@ -116,7 +116,7 @@
                 ><PersonInChargeOfAdolescentClinic
                   :form="form"
                   :mode="mode"
-                  :dataSet="dataSet"
+                  :ContactData="ContactData"                  
               /></b-modal>
             </p>
             <div class="table-responsive ">
@@ -161,6 +161,7 @@
   </section>
 </template>
 <script>
+import  { contactService, profileService, HospitalService } from "@/api/index.js";
 import Dataquestionnaire from "@/data/questionnaire.json";
 import popupProfile from "@/components/widgets/profile/popupProfile.vue";
 import Organizational from "@/components/widgets/profile/Organizational.vue";
@@ -228,7 +229,6 @@ export default {
       OrganizationalData: appConfig.OrganizationalData,
       PersonInChargeOfAdolescentClinic:
         appConfig.PersonInChargeOfAdolescentClinic,
-      dataSet: [],
       ContactData: null,
       hospitalData: null,
       OrganizationalCharacteristicsData: null,
@@ -250,88 +250,29 @@ export default {
     if (this.gradeSelfAssessmentResults == null) {
       this.gradeSelfAssessmentResults = "F";
     }
-
-    console.log("fetchContact :", fetchContact());
+    this.getContact();
+    this.getProfile();
+    this.getHospital();
   },
   methods: {
-    fetchContact() {
-    let res  = axios
-        .get(`${process.env.VUE_APP_ENDPOINT}` + "/contact/")
-        .then((response) => {
-          return response.data.result;
-        })
-        .catch((error) => {
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถเข้าสู่ระบบได้",
-            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-            allowOutsideClick: false,
-          });
-        });
+    async getContact(){
+      const results = await contactService.getContactAll();
+      this.ContactData = results.result
+      console.log('Contact : ',results)
+      return results
     },
-    fetchHospital() {
-      axios
-        .get(
-          `${process.env.VUE_APP_ENDPOINT}` +
-            "/hospital/" +
-            localStorage.getItem("profile")
-        )
-        .then((response) => {
-          if (response.data.messagesboxs == "Success") {
-            this.hospitalName = response.data.result[0].f_hospitalname;
-            this.hospitalData = response.data.result;
-            return response.data.result;
-          } else {
-            this.$swal({
-              icon: "error",
-              title: "ไม่สามารถเข้าสู่ระบบได้",
-              text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-              allowOutsideClick: false,
-            });
-          }
-        })
-        .catch((error) => {
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถเข้าสู่ระบบได้",
-            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-            allowOutsideClick: false,
-          });
-        });
+    async getProfile(){
+      const result = await profileService.getProfileAll();
+      this.OrganizationalCharacteristicsData = result.result[0]
+      console.log('Prfile : ',result)
+      return result
     },
-    fetchProfile() {
-      axios
-        .get(
-          `${process.env.VUE_APP_ENDPOINT}` +
-            "/profile/" +
-            localStorage.getItem("profile")
-        )
-        .then((response) => {
-          if (response.data.messagesboxs == "Success") {
-            this.OrganizationalCharacteristicsData = response.data.result[0];
-            this.visionData = response.data.result[0].f_vsion;
-            this.missionData = response.data.result[0].f_mistion;
-            this.goalData = response.data.result[0].f_gotoKnow;
-            this.policyData = response.data.result[0].f_policy;
-            return response.data.result;
-          } else {
-            this.$swal({
-              icon: "error",
-              title: "ไม่สามารถเข้าสู่ระบบได้",
-              text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-              allowOutsideClick: false,
-            });
-          }
-        })
-        .catch((error) => {
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถเข้าสู่ระบบได้",
-            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-            allowOutsideClick: false,
-          });
-        });
-    },
+    async getHospital(){
+      const resultx = await HospitalService.getHospitalByCode();
+      this.hospitalData = resultx.result[0]
+      console.log('Hospital : ',resultx)
+      return resultx
+    }
   },
 };
 </script>
