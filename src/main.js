@@ -9,6 +9,8 @@ import vco from "v-click-outside"
 import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 import "../src/design/app.scss";
 import store from '@/state/store'
@@ -23,6 +25,7 @@ Vue.use(Scrollspy);
 const VueScrollTo = require('vue-scrollto')
 Vue.use(VueScrollTo)
 Vue.config.productionTip = false
+Vue.use(ElementUI);
 
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate)

@@ -63,7 +63,7 @@
                     >
                       <popupProfile
                         :form="form"
-                        :mode="mode"                        
+                        :mode="mode"
                         :hospitalData="hospitalData"
                       />
                     </b-modal>
@@ -92,14 +92,17 @@
               >
                 <Organizational
                   :form="form"
-                  :mode="mode"               
+                  :mode="mode"
                   :visionData="visionData"
                   :missionData="missionData"
                   :goalData="goalData"
-                  :policyData="policyData"
-                /></b-modal
+                  :policyData="policyData"/></b-modal
               >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <b-button v-b-modal.modal-OrganizationalPerson variant="danger" left>
+              <b-button
+                v-b-modal.modal-OrganizationalPerson
+                variant="danger"
+                left
+              >
                 <i
                   class="fas fa-address-card font-size-16 align-middle me-2"
                 ></i
@@ -110,29 +113,30 @@
                 :title="PersonInChargeOfAdolescentClinic"
                 title-class="font-18"
                 hide-footer
-              ><PersonInChargeOfAdolescentClinic                   
+                ><PersonInChargeOfAdolescentClinic
                   :form="form"
                   :mode="mode"
-                  :dataSet="dataSet"/></b-modal>
+                  :dataSet="dataSet"
+              /></b-modal>
             </p>
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
                 <tbody>
                   <tr>
                     <th scope="row">{{ vision }} :</th>
-                    <td>{{visionData}}</td>
+                    <td class="card-title-desc">{{ visionData }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ mission }} :</th>
-                    <td>{{missionData}}</td>
+                    <td class="card-title-desc">{{ missionData }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ goal }} :</th>
-                    <td>{{goalData}}</td>
+                    <td class="card-title-desc">{{ goalData }}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{ policy }} :</th>
-                    <td>{{policyData}}</td>
+                    <td class="card-title-desc">{{ policyData }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -162,8 +166,8 @@ import popupProfile from "@/components/widgets/profile/popupProfile.vue";
 import Organizational from "@/components/widgets/profile/Organizational.vue";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 import historyProfile from "@/components/widgets/profile/historyProfile.vue";
-import assessmentStatus from "@/components/widgets/profile/assessmentStatus.vue"; 
-import PersonInChargeOfAdolescentClinic from "@/components/widgets/profile/PersonInChargeOfAdolescentClinic.vue"; 
+import assessmentStatus from "@/components/widgets/profile/assessmentStatus.vue";
+import PersonInChargeOfAdolescentClinic from "@/components/widgets/profile/PersonInChargeOfAdolescentClinic.vue";
 import axios from "axios";
 import appConfig from "@/app.config";
 import moment from "moment";
@@ -178,7 +182,7 @@ export default {
       },
     ],
   },
-  props: ["form", "mode", ],
+  props: ["form", "mode"],
   components: {
     popupProfile,
     Organizational,
@@ -209,12 +213,10 @@ export default {
       mission: appConfig.mission,
       goal: appConfig.goal,
       policy: appConfig.policy,
-      OrganizationalCharacteristicsData:null,
       visionData: null,
       missionData: null,
       goalData: null,
       policyData: null,
-      hospitalData:[],      
       assessmentStatus: appConfig.assessmentStatus,
       historyProfile: appConfig.historyProfile,
       Questions: appConfig.Questions,
@@ -224,9 +226,12 @@ export default {
       QuestionsAttachment: appConfig.QuestionsAttachment,
       QuestionsGroup: appConfig.QuestionsGroup,
       OrganizationalData: appConfig.OrganizationalData,
-      PersonInChargeOfAdolescentClinic:appConfig.PersonInChargeOfAdolescentClinic,
-      dataSet:[],
-      ContactData: [],
+      PersonInChargeOfAdolescentClinic:
+        appConfig.PersonInChargeOfAdolescentClinic,
+      dataSet: [],
+      ContactData: null,
+      hospitalData: null,
+      OrganizationalCharacteristicsData: null,
     };
   },
   created() {
@@ -246,116 +251,87 @@ export default {
       this.gradeSelfAssessmentResults = "F";
     }
 
-    axios
-      .get(
-        `${process.env.VUE_APP_ENDPOINT}` +
-          "/hospital/" +
-          localStorage.getItem("profile")
-      )
-      .then((response) => {        
-        if (response.data.messagesboxs == "Success") {          
-          this.hospitalName = response.data.result[0].f_hospitalname 
-          this.hospitalData ={
-            hospitalCode: response.data.result[0].f_hospitalcode,
-            loginCode: response.data.result[0].f_login,
-            hospitalname: response.data.result[0].f_hospitalname,
-            address: response.data.result[0].f_address,
-            subdistrict: response.data.result[0].f_subdistrict,
-            district: response.data.result[0].f_district,
-            province: response.data.result[0].f_province,
-            zipcode: response.data.result[0].f_zipcode,
-            latitude: response.data.result[0].f_latitude,
-            longitude: response.data.result[0].f_longitude,
-            zoneArea: response.data.result[0].f_zoneArea,
+    console.log("fetchContact :", fetchContact());
+  },
+  methods: {
+    fetchContact() {
+    let res  = axios
+        .get(`${process.env.VUE_APP_ENDPOINT}` + "/contact/")
+        .then((response) => {
+          return response.data.result;
+        })
+        .catch((error) => {
+          this.$swal({
+            icon: "error",
+            title: "ไม่สามารถเข้าสู่ระบบได้",
+            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+            allowOutsideClick: false,
+          });
+        });
+    },
+    fetchHospital() {
+      axios
+        .get(
+          `${process.env.VUE_APP_ENDPOINT}` +
+            "/hospital/" +
+            localStorage.getItem("profile")
+        )
+        .then((response) => {
+          if (response.data.messagesboxs == "Success") {
+            this.hospitalName = response.data.result[0].f_hospitalname;
+            this.hospitalData = response.data.result;
+            return response.data.result;
+          } else {
+            this.$swal({
+              icon: "error",
+              title: "ไม่สามารถเข้าสู่ระบบได้",
+              text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+              allowOutsideClick: false,
+            });
           }
-          let obj={
-            hospital :this.hospitalData
+        })
+        .catch((error) => {
+          this.$swal({
+            icon: "error",
+            title: "ไม่สามารถเข้าสู่ระบบได้",
+            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+            allowOutsideClick: false,
+          });
+        });
+    },
+    fetchProfile() {
+      axios
+        .get(
+          `${process.env.VUE_APP_ENDPOINT}` +
+            "/profile/" +
+            localStorage.getItem("profile")
+        )
+        .then((response) => {
+          if (response.data.messagesboxs == "Success") {
+            this.OrganizationalCharacteristicsData = response.data.result[0];
+            this.visionData = response.data.result[0].f_vsion;
+            this.missionData = response.data.result[0].f_mistion;
+            this.goalData = response.data.result[0].f_gotoKnow;
+            this.policyData = response.data.result[0].f_policy;
+            return response.data.result;
+          } else {
+            this.$swal({
+              icon: "error",
+              title: "ไม่สามารถเข้าสู่ระบบได้",
+              text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+              allowOutsideClick: false,
+            });
           }
-           this.dataSet.push(obj) 
-        }else{
+        })
+        .catch((error) => {
           this.$swal({
             icon: "error",
             title: "ไม่สามารถเข้าสู่ระบบได้",
             text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
             allowOutsideClick: false,
-          });          
-        }
-      })
-      .catch((error) => {
-        this.$swal({
-          icon: "error",
-          title: "ไม่สามารถเข้าสู่ระบบได้",
-          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-          allowOutsideClick: false,
+          });
         });
-      });
-
-    axios
-      .get(
-        `${process.env.VUE_APP_ENDPOINT}` +
-          "/profile/" +
-          localStorage.getItem("profile")
-      )
-      .then((response) => {
-        if (response.data.messagesboxs == "Success") {           
-          this.OrganizationalCharacteristicsData = response.data.result[0];
-          this.visionData = response.data.result[0].f_vsion;
-          this.missionData = response.data.result[0].f_mistion;
-          this.goalData = response.data.result[0].f_gotoKnow;
-          this.policyData = response.data.result[0].f_policy;
-    let obj={
-      profile :this.OrganizationalCharacteristicsData
-    }
-    this.dataSet.push(obj)          
-        }else{
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถเข้าสู่ระบบได้",
-            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-            allowOutsideClick: false,
-          });          
-        }
-      })
-      .catch((error) => {
-        this.$swal({
-          icon: "error",
-          title: "ไม่สามารถเข้าสู่ระบบได้",
-          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-          allowOutsideClick: false,
-        });
-      });
-
-    axios
-      .get(
-        `${process.env.VUE_APP_ENDPOINT}` +
-          "/contact/"
-      )
-      .then((response) => {
-        if (response.data.messagesboxs == "Success") {           
-          this.ContactData = response.data.result;
-    let obj={
-      contact :this.ContactData
-    }
-    this.dataSet.push(obj)          
-        }else{
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถเข้าสู่ระบบได้",
-            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-            allowOutsideClick: false,
-          });          
-        }
-      })
-      .catch((error) => {
-        this.$swal({
-          icon: "error",
-          title: "ไม่สามารถเข้าสู่ระบบได้",
-          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
-          allowOutsideClick: false,
-        });
-      });
-
-
+    },
   },
 };
 </script>
