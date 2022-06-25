@@ -226,6 +226,7 @@ export default {
       OrganizationalData: appConfig.OrganizationalData,
       PersonInChargeOfAdolescentClinic:appConfig.PersonInChargeOfAdolescentClinic,
       dataSet:[],
+      ContactData: [],
     };
   },
   created() {
@@ -252,8 +253,7 @@ export default {
           localStorage.getItem("profile")
       )
       .then((response) => {        
-        if (response.data.messagesboxs == "Success") {
-          console.log('hospital : ',response.data.result[0])
+        if (response.data.messagesboxs == "Success") {          
           this.hospitalName = response.data.result[0].f_hospitalname 
           this.hospitalData ={
             hospitalCode: response.data.result[0].f_hospitalcode,
@@ -297,8 +297,7 @@ export default {
           localStorage.getItem("profile")
       )
       .then((response) => {
-        if (response.data.messagesboxs == "Success") {
-          console.log('profile : ',response.data.result[0])   
+        if (response.data.messagesboxs == "Success") {           
           this.OrganizationalCharacteristicsData = response.data.result[0];
           this.visionData = response.data.result[0].f_vsion;
           this.missionData = response.data.result[0].f_mistion;
@@ -325,6 +324,37 @@ export default {
           allowOutsideClick: false,
         });
       });
+
+    axios
+      .get(
+        `${process.env.VUE_APP_ENDPOINT}` +
+          "/contact/"
+      )
+      .then((response) => {
+        if (response.data.messagesboxs == "Success") {           
+          this.ContactData = response.data.result;
+    let obj={
+      contact :this.ContactData
+    }
+    this.dataSet.push(obj)          
+        }else{
+          this.$swal({
+            icon: "error",
+            title: "ไม่สามารถเข้าสู่ระบบได้",
+            text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+            allowOutsideClick: false,
+          });          
+        }
+      })
+      .catch((error) => {
+        this.$swal({
+          icon: "error",
+          title: "ไม่สามารถเข้าสู่ระบบได้",
+          text: "กรุณาติดต่อเจ้าหน้าที่ : " + error,
+          allowOutsideClick: false,
+        });
+      });
+
 
   },
 };
