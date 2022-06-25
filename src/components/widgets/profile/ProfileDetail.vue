@@ -63,8 +63,7 @@
                     >
                       <popupProfile
                         :form="form"
-                        :mode="mode"
-                        :questionnaire="questionnaire"
+                        :mode="mode"                        
                         :hospitalData="hospitalData"
                       />
                     </b-modal>
@@ -93,8 +92,7 @@
               >
                 <Organizational
                   :form="form"
-                  :mode="mode"
-                  :questionnaire="questionnaire"
+                  :mode="mode"               
                   :visionData="visionData"
                   :missionData="missionData"
                   :goalData="goalData"
@@ -115,7 +113,7 @@
               ><PersonInChargeOfAdolescentClinic                   
                   :form="form"
                   :mode="mode"
-                  :questionnaire="questionnaire"/></b-modal>
+                  :dataSet="dataSet"/></b-modal>
             </p>
             <div class="table-responsive ">
               <table class="table table-nowrap mb-0">
@@ -143,16 +141,16 @@
         </div>
 
         <div class="card">
-          <assessmentStatus />
+          <assessmentStatus :form="form" :mode="mode" />
         </div>
       </div>
 
       <div class="col-xl-8">
         <div class="card">
-          <historyProfile :budgetYear="budgetYear" />
+          <historyProfile :form="form" :mode="mode" :budgetYear="budgetYear" />
         </div>
         <div class="card">
-          <Lightbox />
+          <Lightbox :form="form" :mode="mode" />
         </div>
       </div>
     </div>
@@ -180,7 +178,7 @@ export default {
       },
     ],
   },
-  props: ["form", "mode", "questionnaire"],
+  props: ["form", "mode", ],
   components: {
     popupProfile,
     Organizational,
@@ -227,6 +225,7 @@ export default {
       QuestionsGroup: appConfig.QuestionsGroup,
       OrganizationalData: appConfig.OrganizationalData,
       PersonInChargeOfAdolescentClinic:appConfig.PersonInChargeOfAdolescentClinic,
+      dataSet:[],
     };
   },
   created() {
@@ -252,8 +251,7 @@ export default {
           "/hospital/" +
           localStorage.getItem("profile")
       )
-      .then((response) => {
-        console.log(response.data.result);
+      .then((response) => {        
         if (response.data.messagesboxs == "Success") {
           console.log('hospital : ',response.data.result[0])
           this.hospitalName = response.data.result[0].f_hospitalname 
@@ -269,7 +267,11 @@ export default {
             latitude: response.data.result[0].f_latitude,
             longitude: response.data.result[0].f_longitude,
             zoneArea: response.data.result[0].f_zoneArea,
-          }        
+          }
+          let obj={
+            hospital :this.hospitalData
+          }
+           this.dataSet.push(obj) 
         }else{
           this.$swal({
             icon: "error",
@@ -295,7 +297,6 @@ export default {
           localStorage.getItem("profile")
       )
       .then((response) => {
-        console.log(response.data.result);
         if (response.data.messagesboxs == "Success") {
           console.log('profile : ',response.data.result[0])   
           this.OrganizationalCharacteristicsData = response.data.result[0];
@@ -303,6 +304,10 @@ export default {
           this.missionData = response.data.result[0].f_mistion;
           this.goalData = response.data.result[0].f_gotoKnow;
           this.policyData = response.data.result[0].f_policy;
+    let obj={
+      profile :this.OrganizationalCharacteristicsData
+    }
+    this.dataSet.push(obj)          
         }else{
           this.$swal({
             icon: "error",
@@ -320,6 +325,7 @@ export default {
           allowOutsideClick: false,
         });
       });
+
   },
 };
 </script>

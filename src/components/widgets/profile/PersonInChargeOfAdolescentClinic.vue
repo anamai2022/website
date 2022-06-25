@@ -75,7 +75,7 @@
             </b-form>
     </div>
      <div class="col-6">
-      <b-button variant="danger" class="btn-label">
+      <b-button variant="danger" class="btn-label" @click="handleReset()">
         <i class="bx bx-trash label-icon"></i>
         ยกเลิก
       </b-button>
@@ -89,6 +89,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
+
 export default {
   name: "PersonInChargeOfAdolescentClinic",
   props: ["form", "mode", "questionnaire", ],
