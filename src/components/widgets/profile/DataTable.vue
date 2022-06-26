@@ -1,41 +1,52 @@
 <template>
-              <div class="table-responsive">
-            <table class="table table-nowrap table-hover mb-0">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">{{Questions}}</th>
-                  <th scope="col">{{QuestionsScore}}</th>
-                  <th scope="col">{{QuestionsGroup}}</th>
-                  <th scope="col">{{QuestionsAttachment}}</th>
-                  <th scope="col">{{QuestionsAction}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>1.1 นโยบายที่มุ่งไปสู่การพัฒนาระบบบริการสุขภาพสำหรับวัยรุ่นและเยาวชน</td>
-                  <td>1</td>
-                  <td>{{GData}}</td>
-                  <td>
-                    <i class="fas fa-file-word align-middle me-2 btn-info font-size-18"></i>
-                    <i class="fas fa-file-image align-middle me-2 btn-primary font-size-18"></i>
-                    <i class="fas fa-file-excel align-middle me-2 btn-success font-size-18"></i>
-                    <i class="fas fa-file-pdf align-middle me-2 btn-danger font-size-18"></i>                    
-                  </td>
-                  <td>
-                    <i class="fas fa-edit align-middle me-2 font-size-18"></i>  
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+  <div class="table-responsive">
+    <table class="table table-nowrap table-hover mb-0">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">{{ AssessmentCriteria }}</th>
+          <th scope="col">{{ Assessment }}</th>
+          <th scope="col">{{ AssessmentDetail }}</th>
+          <th scope="col">{{ QuestionsAction }}</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr v-for="i in 10" :key="i">
+          <th>{{i}}</th>
+          <td>
+            1.1 นโยบายที่มุ่งไปสู่การพัฒนาระบบบริการสุขภาพสำหรับวัยรุ่นและเยาวชน
+          </td>
+          <td>1</td>
+          <td>            
+            <i
+              class="fas fa-file-word align-middle me-2 btn-info font-size-18" @click="handleViewWord(i, G)"
+            ></i>
+            <i
+              class="fas fa-file-image align-middle me-2 btn-primary font-size-18" @click="handleViewImg(i, G)"
+            ></i>
+            <i
+              class="fas fa-file-excel align-middle me-2 btn-success font-size-18" @click="handleViewExcel(i, G)"
+            ></i>
+            <i
+              class="fas fa-file-pdf align-middle me-2 btn-danger font-size-18" @click="handleViewPdf(i, G)"
+            ></i>
+          </td>
+          <td>
+            <i class="fas fa-edit align-middle me-2 font-size-18" @click="handleEdit(i, G)" ></i>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script>import appConfig from "@/app.config";
+<script>
+import appConfig from "@/app.config";
 export default {
-  name: 'DataTable',
-  props: ["form","mode","questionnaire","budgetYear","GData"],  
+  name: "DataTable",
+  props: ["form", "mode", "questionnaire", "budgetYear", "GData"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -45,7 +56,7 @@ export default {
       },
     ],
   },
-  components: { },
+  components: {},
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -63,10 +74,35 @@ export default {
       QuestionsAttachment: appConfig.QuestionsAttachment,
       QuestionsGroup: appConfig.QuestionsGroup,
       OrganizationalData: appConfig.OrganizationalData,
+      AssessmentCriteria: appConfig.AssessmentCriteria,
+      Assessment: appConfig.Assessment,
+      AssessmentDetail: appConfig.AssessmentDetail,
+      G: this.GData,
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    handleViewImg(uuid){
+      alert("open file Image");
+      console.log('uuid : ',uuid, GData)
+    },
+    handleEdit(uuid){
+      alert("open file Edit");
+      console.log('uuid', uuid, GData)
+    },
+    handleViewWord(uuid){
+      alert("open file World");
+      console.log('uuid',uuid, GData)
+    },
+    handleViewExcel(uuid){
+      alert("open file Excel");
+      console.log('uuid',uuid, GData)
+    },
+    handleViewPdf(uuid){
+      alert("open file PDF");
+      console.log('uuid',uuid, GData)
+    },
+  },
   beforeCreate() {},
   created() {},
   beforeMount() {},

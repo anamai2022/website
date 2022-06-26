@@ -10,16 +10,17 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="bx bx-server h4 text-primary"></i>
+                    <i class="fas fa-hospital h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
                       <h5 class="font-size-15">
                         <a href="javascript: void(0);" class="text-dark"
-                          >Back end Developer</a
-                        >
+                          >{{assessmentHospital}}</a>
                       </h5>
-                      <span class="text-primary">2016 - 19</span>
+                      <span class="text-primary">{{assessmentScore}} : </span><br>
+                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
+                      <span class="text-primary">{{assessmentDateAppove}} : </span>
                     </div>
                   </div>
                 </div>
@@ -30,16 +31,18 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="bx bx-code h4 text-primary"></i>
+                    <i class="fas fa-hospital-user h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
                       <h5 class="font-size-15">
                         <a href="javascript: void(0);" class="text-dark"
-                          >Front end Developer</a
+                          >{{assessmentLevel1}}</a
                         >
                       </h5>
-                      <span class="text-primary">2013 - 16</span>
+                      <span class="text-primary">{{assessmentScore}} : </span><br>
+                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
+                      <span class="text-primary">{{assessmentDateAppove}} : </span>
                     </div>
                   </div>
                 </div>
@@ -50,16 +53,18 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="bx bx-edit h4 text-primary"></i>
+                    <i class="fas fa-user-tag h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
                       <h5 class="font-size-15">
                         <a href="javascript: void(0);" class="text-dark"
-                          >UI /UX Designer</a
+                          >{{assessmentLevel2}}</a
                         >
                       </h5>
-                      <span class="text-primary">2011 - 13</span>
+                      <span class="text-primary">{{assessmentScore}} : </span><br>
+                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
+                      <span class="text-primary">{{assessmentDateAppove}} : </span>
                     </div>
                   </div>
                 </div>
@@ -70,16 +75,18 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="bx bx-edit h4 text-primary"></i>
+                    <i class="fas fa-user-md h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
                       <h5 class="font-size-15">
                         <a href="javascript: void(0);" class="text-dark"
-                          >UI /UX Designer</a
+                          >{{assessmentLevel3}}</a
                         >
                       </h5>
-                      <span class="text-primary">2011 - 13</span>
+                      <span class="text-primary">{{assessmentScore}} : </span><br>
+                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
+                      <span class="text-primary">{{assessmentDateAppove}} : </span>
                     </div>
                   </div>
                 </div>
@@ -90,16 +97,18 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="bx bx-edit h4 text-primary"></i>
+                    <i class="fas fa-hospital-alt h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
                       <h5 class="font-size-15">
                         <a href="javascript: void(0);" class="text-dark"
-                          >UI /UX Designer</a
+                          >{{assessmentLevel4}}</a
                         >
                       </h5>
-                      <span class="text-primary">2011 - 13</span>
+                      <span class="text-primary">{{assessmentScore}} : </span><br>
+                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
+                      <span class="text-primary">{{assessmentDateAppove}} : </span>
                     </div>
                   </div>
                 </div>
@@ -131,6 +140,14 @@ export default {
       goal: appConfig.goal,
       policy: appConfig.policy,
       assessmentStatus: appConfig.assessmentStatus,
+      assessmentHospital: appConfig.assessmentHospital,
+      assessmentLevel1: appConfig.assessmentLevel1,
+      assessmentLevel2: appConfig.assessmentLevel2,
+      assessmentLevel3: appConfig.assessmentLevel3,
+      assessmentLevel4: appConfig.assessmentLevel4,
+      assessmentScore: appConfig.assessmentScore,
+      assessmentStatusAppove: appConfig.assessmentStatusAppove,
+      assessmentDateAppove: appConfig.assessmentDateAppove,
     };
   },
   computed: {},

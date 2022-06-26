@@ -30,8 +30,9 @@
                     class="img-thumbnail rounded-circle"
                   />
                 </div>
+               
                 <h4 class="font-size-14 text-truncate">{{ hospital }}</h4>
-                <p class="text-muted mb-0 text-truncate">{{ hospitalData.f_hospitalname }}</p>
+                <p class="text-muted mb-0 text-truncate">{{ hospitalData.f_hospitalname }}</p>              
               </div>
 
               <div class="col-sm-7">
@@ -231,6 +232,7 @@ export default {
         appConfig.PersonInChargeOfAdolescentClinic,
       ContactData: null,
       hospitalData: null,
+      DataSet:null,
       OrganizationalCharacteristicsData: null,
     };
   },
@@ -252,7 +254,12 @@ export default {
     }
     this.getContact();
     this.getProfile();
-    this.getHospital();
+    let DataSet = this.getHospital();
+    console.log('test :', DataSet)
+    for (let i = 0; i < DataSet.length; i++) {
+      DataSet[i] + "<br>";
+    }
+    
   },
   methods: {
     async getContact(){

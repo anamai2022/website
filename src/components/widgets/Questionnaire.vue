@@ -1,12 +1,7 @@
 <template>
   <div class="row">
-    <StepHeader :form="form" :mode="mode" :questionnaire="questionnaire" />
-    <StepDetail
-      v-if="CountStep > 0"
-      :form="form"
-      :mode="mode"
-      :questionnaire="questionnaire"
-    />
+    <QuestionnaireHeader :form="form" :mode="mode" />
+    <QuestionnaireTabs :form="form" :mode="mode"/>
     <div class="col-12">
       <div class="mb-3">
         <button class="ex1 btn btn-primary" type="submit" @click="SaveItem()">
@@ -22,11 +17,11 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-import StepHeader from "@/components/widgets/StepHeader.vue";
-import StepDetail from "@/components/widgets/StepDetail.vue";
+import QuestionnaireHeader from "@/components/widgets/QuestionnaireHeader.vue";
+import QuestionnaireTabs from "@/components/widgets/QuestionnaireTabs.vue";
 export default {
   name: "QuestionnaireComponents",
-  props: ["form", "mode", "questionnaire"],
+  props: ["form", "mode"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -36,14 +31,12 @@ export default {
       },
     ],
   },
-  components: { StepHeader, StepDetail,  },
+  components: { QuestionnaireHeader, QuestionnaireTabs, },
   data() {
     return {
       title: appConfig.description,
       SubmitForm: appConfig.SubmitForm,
       ResetForm: appConfig.ResetForm,
-      DataCQuestionnaire: this.questionnaire,
-      CountStep: this.questionnaire[0].CountStep,
     };
   },
   computed: {},
@@ -57,9 +50,7 @@ export default {
   },
   mounted() {},
   beforeCreate() {},
-  created() {
-    console.log('Questionnaire Count Step :', this.CountStep)
-  },
+  created() {},
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},
