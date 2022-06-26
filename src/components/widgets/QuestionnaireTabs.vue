@@ -16,7 +16,7 @@
                         Total: <font color="red">{{ totalG1 }}</font>
                     </p>                  
                 </template>
-                <DataTable GData="G1"/>
+                <QuestionnaireTable GData="G1"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -28,7 +28,7 @@
                         Total: <font color="red">{{ totalG2 }}</font>
                     </p>                     
                 </template>
-                <DataTable GData="G2"/>
+                <QuestionnaireTable GData="G2"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -40,7 +40,7 @@
                         Total: <font color="red">{{ totalG3 }}</font>
                     </p>                     
                 </template>
-                <DataTable GData="G3"/>
+                <QuestionnaireTable GData="G3"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -52,7 +52,7 @@
                         Total: <font color="red">{{ totalG4 }}</font>
                     </p>                     
                 </template>
-                <DataTable GData="G4"/>
+                <QuestionnaireTable GData="G4"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -64,7 +64,7 @@
                         Total: <font color="red">{{ totalG5 }}</font>
                     </p>                     
                 </template>
-                 <DataTable GData="G5"/>
+                 <QuestionnaireTable GData="G5"/>
               </b-tab>              
             </b-tabs>
           </div>
@@ -73,7 +73,7 @@
 </section>
 </template>
 <script>import appConfig from "@/app.config";
-import DataTable from "@/components/widgets/profile/DataTable.vue";
+import QuestionnaireTable from "@/components/widgets/QuestionnaireTable.vue";
 import moment from "moment";
 export default {
   name: 'QuestionnaireTabs',
@@ -87,7 +87,7 @@ export default {
       },
     ],
   },
-  components: {DataTable, },
+  components: {QuestionnaireTable, },
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,

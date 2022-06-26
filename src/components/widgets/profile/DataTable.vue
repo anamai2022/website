@@ -32,8 +32,28 @@
               class="fas fa-file-pdf align-middle me-2 btn-danger font-size-18" @click="handleViewPdf(i, G)"
             ></i>
           </td>
-          <td>
-            <i class="fas fa-edit align-middle me-2 font-size-18" @click="handleEdit(i, G)" ></i>
+          <td>           
+                      <b-dropdown
+                        class="card-drop"
+                        variant="white"
+                        right
+                        toggle-class="p-0"
+                        menu-class="dropdown-menu-end"
+                      >
+                        <template v-slot:button-content>
+                          <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                        </template>
+
+                        <b-dropdown-item>
+                          <i class="fas fa-pencil-alt text-success me-1" @click="handleEdit(i, G)"></i>
+                          Edit
+                        </b-dropdown-item>
+
+                        <b-dropdown-item>
+                          <i class="fas fa-trash-alt text-danger me-1" @click="handleEdit(i, G)"></i>
+                          Delete
+                        </b-dropdown-item>
+                      </b-dropdown>            
           </td>
         </tr>
 

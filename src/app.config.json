@@ -72,5 +72,9 @@
   "assessmentScore":"คะแนน",
   "assessmentStatusAppove":"สถานะการอนุมัติ",
   "assessmentDateAppove":"วันที่อนุมัติ",
+  "evidenceExplanation":"คำอธิบายหลักฐาน",
+  "uploadfile":"แนบหลักฐาน",
+  "fillInInformation":"กรอกข้อมูล",
+  "fillInInformationYear":"กรอกสรุปรายปี",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }
