@@ -50,7 +50,7 @@
           ชื่อผู้อำนวยการ :
         </div>
         <div class="col-6">
-          <el-select v-model="value" filterable placeholder="placeholderSelect">
+          <el-select v-model="form.profile.f_director" filterable :placeholder="placeholderSelect">
             <el-option
               v-for="item in ContactData"
               :key="item.f_contactId"
@@ -65,7 +65,7 @@
           ชื่อแพทย์ผู้รับผิดชอบ :
         </div>
         <div class="col-6">
-          <el-select v-model="value" filterable placeholder="placeholderSelect">
+          <el-select v-model="form.profile.f_physician" filterable :placeholder="placeholderSelect">
             <el-option
               v-for="item in ContactData"
               :key="item.f_contactId"
@@ -84,7 +84,7 @@
         ยกเลิก
       </b-button>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <b-button variant="success" class="btn-label">
+      <b-button variant="success" class="btn-label" @click="handleSave()">
         <i class="bx bx-save label-icon"></i>
         บันทึกข้อมูล
       </b-button>
@@ -93,7 +93,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-
+import  { contactService, profileService, HospitalService } from "@/api/index.js";
 export default {
   name: "PersonInChargeOfAdolescentClinic",
   props: ["form", "mode", "ContactData"],
@@ -121,11 +121,12 @@ export default {
     handleReset() {
       location.reload();
     },
+    handleSave() {
+      console.log('test')
+    },
   },
   beforeCreate() {},
-  created() {
-    console.log('Data : ',this.ContactData)
-  },
+  created() {},
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},

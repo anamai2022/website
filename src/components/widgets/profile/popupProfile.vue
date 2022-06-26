@@ -6,7 +6,7 @@
         label="ชื่อสถานบริการ:	"
         label-for="formrow-firstname-input"
       >
-        <b-form-input id="formrow-firstname-input" type="text"></b-form-input>
+        <b-form-input id="formrow-firstname-input" v-model="hospitalData.f_hospitalname" type="text"></b-form-input>
       </b-form-group>
 
       <div class="row">
@@ -16,7 +16,7 @@
             label="ประเภท :	(รพช. , รพท. , รพศ.)"
             label-for="formrow-email-input"
           >
-            <b-form-input id="formrow-email-input" type="text"></b-form-input>
+            <b-form-input id="formrow-email-input" v-model="hospitalData.f_type_hospital" type="text"></b-form-input>
           </b-form-group>
         </div>
         <div class="col-md-6">
@@ -28,6 +28,7 @@
             >
               <b-form-input
                 id="formrow-password-input"
+                v-model="hospitalData.f_bed"
                 type="number"
               ></b-form-input>
             </b-form-group>
@@ -41,7 +42,7 @@
             label="ที่อยู่ :	"
             label-for="formrow-inputCity"
           >
-            <b-form-input id="formrow-inputCity" type="text"></b-form-input>
+            <b-form-input id="formrow-inputCity" v-model="hospitalData.f_address" type="text"></b-form-input>
           </b-form-group>
         </div>
       </div>
@@ -52,7 +53,7 @@
             label="เบอร์มือถือ :	"
             label-for="formrow-inputCity"
           >
-            <b-form-input id="formrow-inputCity" type="text"></b-form-input>
+            <b-form-input id="formrow-inputCity" v-model="hospitalData.f_telphone" type="text"></b-form-input>
           </b-form-group>
         </div>
         <div class="col-lg-4">
@@ -62,13 +63,13 @@
             label="เบอร์โทรศัพท์:	"
             label-for="formrow-inputState"
           >
-            <b-form-input id="formrow-inputZip" type="text"></b-form-input>
+            <b-form-input id="formrow-inputZip" v-model="hospitalData.f_telphone" type="text"></b-form-input>
           </b-form-group>
         </div>
 
         <div class="col-lg-4">
           <b-form-group class="mb-3" label="Fax :	" label-for="formrow-inputZip">
-            <b-form-input id="formrow-inputZip" type="text"></b-form-input>
+            <b-form-input id="formrow-inputZip" v-model="hospitalData.f_fax" type="text"></b-form-input>
           </b-form-group>
         </div>
 
@@ -128,7 +129,7 @@
 import appConfig from "@/app.config";
 export default {
   name: "PopupProfile",
-  props: ["form", "mode", "questionnaire","hospitalData"],
+  props: ["form", "mode", "hospitalData"],
   page: {
     title: appConfig.shortname,
     meta: [

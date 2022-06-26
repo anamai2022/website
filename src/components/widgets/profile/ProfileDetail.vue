@@ -31,7 +31,7 @@
                   />
                 </div>
                 <h4 class="font-size-14 text-truncate">{{ hospital }}</h4>
-                <p class="text-muted mb-0 text-truncate">{{ hospitalName }}</p>
+                <p class="text-muted mb-0 text-truncate">{{ hospitalData.f_hospitalname }}</p>
               </div>
 
               <div class="col-sm-7">
@@ -257,20 +257,17 @@ export default {
   methods: {
     async getContact(){
       const results = await contactService.getContactAll();
-      this.ContactData = results.result
-      console.log('Contact : ',results)
+      this.ContactData = results.result      
       return results
     },
     async getProfile(){
       const result = await profileService.getProfileAll();
-      this.OrganizationalCharacteristicsData = result.result[0]
-      console.log('Prfile : ',result)
+      this.OrganizationalCharacteristicsData = result.result[0]    
       return result
     },
     async getHospital(){
       const resultx = await HospitalService.getHospitalByCode();
-      this.hospitalData = resultx.result[0]
-      console.log('Hospital : ',resultx)
+      this.hospitalData = resultx.result[0]      
       return resultx
     }
   },
