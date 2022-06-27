@@ -45,7 +45,7 @@
             ></i>
           </td>
           <td v-else></td>
-          <td>
+          <td v-if="values.f_hadertitle ==0">
             <b-dropdown
               class="card-drop"
               variant="white"
@@ -74,6 +74,7 @@
               </b-dropdown-item>
             </b-dropdown>
           </td>
+           <td v-else></td>
         </tr>
       </tbody>
     </table>

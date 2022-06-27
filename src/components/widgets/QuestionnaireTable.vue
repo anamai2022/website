@@ -37,14 +37,14 @@
               <i class="fas fa-file-alt font-size-16 align-middle me-2"></i>
               {{ evidenceExplanation }}</b-button
             >&nbsp;&nbsp;
+            <b-button variant="info" v-if="values.f_upload_file == '1' || values.f_upload_image == '1'">
+              <i class="fas fa-file-upload font-size-16 align-middle me-2"></i>
+              {{ uploadfile }}</b-button
+            >&nbsp;&nbsp;                
             <b-button variant="success" v-if="values.f_total == '1'">
               <i class="fas fa-file-invoice font-size-16 align-middle me-2"></i>
               {{ fillInInformationYear }}</b-button
-            >&nbsp;&nbsp;
-            <b-button variant="info" v-if="values.f_addyeartotal == '1'">
-              <i class="fas fa-file-upload font-size-16 align-middle me-2"></i>
-              {{ uploadfile }}</b-button
-            >&nbsp;&nbsp;
+            >&nbsp;&nbsp;     
             <b-button variant="warning" v-if="values.f_address_url == '1'">
               <i class="fas fa-file-code font-size-16 align-middle me-2"></i>
               {{ fillInInformation }}</b-button
@@ -64,15 +64,21 @@
         <div v-if="openRightDrawer">
           <div class="offcanvas-header newspaper">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-              {{DrawerTitle}}
+              <font color="#020223">{{DrawerTitle}}</font>
             </h5>
           </div>
           <div class="offcanvas-body ">
             <div class="newspaper">
-              {{titleDrawer}}=> {{DrawerCode}} 
-              {{DrawerRemark}}             
+              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>            
+              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}             
             </div>
           </div>
+          <div class="offcanvas-body ">
+            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>   
+          </div>
+        <div class="offcanvas-body " v-if="showImg === true">
+          <Lightbox :form="form" :mode="mode" />
+        </div>          
         </div>
       </Drawer>
   </div>
@@ -82,6 +88,7 @@
 import appConfig from "@/app.config";
 import Drawer from "vue-simple-drawer";
 import { MasterService, QuestionnaireService } from "@/api/index.js";
+import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 export default {
   name: "QuestionnaireTable",
   props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title"],
@@ -94,7 +101,7 @@ export default {
       },
     ],
   },
-  components: { Drawer,},
+  components: { Drawer, Lightbox},
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -119,6 +126,7 @@ export default {
       uploadfile: appConfig.uploadfile,
       fillInInformation: appConfig.fillInInformation,
       fillInInformationYear: appConfig.fillInInformationYear,
+      evidenceExplanation: appConfig.evidenceExplanation,
       G: this.GData,
       totalScore: 0,
       YearData: [],
@@ -133,7 +141,8 @@ export default {
       titleDrawer: null,
       DrawerCode: null,  
       DrawerTitle: null, 
-      DrawerRemark: null,       
+      DrawerRemark: null,   
+      showImg: false,    
     };
   },
   computed: {},

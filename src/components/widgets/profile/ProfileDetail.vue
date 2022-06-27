@@ -154,7 +154,7 @@
         <div class="card">
           <historyProfile :form="form" :mode="mode" :budgetYear="budgetYear" />
         </div>
-        <div class="card">
+        <div class="card" v-if="showImg === true">
           <Lightbox :form="form" :mode="mode" />
         </div>
       </div>
@@ -219,6 +219,7 @@ export default {
       missionData: null,
       goalData: null,
       policyData: null,
+      showImg: false,
       assessmentStatus: appConfig.assessmentStatus,
       historyProfile: appConfig.historyProfile,
       Questions: appConfig.Questions,
@@ -259,7 +260,6 @@ export default {
     for (let i = 0; i < DataSet.length; i++) {
       DataSet[i] + "<br>";
     }
-    
   },
   methods: {
     async getContact(){

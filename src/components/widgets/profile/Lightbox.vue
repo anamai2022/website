@@ -1,5 +1,5 @@
 <template>
- <section class="bg-white" id="Lightbox">
+ <section class="bg-white " id="Lightbox">
     <div class="container">
           <div class="card-body">
             <h4 class="card-title">{{uploadFile}}</h4>
@@ -55,31 +55,7 @@ export default {
         require("@/assets/images/small/img-3.jpg"),
         require("@/assets/images/small/img-4.jpg"),
         require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg"),
-        require("@/assets/images/small/img-1.jpg"),
-        require("@/assets/images/small/img-2.jpg"),
-        require("@/assets/images/small/img-3.jpg"),
-        require("@/assets/images/small/img-4.jpg"),
-        require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg"),
-        require("@/assets/images/small/img-1.jpg"),
-        require("@/assets/images/small/img-2.jpg"),
-        require("@/assets/images/small/img-3.jpg"),
-        require("@/assets/images/small/img-4.jpg"),
-        require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg"),
-        require("@/assets/images/small/img-1.jpg"),
-        require("@/assets/images/small/img-2.jpg"),
-        require("@/assets/images/small/img-3.jpg"),
-        require("@/assets/images/small/img-4.jpg"),
-        require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg"),
-        require("@/assets/images/small/img-1.jpg"),
-        require("@/assets/images/small/img-2.jpg"),
-        require("@/assets/images/small/img-3.jpg"),
-        require("@/assets/images/small/img-4.jpg"),
-        require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg")                        
+        require("@/assets/images/small/img-6.jpg")                     
       ],   
     };
   },
@@ -120,5 +96,8 @@ export default {
 }
 .ex1 {
   margin-left: 30px;
+}
+.newspaper {
+   width: 300px;
 }
 </style>
