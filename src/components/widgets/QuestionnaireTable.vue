@@ -1,7 +1,7 @@
 <template>
   <div class="table-responsive">
-    <b class=""
-      ><font color="#FA0D05">องค์ประกอบที่ 1 นโยบายและการบริหารจัดการ</font></b
+    <b
+      ><font color="#083FD2">{{ title }}</font></b
     >
     <table class="table table-nowrap table-hover mb-0">
       <thead>
@@ -12,87 +12,79 @@
           </th>
           <th scope="col">{{ Assessment }}</th>
           <th scope="col">{{ AssessmentDetail }}</th>
-          <th scope="col">{{ QuestionsAction }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="i in 10" :key="i">
-          <th>{{ i }}</th>
-          <td>
-            1.{{
-              i
-            }}
-            นโยบายที่มุ่งไปสู่การพัฒนาระบบบริการสุขภาพสำหรับวัยรุ่นและเยาวชน
+        <tr v-for="(values, index) in QuestionnaireData" :key="index">
+          <th></th>
+          <td v-if="values.f_hadertitle ==0">
+            <p class="ex1">{{ values.f_title }}</p>
           </td>
-          <td>
-            <span class="badge bg-success font-size-12">
-              {{ totalScore }}
-            </span>
-          </td>
-          <td>
-            <b-button variant="primary">0</b-button>
-            <b-button variant="primary">0.5</b-button>
-            <b-button variant="primary">1</b-button>
-            <b-button variant="primary">1.5</b-button>
-            <b-button variant="secondary">
+          <td v-else><b color="red">{{ values.f_title }}</b></td>  
+          <td v-if="values.f_hadertitle ==0">{{ totalScore }}</td> 
+          <td v-else></td>
+          <td v-if="values.f_hadertitle ==0">
+            <b-button
+              variant="primary"
+              v-for="(values, index) in ScoreData"
+              :key="index"
+              @click="voteScore(values.f_score, index)"
+            >
+              <i class="font-size-16 align-middle me-2"></i>
+              {{ values.f_score }}</b-button
+            >&nbsp;&nbsp;
+            <b-button variant="secondary" v-if="values.f_description == '1'" @click="rightDrawerDescription(index, values.f_code, values.f_title, values.f_detail)">
               <i class="fas fa-file-alt font-size-16 align-middle me-2"></i>
               {{ evidenceExplanation }}</b-button
-            >
-            <b-button variant="success">
+            >&nbsp;&nbsp;
+            <b-button variant="success" v-if="values.f_total == '1'">
               <i class="fas fa-file-invoice font-size-16 align-middle me-2"></i>
               {{ fillInInformationYear }}</b-button
-            >
-            <b-button variant="info">
+            >&nbsp;&nbsp;
+            <b-button variant="info" v-if="values.f_addyeartotal == '1'">
               <i class="fas fa-file-upload font-size-16 align-middle me-2"></i>
               {{ uploadfile }}</b-button
-            >
-            <b-button variant="warning">
+            >&nbsp;&nbsp;
+            <b-button variant="warning" v-if="values.f_address_url == '1'">
               <i class="fas fa-file-code font-size-16 align-middle me-2"></i>
               {{ fillInInformation }}</b-button
             >
-            <b-button variant="danger">
-              <i class="bx bx-smile font-size-16 align-middle me-2"></i>
-              Danger</b-button
-            >
-            <b-button variant="dark">
-              <i class="bx bx-smile font-size-16 align-middle me-2"></i>
-              Dark</b-button
-            >
           </td>
-          <td>
-            <b-dropdown
-              class="card-drop"
-              variant="white"
-              right
-              toggle-class="p-0"
-              menu-class="dropdown-menu-end"
-            >
-              <template v-slot:button-content>
-                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-              </template>
-
-              <b-dropdown-item>
-                <i class="fas fa-pencil-alt text-success me-1"></i>
-                Edit
-              </b-dropdown-item>
-
-              <b-dropdown-item>
-                <i class="fas fa-trash-alt text-danger me-1"></i>
-                Delete
-              </b-dropdown-item>
-            </b-dropdown>
-          </td>
+          <td v-else></td>
         </tr>
       </tbody>
     </table>
+      <Drawer
+        @close="rightDrawerDescription"
+        :align="'right'"
+        :closeable="true"
+        :maskClosable="true"
+        :zIndex="1002"
+      >
+        <div v-if="openRightDrawer">
+          <div class="offcanvas-header newspaper">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              {{DrawerTitle}}
+            </h5>
+          </div>
+          <div class="offcanvas-body ">
+            <div class="newspaper">
+              {{titleDrawer}}=> {{DrawerCode}} 
+              {{DrawerRemark}}             
+            </div>
+          </div>
+        </div>
+      </Drawer>
   </div>
 </template>
 
 <script>
 import appConfig from "@/app.config";
+import Drawer from "vue-simple-drawer";
+import { MasterService, QuestionnaireService } from "@/api/index.js";
 export default {
-  name: "DataTable",
-  props: ["form", "mode", "questionnaire", "budgetYear", "GData"],
+  name: "QuestionnaireTable",
+  props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -102,7 +94,7 @@ export default {
       },
     ],
   },
-  components: {},
+  components: { Drawer,},
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -129,33 +121,63 @@ export default {
       fillInInformationYear: appConfig.fillInInformationYear,
       G: this.GData,
       totalScore: 0,
+      YearData: [],
+      ScoreData: [],
+      ZoneAreaData: [],
+      QuestionnaireData: [],
+      f_description: 0,
+      f_upload_file: 0,
+      f_upload_image: 0,
+      f_address_url: 0,
+      openRightDrawer: false, 
+      titleDrawer: null,
+      DrawerCode: null,  
+      DrawerTitle: null, 
+      DrawerRemark: null,       
     };
   },
   computed: {},
   methods: {
-    handleViewImg(uuid) {
-      alert("open file Image");
-      console.log("uuid : ", uuid, GData);
+    async getYear() {
+      const results = await MasterService.getYearAll();
+      this.YearData = results.result;
     },
-    handleEdit(uuid) {
-      alert("open file Edit");
-      console.log("uuid", uuid, GData);
+    async getScoreAll() {
+      const results = await MasterService.getScoreAll();
+      this.ScoreData = results.result;
     },
-    handleViewWord(uuid) {
-      alert("open file World");
-      console.log("uuid", uuid, GData);
+    async getZoneAreaAll() {
+      const results = await MasterService.getZoneAreaAll();
+      this.ZoneAreaData = results.result;
     },
-    handleViewExcel(uuid) {
-      alert("open file Excel");
-      console.log("uuid", uuid, GData);
+    async getQuestionnaireAll() {
+      const results = await QuestionnaireService.getQuestionnaireTabAll(
+        this.GData
+      );
+      this.QuestionnaireData = results.result;
     },
-    handleViewPdf(uuid) {
-      alert("open file PDF");
-      console.log("uuid", uuid, GData);
+    rightDrawerDescription(index, f_code, f_title, f_detail){
+      this.openRightDrawer = !this.openRightDrawer;
+      console.log(index,f_code)
+      this.titleDrawer = index
+      this.DrawerCode = f_code
+      this.DrawerTitle = f_title
+      this.DrawerRemark = f_detail
     },
+    voteScore(event, i) {
+      console.log("target value: " + event, "Number : ", i);
+    },
+    handlerClick(f_code, index) {
+      console.log("value f_code : " + f_code, "Number : ", index);
+    },   
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    this.getYear();
+    this.getScoreAll();
+    this.getZoneAreaAll();
+    this.getQuestionnaireAll();
+  },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},
@@ -171,5 +193,8 @@ export default {
 }
 .ex1 {
   margin-left: 30px;
+}
+.newspaper {
+   width: 300px;
 }
 </style>

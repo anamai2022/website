@@ -16,7 +16,7 @@
                         Total: <font color="red">{{ totalG1 }}</font>
                     </p>                  
                 </template>
-                <QuestionnaireTable GData="G1"/>
+                <QuestionnaireTable :GData="G1" :title="titleG1"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -24,11 +24,11 @@
                     <i class="far fa-user"></i>
                   </span>
                   <span class="d-none d-sm-inline-block">G2</span>
-                    <p id="totalG1" name="totalG1" class="text-muted mb-2">
+                    <p id="totalG2" name="totalG2" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG2 }}</font>
                     </p>                     
                 </template>
-                <QuestionnaireTable GData="G2"/>
+                <QuestionnaireTable :GData="G2" :title="titleG2"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -36,11 +36,11 @@
                     <i class="far fa-envelope"></i>
                   </span>
                   <span class="d-none d-sm-inline-block">G3</span>
-                    <p id="totalG1" name="totalG1" class="text-muted mb-2">
+                    <p id="totalG3" name="totalG3" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG3 }}</font>
                     </p>                     
                 </template>
-                <QuestionnaireTable GData="G3"/>
+                <QuestionnaireTable :GData="G3" :title="titleG3"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -48,11 +48,11 @@
                     <i class="fas fa-cog"></i>
                   </span>
                   <span class="d-none d-sm-inline-block">G4</span>
-                    <p id="totalG1" name="totalG1" class="text-muted mb-2">
+                    <p id="totalG4" name="totalG4" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG4 }}</font>
                     </p>                     
                 </template>
-                <QuestionnaireTable GData="G4"/>
+                <QuestionnaireTable :GData="G4" :title="titleG4"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -60,11 +60,11 @@
                     <i class="fas fa-cog"></i>
                   </span>
                   <span class="d-none d-sm-inline-block">G5</span>
-                    <p id="totalG1" name="totalG1" class="text-muted mb-2">
+                    <p id="totalG5" name="totalG5" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG5 }}</font>
                     </p>                     
                 </template>
-                 <QuestionnaireTable GData="G5"/>
+                 <QuestionnaireTable :GData="G5" :title="titleG5"/>
               </b-tab>              
             </b-tabs>
           </div>
@@ -106,6 +106,16 @@ export default {
       totalG3:0,
       totalG4:0,
       totalG5:0,
+      G1:"G1",
+      G2:"G2",
+      G3:"G3",
+      G4:"G4",
+      G5:"G5",
+      titleG1: appConfig.titleG1,
+      titleG2: appConfig.titleG2,
+      titleG3: appConfig.titleG3,
+      titleG4: appConfig.titleG4,
+      titleG5: appConfig.titleG5,
     };
   },
   computed: {},

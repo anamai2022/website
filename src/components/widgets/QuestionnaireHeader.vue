@@ -1,9 +1,9 @@
 <template>
-  <section class="section" id="QuestionnaireHeader">
+  <section class="bg-white" id="QuestionnaireHeader">
     <div class="row">
-      <div class="col-lg-12">
-        <h2 class="card-title text-center">โรงพยาบาลสารภี&nbsp;&nbsp;</h2>
-        <h5 class="card-title text-center">จังหวัด&nbsp;&nbsp;:&nbsp;&nbsp;เชียงใหม่&nbsp;&nbsp;เขตพื้นที่&nbsp;&nbsp;:&nbsp;&nbsp;1</h5>
+      <div class="col-lg-12"><br>
+        <h2 class="card-title text-center">โรงพยาบาล&nbsp;{{profile[0].f_hospitalname}}&nbsp;</h2>
+        <h5 class="card-title text-center">จังหวัด&nbsp;&nbsp;:&nbsp;&nbsp;{{profile[0].f_province}}&nbsp;&nbsp;เขตพื้นที่&nbsp;&nbsp;:&nbsp;&nbsp;{{profile[0].f_zoneArea}}</h5>
         <p class="text-center">ผลการประเมินตนเอง ปีงบประมาณ&nbsp;&nbsp;:&nbsp;&nbsp;<font color="red">{{ new Date().getFullYear() + 543 }}</font></p>
       </div>      
     </div>
@@ -14,7 +14,7 @@ import appConfig from "@/app.config";
 import moment from "moment";
 export default {
   name: "QuestionnaireHeader",
-  props: ["form", "mode", "questionnaire"],
+  props: ["form", "mode", "questionnaire", "profile"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -42,6 +42,7 @@ export default {
       console.log("Reset");
     },
   },
+  created(){},
   mounted() {},
   beforeCreate() {},
   created() {},
