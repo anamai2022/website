@@ -5,12 +5,13 @@
           <div class="card-body">
             <div class="d-flex">
               <div class="avatar-xs me-3">
-                <router-link v-bind:to="`${link.url}`" target="_blank">
+                <router-link v-bind:to="link.url" target="_blank">
                   <img
                     class=""
                     alt="200x200"
                     width="200"
                     :src="link.img"
+                    :link="link.url"
                     data-holder-rendered="true"
                   />
                 </router-link>

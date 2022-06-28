@@ -1,26 +1,26 @@
 [
   {
     "id": 1,
-    "name": "Leanne Graham",
-    "url":"/Leanne1",
+    "name": "Chanel",
+    "url":"/chanel",
     "img":"banner/1.png"
   },
   {
     "id": 2,
-    "name": "Kevin Graham",
-    "url":"/Leanne2",
+    "name": "ํYFHS",
+    "url":"/logincode",
     "img":"banner/2.png"    
   },
   {
     "id": 3,
-    "name": "Lora Hammond",
-    "url":"/Leanne3",
+    "name": "แบบประเมินความพอใจ",
+    "url":"/poll",
     "img":"banner/3.png"    
   },
   {
     "id": 4,
-    "name": "Lora Graham",
-    "url":"/Leanne4",
+    "name": " Dashboard",
+    "url":"/dashboard",
     "img":"banner/4.png"    
   }
 ]

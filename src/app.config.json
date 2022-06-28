@@ -81,5 +81,9 @@
   "titleG3":"องค์ประกอบที่ 3 ชุมชนและภาคีเครือข่าย",
   "titleG4":"องค์ประกอบที่ 4 ระบบข้อมูลสารสนเทศ",
   "titleG5":"องค์ประกอบที่ 5 ผลลัพธ์",
+  "qrCodeValueA":"https://yfhs.anamai.moph.go.th/poll/forma",
+  "qrCodeTitle":"แบบประเมิน",
+  "qrCodeValueB":"https://yfhs.anamai.moph.go.th/poll/formb",
+  "qrCodeValueC":"https://yfhs.anamai.moph.go.th/poll/formc",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }

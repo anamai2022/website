@@ -170,7 +170,6 @@ import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 import historyProfile from "@/components/widgets/profile/historyProfile.vue";
 import assessmentStatus from "@/components/widgets/profile/assessmentStatus.vue";
 import PersonInChargeOfAdolescentClinic from "@/components/widgets/profile/PersonInChargeOfAdolescentClinic.vue";
-import axios from "axios";
 import appConfig from "@/app.config";
 import moment from "moment";
 export default {
@@ -234,7 +233,8 @@ export default {
       ContactData: null,
       hospitalData: null,
       DataSet:null,
-      OrganizationalCharacteristicsData: null,
+      f_hospitalname: null,
+      OrganizationalCharacteristicsData: null,      
     };
   },
   created() {
@@ -253,23 +253,24 @@ export default {
     if (this.gradeSelfAssessmentResults == null) {
       this.gradeSelfAssessmentResults = "F";
     }
+    
     this.getContact();
     this.getProfile();
-    let DataSet = this.getHospital();
-    console.log('test :', DataSet)
-    for (let i = 0; i < DataSet.length; i++) {
-      DataSet[i] + "<br>";
-    }
+    this.getHospital();    
   },
   methods: {
     async getContact(){
       const results = await contactService.getContactAll();
-      this.ContactData = results.result      
+      this.ContactData = results.result   
       return results
     },
     async getProfile(){
-      const result = await profileService.getProfileAll();
+      const result = await profileService.getProfileByCode();
       this.OrganizationalCharacteristicsData = result.result[0]    
+      this.visionData = this.OrganizationalCharacteristicsData.f_vision;
+      this.goalData = this.OrganizationalCharacteristicsData.f_gotoKnow;
+      this.missionData = this.OrganizationalCharacteristicsData.f_mistion;
+      this.policyData = this.OrganizationalCharacteristicsData.f_policy;
       return result
     },
     async getHospital(){

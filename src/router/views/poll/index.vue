@@ -1,6 +1,5 @@
 <script>
 import _ from "underscore";
-import { uuid } from "uuidv4";
 
 import appConfig from "@/app.config";
 import { form } from "@/router/views/poll/config/list.js";
@@ -55,7 +54,7 @@ export default {
       }else if(this.$route.query.id =='forma'){
         this.PollDataSet = loadFormA;
       }else{        
-        this.PollDataSet = null
+        this.PollDataSet = loadFormA
       }      
     } else {
       console.log("Create");
@@ -63,7 +62,7 @@ export default {
       this.form = form;
       this.btnPermisActionName = "Create";
       this.btnPermisFunctionName = "Poll";
-      this.PollDataSet = null     
+      this.PollDataSet = loadFormA     
     }
   },
   methods: {

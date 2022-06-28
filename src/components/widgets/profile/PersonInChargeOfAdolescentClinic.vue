@@ -93,7 +93,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-import  { contactService, profileService, HospitalService } from "@/api/index.js";
+
 export default {
   name: "PersonInChargeOfAdolescentClinic",
   props: ["form", "mode", "ContactData"],
@@ -124,6 +124,7 @@ export default {
     handleSave() {
       console.log('test')
     },
+     
   },
   beforeCreate() {},
   created() {},

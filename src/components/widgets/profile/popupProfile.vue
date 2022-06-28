@@ -6,7 +6,12 @@
         label="ชื่อสถานบริการ:	"
         label-for="formrow-firstname-input"
       >
-        <b-form-input id="formrow-firstname-input" v-model="hospitalData.f_hospitalname" type="text"></b-form-input>
+        <b-form-input
+          id="f_hospitalname"
+          name="f_hospitalname"
+          v-model="hospitalData.f_hospitalname"
+          type="text"
+        ></b-form-input>
       </b-form-group>
 
       <div class="row">
@@ -16,7 +21,21 @@
             label="ประเภท :	(รพช. , รพท. , รพศ.)"
             label-for="formrow-email-input"
           >
-            <b-form-input id="formrow-email-input" v-model="hospitalData.f_type_hospital" type="text"></b-form-input>
+            <el-select
+              id="f_type_hospital"
+              name="f_type_hospital"
+              v-model="hospitalData.f_type_hospital"
+              filterable
+              :placeholder="placeholderSelect"
+            >
+              <el-option
+                v-for="item in LevelData"
+                :key="item.f_MasterId"
+                :label="item.f_MasterName"
+                :value="item.f_MasterId"
+              >
+              </el-option>
+            </el-select>
           </b-form-group>
         </div>
         <div class="col-md-6">
@@ -27,7 +46,8 @@
               label-for="formrow-password-input"
             >
               <b-form-input
-                id="formrow-password-input"
+                id="f_bed"
+                name="f_bed"
                 v-model="hospitalData.f_bed"
                 type="number"
               ></b-form-input>
@@ -42,60 +62,76 @@
             label="ที่อยู่ :	"
             label-for="formrow-inputCity"
           >
-            <b-form-input id="formrow-inputCity" v-model="hospitalData.f_address" type="text"></b-form-input>
+            <b-form-input
+              id="f_address"
+              name="f_address"
+              v-model="hospitalData.f_address"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
           <b-form-group
             class="mb-3"
             label="เบอร์มือถือ :	"
             label-for="formrow-inputCity"
           >
-            <b-form-input id="formrow-inputCity" v-model="hospitalData.f_telphone" type="text"></b-form-input>
-          </b-form-group>
-        </div>
-        <div class="col-lg-4">
-          <b-form-group
-            class="mb-3 form-label"
-            id="input-group-1"
-            label="เบอร์โทรศัพท์:	"
-            label-for="formrow-inputState"
-          >
-            <b-form-input id="formrow-inputZip" v-model="hospitalData.f_telphone" type="text"></b-form-input>
+            <b-form-input
+              id="f_telphone"
+              name="f_telphone"
+              v-model="hospitalData.f_telphone"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-6">
           <b-form-group class="mb-3" label="Fax :	" label-for="formrow-inputZip">
-            <b-form-input id="formrow-inputZip" v-model="hospitalData.f_fax" type="text"></b-form-input>
+            <b-form-input
+              id="f_fax"
+              name="f_fax"
+              v-model="hospitalData.f_fax"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </div>
 
         <div class="col-lg-6">
           <b-form-group
             class="mb-3"
-            :label="latitude"
+            :label="latitudeLang"
             label-for="formrow-inputZip"
           >
-            <b-form-input  :value="latitudeData" v-model="latitudeData" id="formrow-inputZip" type="text"></b-form-input>
+            <b-form-input
+              v-model="hospitalData.f_latitude"
+              id="latitude"
+              name="latitude"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </div>
         <div class="col-lg-6">
           <b-form-group
             class="mb-3"
-            :label="longitude"
+            :label="longitudeLang"
             label-for="formrow-inputZip"
           >
-            <b-form-input :value="longitudeData" v-model="longitudeData" id="formrow-inputZip" type="text"></b-form-input>
+            <b-form-input
+              v-model="hospitalData.f_longitude"
+              id="longitude"
+              name="longitude"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </div>
 
         <div class="col-lg-12">
           <h4 class="card-title">{{ Markers }}</h4>
           <p class="card-title-dsec">{{ MarkersAppove }}</p>
-          <p>IP Address : {{ipAddressData}}</p>
+          <p>Latitude : {{ longitude }} Longitude : {{ latitude }}</p>
+          <p>IP Address : {{ ipAddressData }}</p>
           <gmap-map
             :center="{ lat: 13.8497732, lng: 100.526625 }"
             :zoom="17"
@@ -112,13 +148,13 @@
           </gmap-map>
         </div>
       </div>
-      <br>
-      <b-button variant="danger" class="btn-label">
+      <br />
+      <b-button variant="danger" class="btn-label" @click="handleReset()">
         <i class="bx bx-trash label-icon"></i>
         ยกเลิก
       </b-button>
-      &nbsp;&nbsp;&nbsp;&nbsp;     
-      <b-button variant="success" class="btn-label">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <b-button variant="success" class="btn-label" @click="handleSave()">
         <i class="bx bx-save label-icon"></i>
         บันทึกข้อมูล
       </b-button>
@@ -127,6 +163,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
+import { MasterService, HospitalService } from "@/api/index.js";
 export default {
   name: "PopupProfile",
   props: ["form", "mode", "hospitalData"],
@@ -148,11 +185,13 @@ export default {
       Remark: appConfig.Remark,
       Markers: appConfig.Markers,
       MarkersAppove: appConfig.MarkersAppove,
-      latitude: appConfig.latitude,
-      latitudeData: null,
-      longitude: appConfig.longitude,
-      longitudeData: null,
+      latitudeLang: appConfig.latitude,
+      longitudeLang: appConfig.longitude,
+      placeholderSelect: appConfig.placeholderSelect,
+      longitude: null,
+      latitude: null,
       ipAddressData: null,
+      LevelData: null,
       markers: [
         {
           position: { lat: 13.8497732, lng: 100.526625 },
@@ -162,37 +201,69 @@ export default {
   },
   computed: {},
   methods: {
+    async getZoneArea() {
+      const results = await MasterService.getAppoveLevelAll();
+      this.LevelData = results.result;
+    },
     handleReset() {
-      location.reload();
+      console.log("handle Reset", this.hospitalData);
+    },
+    async handleSave() {
+      if (this.hospitalData.f_code == null) {
+        let hopsital = {
+          f_code: this.hospitalData.f_code,
+          f_hospitalname: this.hospitalData.f_hospitalname,
+          f_type_hospital: this.hospitalData.f_type_hospital,
+          f_bed: this.hospitalData.f_bed,
+          f_address: this.hospitalData.f_address,
+          f_telphone: this.hospitalData.f_telphone,
+          f_fax: this.hospitalData.f_fax,
+          f_latitude: this.latitude,
+          f_longitude: this.longitude,
+          f_ipaddress: this.ipAddressData,
+          f_status: 1,
+        };
+        await HospitalService.getSaveByCode(hopsital);        
+      } else {
+        let hopsital = {
+          f_hospitalname: this.hospitalData.f_hospitalname,
+          f_type_hospital: this.hospitalData.f_type_hospital,
+          f_bed: this.hospitalData.f_bed,
+          f_address: this.hospitalData.f_address,
+          f_telphone: this.hospitalData.f_telphone,
+          f_fax: this.hospitalData.f_fax,
+          f_latitude: this.latitude,
+          f_longitude: this.longitude,
+          f_ipaddress: this.ipAddressData,
+        }
+        await HospitalService.getUpdateAll(this.hospitalData.f_code,hopsital)
+      }
     },
     handleGetlocationMapPressed() {
       navigator.geolocation.getCurrentPosition(
-          position => {
-            console.log(position.coords.latitude);
-            this.latitudeData = position.coords.latitude
-            console.log(position.coords.longitude);
-            this.longitudeData = position.coords.longitude
-          },
- 
-          error => {
-            console.log(error.message);
-          },
-      )
+        (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
     },
-    handleGetIpAddress(){
-      fetch('https://api.ipify.org?format=json')
-      .then(x => x.json())
-      .then(({ ip }) => {
+    handleGetIpAddress() {
+      fetch("https://api.ipify.org?format=json")
+        .then((x) => x.json())
+        .then(({ ip }) => {
           this.ipAddressData = ip;
-          console.log(this.ipAddressData)
-      });
-    },    
+          console.log(this.ipAddressData);
+        });
+    },
   },
   beforeCreate() {},
   created() {
     this.handleGetlocationMapPressed();
     this.handleGetIpAddress();
-    console.log('Data  :', this.hospitalData)
+    this.getZoneArea();
   },
   beforeMount() {},
   mounted() {},

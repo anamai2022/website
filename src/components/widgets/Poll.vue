@@ -1,8 +1,8 @@
 <template>
   <div class="row">
+    <div class="col-12 center"><qrcode :background="background" :size="size" :cls="qrCls" :value="qrText"></qrcode></div>
     <div v-if="poll != null" >
-      <StepHeader :form="form" :mode="mode" :poll="poll" />
-      <div class="col-4"><VueQrcode :value="qrValue" /></div>   
+      <StepHeader :form="form" :mode="mode" :poll="poll" /> 
       <StepDetail v-if="CountStep > 0" :form="form" :mode="mode" :poll="poll" />
       <div class="col-12">
         <div class="mb-3">
@@ -27,7 +27,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-import VueQrcode from 'vue-qrcode'
+import Qrcode from 'v-qrcode/src/index'
 import StepHeader from "@/components/widgets/StepHeader.vue";
 import StepDetail from "@/components/widgets/StepDetail.vue";
 import ComingSoon from "@/components/widgets/ComingSoon.vue";
@@ -43,7 +43,7 @@ export default {
       },
     ],
   },
-  components: { StepHeader, StepDetail,ComingSoon,  VueQrcode,},
+  components: { StepHeader, StepDetail,ComingSoon, Qrcode,},
   data() {
     return {
       title: appConfig.description,
@@ -51,7 +51,10 @@ export default {
       ResetForm: appConfig.ResetForm,
       DataPollSet: this.poll,
       CountStep: null, 
-      qrValue : "https://yfhs.anamai.moph.go.th/poll/",      
+      qrText : appConfig.qrCodeValueA,  
+      qrCls: 'qrcode',
+      size: 100,
+      background: '#ffffff' 
     };
   },
   computed: {},
@@ -66,11 +69,12 @@ export default {
   mounted() {},
   beforeCreate() {},
   created() {
-    if (this.poll === null) {
-      this.poll = null
-    } else {
-      console.log("Poll Count Step :", this.poll[0].CountStep);
-    }
+    console.log(this.poll)
+    // if (this.poll === null) {
+    //   this.poll = null
+    // } else {
+    //   console.log("Poll Count Step :", this.poll[0].CountStep);
+    // }
   },
   beforeMount() {},
   mounted() {},
@@ -80,3 +84,8 @@ export default {
   unmounted() {},
 };
 </script>
+<style scoped>
+.center {
+  text-align: center;
+}
+</style>

@@ -12,7 +12,7 @@ export class ProfileProvider extends HttpRequest {
 
       async getProfileByCode() {
         try {
-          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("f_code"));
+          const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
