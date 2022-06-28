@@ -2,6 +2,7 @@
   <div class="row">
     <div v-if="poll != null" >
       <StepHeader :form="form" :mode="mode" :poll="poll" />
+      <div class="col-4"><VueQrcode :value="qrValue" /></div>   
       <StepDetail v-if="CountStep > 0" :form="form" :mode="mode" :poll="poll" />
       <div class="col-12">
         <div class="mb-3">
@@ -26,6 +27,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
+import VueQrcode from 'vue-qrcode'
 import StepHeader from "@/components/widgets/StepHeader.vue";
 import StepDetail from "@/components/widgets/StepDetail.vue";
 import ComingSoon from "@/components/widgets/ComingSoon.vue";
@@ -41,14 +43,15 @@ export default {
       },
     ],
   },
-  components: { StepHeader, StepDetail,ComingSoon },
+  components: { StepHeader, StepDetail,ComingSoon,  VueQrcode,},
   data() {
     return {
       title: appConfig.description,
       SubmitForm: appConfig.SubmitForm,
       ResetForm: appConfig.ResetForm,
       DataPollSet: this.poll,
-      CountStep: null,
+      CountStep: null, 
+      qrValue : "https://yfhs.anamai.moph.go.th/poll/",      
     };
   },
   computed: {},
