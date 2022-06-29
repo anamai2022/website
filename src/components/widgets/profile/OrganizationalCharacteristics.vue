@@ -7,33 +7,33 @@
           <p class="card-title-desc">
             {{ OrganizationalCharacteristicsDetail }}
           </p>
+          <div v-if="dataSet !== 'null'">
+            <dl class="row mb-0" v-for="(items, index) in dataSet" :key="index">
+              <dt class="col-sm-3">{{vision}}</dt>
+              <dd class="col-sm-9">
+                {{items.f_vision}}
+              </dd>
 
-          <dl class="row mb-0" v-for="(items, index) in dataSet" :key="index">
-            <dt class="col-sm-3">{{vision}}</dt>
-            <dd class="col-sm-9">
-              {{items.f_vision}}
-            </dd>
+              <dt class="col-sm-3">{{mission}}</dt>
+              <dd class="col-sm-9">
+                {{items.f_mistion}}
+              </dd>
 
-            <dt class="col-sm-3">{{mission}}</dt>
-            <dd class="col-sm-9">
-              {{items.f_mistion}}
-            </dd>
+              <dt class="col-sm-3">{{goal}}</dt>
+              <dd class="col-sm-9">
+                {{items.f_gotoKnow}}
+              </dd>
 
-            <dt class="col-sm-3">{{goal}}</dt>
-            <dd class="col-sm-9">
-              {{items.f_gotoKnow}}
-            </dd>
+              <dt class="col-sm-3">{{policy}}</dt>
+              <dd class="col-sm-9">
+                {{items.f_policy}}
+              </dd>
 
-            <dt class="col-sm-3">{{policy}}</dt>
-            <dd class="col-sm-9">
-              {{items.f_policy}}
-            </dd>
-
-          </dl>
+            </dl>            
+          </div>
         </div>
       </div>
     </div>
-    <!-- end col -->
   </div>
 </template>
 <script>import appConfig from "@/app.config";

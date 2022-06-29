@@ -1,15 +1,27 @@
 <template>
   <div class="row">
     <p>ลักษณะสำคัญขององค์กร</p>
-    <div class="col-12">
-      <p>วิสัยทัศน์</p>
-      <textarea id="f_vision" name="f_vision" v-model="visionData" rows="4" cols="50">{{visionData}}</textarea>
-      <p>พันธกิจ</p>
-      <textarea id="f_mistion" name="f_mistion" v-model="missionData" rows="4" cols="50">{{missionData}}</textarea>
-      <p>เป้าประสงค์</p>
-      <textarea id="f_gotoKnow" name="f_gotoKnow" v-model="goalData" rows="4" cols="50">{{goalData}}</textarea>
-      <p>นโยบาย</p>
-      <textarea id="f_policy" name="f_policy" v-model="policyData" rows="4" cols="50">{{policyData}}</textarea>
+    <div v-if="dataSet !== 'null'">
+      <div class="col-12"  v-for="(items, index) in dataSet" :key="index">
+        <p>{{vision}}</p>
+        <textarea id="f_vision" name="f_vision" v-model="items.f_vision" rows="4" cols="50">{{items.f_vision}}</textarea>
+        <p>{{mission}}</p>
+        <textarea id="f_mistion" name="f_mistion" v-model="items.f_mistion" rows="4" cols="50">{{items.f_mistion}}</textarea>
+        <p>{{goal}}</p>
+        <textarea id="f_gotoKnow" name="f_gotoKnow" v-model="items.f_gotoKnow" rows="4" cols="50">{{items.f_gotoKnow}}</textarea>
+        <p>{{policy}}</p>
+        <textarea id="f_policy" name="f_policy" v-model="items.f_policy" rows="4" cols="50">{{items.f_policy}}</textarea>
+      </div>
+    </div>
+    <div v-else>
+        <p>{{vision}}</p>
+        <textarea id="f_vision" name="f_vision" v-model="f_vision" rows="4" cols="50"></textarea>
+        <p>{{mission}}</p>
+        <textarea id="f_mistion" name="f_mistion" v-model="f_mistion" rows="4" cols="50"></textarea>
+        <p>{{goal}}</p>
+        <textarea id="f_gotoKnow" name="f_gotoKnow" v-model="f_gotoKnow" rows="4" cols="50"></textarea>
+        <p>{{policy}}</p>
+        <textarea id="f_policy" name="f_policy" v-model="f_policy" rows="4" cols="50"></textarea>      
     </div>
      <div class="col-6">
       <b-button variant="danger" class="btn-label" @click="handleReset()">
@@ -29,7 +41,7 @@ import appConfig from "@/app.config";
 import  { profileService } from "@/api/index.js";
 export default {
   name: "Organizational",
-  props: ["form", "mode", "visionData", "missionData", "goalData", "policyData" ],
+  props: ["form", "mode", "dataSet",  ],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -45,33 +57,44 @@ export default {
       title: appConfig.description,
       DataPollSet: this.poll,
       Statement: appConfig.Statement,
+      f_vision:null,
+      f_mistion:null,
+      f_gotoKnow:null,
+      f_policy:null,
       Remark: appConfig.Remark,
+      vision: appConfig.vision,
+      mission: appConfig.mission,
+      goal: appConfig.goal,
+      policy: appConfig.policy,      
     };
   },
   computed: {},
   methods: {
     handleReset() {
-      location.reload();
+      const dataSet = []
     },
-    async handleSave() {
-      // if (localStorage.getItem("profile") == null) {
-      //   let Organizational = {
-      //     visionData: this.visionData,
-      //     missionData: this.missionData,
-      //     policyData: this.policyData,
-      //     goalData: this.goalData,
-      //     f_status: 1,
-      //   };
-      //   await profileService.getSaveByCode(Organizational);        
-      // } else {
-      //   let Organizational = {
-      //     visionData: this.visionData,
-      //     missionData: this.missionData,
-      //     policyData: this.policyData,
-      //     goalData: this.goalData,
-      //   }
-      //   await profileService.getUpdateAll(this.hospitalData.f_code,Organizational)
-      // }
+    async handleSave() {  
+      let profielCode = await profileService.getProfileByCode()
+      if (profielCode.result === "null") {
+        console.log("profielCode Create : ",profielCode)
+        let Organizational = {
+          visionData: this.f_vision,
+          missionData: this.f_mistion,
+          policyData: this.f_gotoKnow,
+          goalData: this.f_policy,
+          f_status: 1,
+        };
+        await profileService.getSaveByCode(Organizational);        
+      } else {
+          console.log("profielCode Update : ",profielCode)
+        let Organizational = {
+          visionData: this.f_vision,
+          missionData: this.f_mistion,
+          policyData: this.f_gotoKnow,
+          goalData: this.f_policy,
+        }
+        await profileService.getUpdateAll(localStorage.getItem("profile"),Organizational)
+      }
     },    
   },
   beforeCreate() {},

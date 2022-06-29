@@ -92,11 +92,8 @@
                 <Organizational
                   :form="form"
                   :mode="mode"
-                  :visionData="visionData"
-                  :missionData="missionData"
-                  :goalData="goalData"
-                  :policyData="policyData"/></b-modal
-              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  :dataSet="OrganizationalCharacteristicsData"
+                  :policyData="policyData"/></b-modal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <b-button
                 v-b-modal.modal-OrganizationalPerson
                 variant="danger"
@@ -249,7 +246,7 @@ export default {
     async getProfile(){
       const result = await profileService.getProfileByCode();
       this.OrganizationalCharacteristicsData = result.result    
-      cosole.log(this.OrganizationalCharacteristicsData)
+      
       this.visionData = this.OrganizationalCharacteristicsData.f_vision;
       this.goalData = this.OrganizationalCharacteristicsData.f_gotoKnow;
       this.missionData = this.OrganizationalCharacteristicsData.f_mistion;
