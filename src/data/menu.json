@@ -15,7 +15,7 @@
     },
     {
       "id": 3,
-      "name": "ประชาสัมพันธุ์และกิจกรรม",
+      "name": "ประชาสัมพันธ์",
       "url":"/information",
       "menuType":"public",      
       "img":"https://www.lovecarestation.com/wp-content/uploads/2020/07/allnewlogolc-01-1024x868.png"    
@@ -29,6 +29,13 @@
     },
     {
       "id": 5,
+      "name": "ศูนย์ข้อมูลกลาง",
+      "url":"/dashbord",
+      "menuType":"public",      
+      "img":"https://www.lovecarestation.com/wp-content/uploads/2020/07/allnewlogolc-01-1024x868.png"    
+    },
+    {
+      "id": 6,
       "name": "ติดต่อ",
       "url":"/contact",
       "menuType":"public",

@@ -1,5 +1,5 @@
 <template>
-      <section class="section hero-section bg-white" id="news">
+      <section class="section top" id="news">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
@@ -8,7 +8,7 @@
               </div>
             </div>
           </div>
-          <div class="row" v-for="index in 10" :key="index">
+          <div class="row" v-for="index in 4" :key="index">
             <div class="col-xl-4 col-sm-6">
               <div class="blog-box mb-4 mb-xl-0">
                 <div class="position-relative">
@@ -111,3 +111,8 @@ export default {
 mounted() {},
 };
 </script>
+<style scoped>
+.top {
+  margin-top: 40px;
+}
+</style>

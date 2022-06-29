@@ -4,7 +4,7 @@ import { uuid } from "uuidv4";
 import appConfig from "@/app.config";
 import Footer from "@/components/footers.vue";
 import UserMenu from "@/components/UserMenu.vue";
-import ComingSoon from "@/components/widgets/ComingSoon.vue";
+import ComingSoon from "@/components/widgets/dashbord/index.vue";
 export default {
   name: "SummaryView",
   page: {

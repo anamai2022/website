@@ -1,14 +1,13 @@
 <template>
-      <section class="section hero-section top" id="landing">
+      <section class="section top" id="landing">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
               <div class="text-center mb-5">
-                <h4>Key features of the product</h4>
+                <h4>{{landingPage}}</h4>
               </div>
             </div>
           </div>
-
           <div class="row align-items-center pt-4">
             <div class="col-md-6 col-sm-8">
               <div>
@@ -22,52 +21,20 @@
             <div class="col-md-5 ml-auto">
               <div class="mt-4 mt-md-auto">
                 <div class="d-flex align-items-center mb-2">
-                  <h4>Best ICO for your cryptocurrency business</h4>
+                  <h4>{{landingPage1}}</h4>
                 </div>
                 <p
                   class="text-muted"
-                >If several languages coalesce, the grammar of the resulting language is more simple and regular than of the individual will be more simple and regular than the existing.</p>
+                >การใช้โปรแกรมการประเมินรับรองโรงพยาบาลตามมาตรฐาน YFHS ฉบับ พ.ศ.2565</p>
                 <div class="text-muted mt-4">
-                <p>If several languages coalesce, the grammar of the resulting that of the individual new common language will be more simple and regular than the existing.</p>
-                <p class="mb-4">It would be necessary to have uniform pronunciation.</p>
+                <p>คลินิกวัยรุน ( YFHS : Youth Friendly Health Services). เป็นคลินิกที่โรงพยาบาลจัดบริการสุข ภาพที่เ ปนมิตรสําหรับวัยรุน และเยาวชน..</p>
+                <p class="mb-4">ประเมินและรับรองคุณภาพรพ.ตามมาตรฐานYFHS “คลินิกวัยรุ่น” เป็นคลินิกที่ รพ./สถานบริการสาธารณสุข ที่ต้องการจัดบริการสุขภาพที่เป็นมิตรสำหรับวัยรุ่นและเยาวชน (Youth Friendly Health Services : YFHS)</p>
 
                 <div class="button-items">
-                  <a href="javascript: void(0);" class="btn btn-success">Read More</a>
-                  <a href="javascript: void(0);" class="btn btn-outline-primary">How It work</a>
+                  <a href="javascript: void(0);" class="btn btn-success">อ่านคู่มือ</a>
+                  <a href="javascript: void(0);" class="btn btn-outline-primary">การประเมินรับรองโรงพยาบาลตามมาตราฐาน</a>
                 </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <!-- end row -->
-
-          <div class="row align-items-center mt-5 pt-md-5">
-            <div class="col-md-5">
-              <div class="mt-4 mt-md-0">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="features-number fw-semibold display-4 me-3">02</div>
-                  <h4 class="mb-0">Wallet</h4>
-                </div>
-                <p
-                  class="text-muted"
-                >It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend.</p>
-                <div class="text-muted mt-4">
-                  <p class="mb-2">
-                    <i class="mdi mdi-circle-medium text-success me-1"></i>Donec pede justo vel aliquet
-                  </p>
-                  <p>
-                    <i class="mdi mdi-circle-medium text-success me-1"></i>Aenean et nisl sagittis
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-sm-8 ms-md-auto">
-              <div class="mt-4 me-md-0">
-                <img
-                  src="@/assets/images/crypto/features-img/img-2.png"
-                  alt
-                  class="img-fluid mx-auto d-block"
-                />
               </div>
             </div>
           </div>
@@ -92,6 +59,10 @@ export default {
     return {
       Banner: BannerData,
       slide: BannerData,
+      landingPage: appConfig.landingPage,
+      landingPage1: appConfig.landingPage1,
+      landingPage2: appConfig.landingPage2,
+      landingPage3: appConfig.landingPage3,
     };
   },
 mounted() {},

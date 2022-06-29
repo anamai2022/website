@@ -29,8 +29,7 @@
                     alt
                     class="img-thumbnail rounded-circle"
                   />
-                </div>
-               
+                </div>               
                 <h4 class="font-size-14 text-truncate">{{ hospital }}</h4>
                 <p class="text-muted mb-0 text-truncate">{{ hospitalData.f_hospitalname }}</p>              
               </div>
@@ -77,8 +76,7 @@
 
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title mb-4">{{ OrganizationalCharacteristics }}</h4>
-            <p class="text-muted mb-4">
+            <OrganizationalCharacteristics :dataSet="OrganizationalCharacteristicsData"/>
               <b-button v-b-modal.modal-Organizational variant="success">
                 <i
                   class="fas fa-address-book font-size-16 align-middle me-2"
@@ -118,30 +116,7 @@
                   :form="form"
                   :mode="mode"
                   :ContactData="ContactData"                  
-              /></b-modal>
-            </p>
-            <div class="table-responsive ">
-              <table class="table table-nowrap mb-0">
-                <tbody>
-                  <tr>
-                    <th scope="row">{{ vision }} :</th>
-                    <td class="card-title-desc">{{ visionData }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">{{ mission }} :</th>
-                    <td class="card-title-desc">{{ missionData }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">{{ goal }} :</th>
-                    <td class="card-title-desc">{{ goalData }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">{{ policy }} :</th>
-                    <td class="card-title-desc">{{ policyData }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              /></b-modal>            
           </div>
         </div>
 
@@ -169,6 +144,7 @@ import Organizational from "@/components/widgets/profile/Organizational.vue";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 import historyProfile from "@/components/widgets/profile/historyProfile.vue";
 import assessmentStatus from "@/components/widgets/profile/assessmentStatus.vue";
+import OrganizationalCharacteristics from "@/components/widgets/profile/OrganizationalCharacteristics.vue";
 import PersonInChargeOfAdolescentClinic from "@/components/widgets/profile/PersonInChargeOfAdolescentClinic.vue";
 import appConfig from "@/app.config";
 import moment from "moment";
@@ -191,6 +167,7 @@ export default {
     historyProfile,
     assessmentStatus,
     PersonInChargeOfAdolescentClinic,
+    OrganizationalCharacteristics,
   },
   data() {
     return {
@@ -253,10 +230,15 @@ export default {
     if (this.gradeSelfAssessmentResults == null) {
       this.gradeSelfAssessmentResults = "F";
     }
-    
+   
     this.getContact();
     this.getProfile();
     this.getHospital();    
+    if(this.OrganizationalCharacteristicsData == null){
+      console.log("null")
+    }else{
+      console.log('test')
+    }
   },
   methods: {
     async getContact(){
@@ -266,7 +248,8 @@ export default {
     },
     async getProfile(){
       const result = await profileService.getProfileByCode();
-      this.OrganizationalCharacteristicsData = result.result[0]    
+      this.OrganizationalCharacteristicsData = result.result    
+      cosole.log(this.OrganizationalCharacteristicsData)
       this.visionData = this.OrganizationalCharacteristicsData.f_vision;
       this.goalData = this.OrganizationalCharacteristicsData.f_gotoKnow;
       this.missionData = this.OrganizationalCharacteristicsData.f_mistion;

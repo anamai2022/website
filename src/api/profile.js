@@ -12,10 +12,19 @@ export class ProfileProvider extends HttpRequest {
 
       async getProfileByCode() {
         try {
+          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));
+          return data;
+        } catch (error) {
+          return { statusCode: error.response.status };
+        }
+      } 
+      
+      async getSaveProfileByCode() {
+        try {
           const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
         }
-      }       
+      }
 }

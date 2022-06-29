@@ -1,5 +1,5 @@
 <template>
-  <section class="section" id="banner">
+  <section class="section bg-white" id="banner">
     <div class="bg-overlay bg-primary"></div>
       <div class="row align-items-center">
         <b-carousel            

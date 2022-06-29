@@ -54,25 +54,24 @@ export default {
       location.reload();
     },
     async handleSave() {
-  console.log(localStorage.getItem("profile"))
-      if (localStorage.getItem("profile") == null) {
-        let Organizational = {
-          visionData: this.visionData,
-          missionData: this.missionData,
-          policyData: this.policyData,
-          goalData: this.goalData,
-          f_status: 1,
-        };
-        await profileService.getSaveByCode(Organizational);        
-      } else {
-        let Organizational = {
-          visionData: this.visionData,
-          missionData: this.missionData,
-          policyData: this.policyData,
-          goalData: this.goalData,
-        }
-        await profileService.getUpdateAll(this.hospitalData.f_code,Organizational)
-      }
+      // if (localStorage.getItem("profile") == null) {
+      //   let Organizational = {
+      //     visionData: this.visionData,
+      //     missionData: this.missionData,
+      //     policyData: this.policyData,
+      //     goalData: this.goalData,
+      //     f_status: 1,
+      //   };
+      //   await profileService.getSaveByCode(Organizational);        
+      // } else {
+      //   let Organizational = {
+      //     visionData: this.visionData,
+      //     missionData: this.missionData,
+      //     policyData: this.policyData,
+      //     goalData: this.goalData,
+      //   }
+      //   await profileService.getUpdateAll(this.hospitalData.f_code,Organizational)
+      // }
     },    
   },
   beforeCreate() {},

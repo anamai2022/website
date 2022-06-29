@@ -134,5 +134,9 @@ export default [
     path: "/manual",
     name: "manual",
     component: () => import("./views/manual/index"),
+  },{
+    path: "/dashbord",
+    name: "dashbord",
+    component: () => import("./views/dashbord/index"),
   }
 ];

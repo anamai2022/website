@@ -2,7 +2,7 @@
 import appConfig from "@/app.config";
 import Footer from "@/components/footers.vue";
 import Menu from "@/components/Menu.vue";
-import ComingSoon from "@/components/widgets/ComingSoon.vue";
+import CardSocial from "@/components/widgets/card/CardSocial.vue";
 export default {
   page: {
     title: "Social",
@@ -13,7 +13,7 @@ export default {
       },
     ],
   },
-  components: { Footer,Menu,ComingSoon },
+  components: { Footer,Menu,CardSocial, },
   data() {
     return {
       title: appConfig.description,       
@@ -28,7 +28,7 @@ export default {
 <template>
   <div>
     <Menu />
-    <ComingSoon />
+    <CardSocial />
     <Footer />
   </div>
 </template>
