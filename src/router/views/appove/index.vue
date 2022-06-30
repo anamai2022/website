@@ -1,7 +1,7 @@
 <script>
 import appConfig from "@/app.config";
 import Footer from "@/components/footers.vue";
-import Menu from "@/components/Menu.vue";
+import UserMenu from "@/components/UserMenu.vue";
 import Landing from "@/components/widgets/appove/index.vue";
 export default {
   page: {
@@ -13,7 +13,7 @@ export default {
       },
     ],
   },
-  components: { Footer,Menu,Landing },
+  components: { Footer,UserMenu,Landing },
   data() {
     return {
       title: appConfig.description,       
@@ -27,7 +27,7 @@ export default {
 
 <template>
   <div>
-    <Menu />
+    <UserMenu />
     <Landing />
     <Footer />
   </div>

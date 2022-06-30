@@ -21,24 +21,18 @@ export default {
     <b-button variant="danger" @click="showModal = true">Compose</b-button>
     <div class="mail-list mt-4">
       <router-link to="/email/inbox" class="active">
-        <i class="mdi mdi-email-outline me-2"></i> Inbox
+        <i class="mdi mdi-email-outline me-2"></i> {{waitingAppove}}
         <span class="ms-1 float-end">(18)</span>
       </router-link>
       <router-link to="/email/inbox">
-        <i class="mdi mdi-star-outline me-2"></i>Starred
+        <i class="mdi mdi-email-mark-as-unread me-2"></i>{{appoveStatusComplate}}
+      </router-link>      
+      <router-link to="/email/inbox">
+        <i class="mdi mdi-email-alert me-2"></i>{{appoveStatus}}
       </router-link>
       <router-link to="/email/inbox">
-        <i class="mdi mdi-diamond-stone me-2"></i>Important
-      </router-link>
-      <router-link to="/email/inbox">
-        <i class="mdi mdi-file-outline me-2"></i>Draft
-      </router-link>
-      <router-link to="/email/inbox">
-        <i class="mdi mdi-email-check-outline me-2"></i>Sent Mail
-      </router-link>
-      <router-link to="/email/inbox">
-        <i class="mdi mdi-trash-can-outline me-2"></i>Trash
-      </router-link>
+        <i class="mdi mdi-email-search-outline me-2"></i>{{appoveSumStatus}}
+      </router-link>      
     </div>
 
     <labelNote />
@@ -67,3 +61,39 @@ export default {
     </b-modal>
   </div>
 </template>
+<script>
+import appConfig from "@/app.config";
+export default {
+  name: "Sidepanel",
+  page: {
+    title: appConfig.shortname,
+    meta: [
+      {
+        name: "description",
+        content: appConfig.description,
+      },
+    ],
+  },
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    items: {
+      type: Array,
+      default: () => {
+        return []
+      },
+    },
+  },  
+components: {},  
+  data() {
+    return {
+      waitingAppove: appConfig.waitingAppove,
+      appoveStatusComplate: appConfig.appoveStatusComplate,
+      appoveStatus: appConfig.appoveStatus,
+      appoveSumStatus: appConfig.appoveSumStatus,
+    }
+  },
+}
+</script>

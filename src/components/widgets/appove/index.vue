@@ -50,14 +50,14 @@ export default {
       paginatedEmailData: emailData,
       appoveTitle: appConfig.appoveTitle,
       yearBudget:null,
-      title: "Inbox",
+      title: appConfig.waitingAppove,
       items: [
         {
           text: appConfig.zoneArea,
           href: "/"
         },
         {
-          text: "Inbox",
+          text: 'หนองบัวลำภู',
           active: true
         }
       ],

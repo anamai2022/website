@@ -91,6 +91,10 @@
   "qrCodeTitle":"แบบประเมิน",
   "clickLink":"อ่านรายละเอียด",
   "zoneArea":"เขตพื้นที่จังหวัด",
+  "waitingAppove":"รอประเมินผลงาน",
+  "appoveStatusComplate":"ส่งอนุมัติขั้นตอนต่อไป",
+  "appoveStatus":"หน่วยงานค้างแบบประเมิน",
+  "appoveSumStatus":"สรุปผลประเมิน",
   "qrCodeValueB":"https://yfhs.anamai.moph.go.th/poll/formb",
   "qrCodeValueC":"https://yfhs.anamai.moph.go.th/poll/formc",
   "titleRegster": "ลงทะเบียนสมาชิก"

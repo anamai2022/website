@@ -48,8 +48,8 @@
             <div class="table-responsive mb-0">
               <b-table
                 class="datatables"
-                :items="tableData"
-                :fields="fields"
+                :items="editableDataItems" 
+                :fields="editableTablefields" 
                 responsive="sm"
                 :per-page="perPage"
                 :current-page="currentPage"
@@ -131,43 +131,18 @@ components: {
       todofilterOn: [],
       sortBy: "age",
       sortDesc: false,
-      fields: [
-        {
-          key: "name",
-          sortable: true,
-        },
-        {
-          key: "position",
-          sortable: true,
-        },
-        {
-          key: "office",
-          sortable: true,
-        },
-        {
-          key: "age",
-          sortable: true,
-        },
-        {
-          key: "date",
-          sortable: true,
-        },
-        {
-          key: "salary",
-          sortable: true,
-        },
-      ],
       editableTablefields: [
-        { key: "name", label: "โรงพยาบาล", type: "text", editable: true},
-        { key: "department", label: "จังหวัด", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'], editable: true },
-        { key: "age", label: "G1", type: "number", editable: true },
-        { key: "dateOfBirth", label: "G2", type: "date", editable: true },
-        { key: "isActive", label: "G3", type: "checkbox", editable: true },
-        { key: "isActive", label: "G4", type: "checkbox", editable: true },
-        { key: "isActive", label: "G5", type: "checkbox", editable: true },
-        { key: "isActive", label: "Total", type: "checkbox", editable: true },
-        { key: "isActive", label: "ระดับ", type: "checkbox", editable: true },
+        { key: "hospital", label: "โรงพยาบาล", type: "text", editable: true},
+        { key: "province", label: "จังหวัด", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'], editable: true },
+        { key: "g1", label: "G1", type: "text", editable: true},
+        { key: "g2", label: "G2", type: "number", editable: true },
+        { key: "g3", label: "G3", type: "date", editable: true },
+        { key: "g4", label: "G4", type: "number", editable: true },
+        { key: "g5", label: "G5", type: "number", editable: true },
+        { key: "totalsum", label: "TOTAL", type: "number", editable: true },
+        { key: "appove", label: "ระดับ", type: "number", editable: true },        
       ],
+       editableDataItems: tableData
     };
   },
   computed: {
