@@ -5,18 +5,7 @@
       <div class="col-12">
         <Sidepanel />
         <div class="email-rightbar mb-3">
-          <div class="card">
-              <div class="col-xl-12">
-                <div class="row">
-                  <div v-for="stat of statData" :key="stat.icon" class="col-md-3">
-                    <Stat :icon="stat.icon" :title="stat.title" :value="stat.value" />
-                  </div>
-                </div>       
-              </div>    
-            <div class="mt-3">
-              <tableAppove :titles="titles" :items="items" />
-            </div>
-          </div>
+            <ProfileDetail />
         </div>
       </div>
     </div>
@@ -30,9 +19,9 @@ import Toolbar from "./toolbar";
 import Sidepanel from "./sidepanel";
 import pageHeader from "./pageHeader"
 import tableAppove from "./tableAppove"
-import Stat from "@/components/widgets/stat";
+import profilePoll from "@/components/widgets/profilePoll";
 export default {
-  name: "AppoveComponents",
+  name: "profileDetilAppoveComponents",
   page: {
     title: appConfig.shortname,
     meta: [
@@ -48,7 +37,7 @@ export default {
     Toolbar,
     Sidepanel,
     tableAppove,
-    Stat,
+    profilePoll,
   },
   data() {
     return {
@@ -137,10 +126,7 @@ export default {
         this.endIndex
       );
     }
-  },
-async beforeMount() {
-  console.log('link id :',this.$route.query.id)
-}    
+  }  
 };
 </script>
 <style scoped>

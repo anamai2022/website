@@ -142,5 +142,29 @@ export default [
     path: "/appove",
     name: "appove",
     component: () => import("./views/appove/index"),
+  },{ 
+    path: "/appove/:id",
+    name: "appove",
+    component: () => import("./views/appove/index"),
+  },{ 
+    path: "/appove/inbox",
+    name: "appove",
+    component: () => import("./views/appove/index"),
+  },{ 
+    path: "/appove/nextlevel",
+    name: "appove",
+    component: () => import("./views/appove/nextlevel"),
+  },{ 
+    path: "/appove/waiting",
+    name: "appove",
+    component: () => import("./views/appove/waiting"),
+  },{ 
+    path: "/appove/backlog",
+    name: "appove",
+    component: () => import("./views/appove/backlog"),
+  },{ 
+    path: "/appove/appove",
+    name: "appove",
+    component: () => import("./views/appove/appove"),
   }
 ];

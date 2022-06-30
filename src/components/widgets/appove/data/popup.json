@@ -1,0 +1,22 @@
+[
+    {
+      "icon": "bx bx-copy-alt",
+      "title": "รอประเมิน",
+      "value": "1,235"
+    },
+    {
+      "icon": "bx bx-archive-in",
+      "title": "ประเมินเรียบร้อย",
+      "value": "$35, 723"
+    },
+    {
+      "icon": "bx bx-purchase-tag-alt",
+      "title": "อยู่ระหว่างทำแบบประเมิน",
+      "value": "$16.2"
+    },
+    {
+      "icon": "bx bx-purchase-tag-alt",
+      "title": "ยังไม่ได้ทำแบบประเมิน",
+      "value": "$16.2"
+    },
+  ], 

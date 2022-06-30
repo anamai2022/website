@@ -5,7 +5,7 @@ import UserMenu from "@/components/UserMenu.vue";
 import Appove from "@/components/widgets/appove/index.vue";
 export default {
   page: {
-    title: "AppoveView",
+    title: "AppoveNextView",
     meta: [
       {
         name: "description",
@@ -24,7 +24,7 @@ export default {
       inbox:2,
       waiting: 3,
       agency: "หน่วยงานหลัก",
-      titles:"รอประเมินผลงาน",
+      titles:"หน่วยงานยังไม่ส่งแบบประเมิน",
     };
   },
   computed: {},

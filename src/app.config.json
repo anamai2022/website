@@ -95,6 +95,7 @@
   "appoveStatusComplate":"ส่งอนุมัติขั้นตอนต่อไป",
   "appoveStatus":"หน่วยงานค้างแบบประเมิน",
   "appoveSumStatus":"สรุปผลประเมิน",
+  "appoveCreateStatus":"อยู่ระหว่างกรอกแบบประเมิน",
   "qrCodeValueB":"https://yfhs.anamai.moph.go.th/poll/formb",
   "qrCodeValueC":"https://yfhs.anamai.moph.go.th/poll/formc",
   "titleRegster": "ลงทะเบียนสมาชิก"

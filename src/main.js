@@ -11,6 +11,11 @@ import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+
+// configure language
+locale.use(lang)
 
 import "../src/design/app.scss";
 import store from '@/state/store'
@@ -26,7 +31,6 @@ const VueScrollTo = require('vue-scrollto')
 Vue.use(VueScrollTo)
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate)
 Vue.use(VueMask)

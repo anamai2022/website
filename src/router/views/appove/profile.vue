@@ -2,7 +2,7 @@
 import appConfig from "@/app.config";
 import Footer from "@/components/footers.vue";
 import UserMenu from "@/components/UserMenu.vue";
-import Appove from "@/components/widgets/appove/index.vue";
+import profileDetil from "@/components/widgets/appove/profileDetil.vue";
 export default {
   page: {
     title: "AppoveView",
@@ -14,7 +14,7 @@ export default {
     ],
   },
   props: ["form", "mode"],
-  components: { Footer,UserMenu,Appove },
+  components: { Footer,UserMenu,profileDetil },
   data() {
     return {
       title: appConfig.description,   
@@ -36,7 +36,7 @@ export default {
 <template>
   <div>
     <UserMenu />
-    <Appove :titles="titles" :inbox="inbox" :nextlevel="nextlevel" :waiting="waiting" :backlog="backlog" :appove="appove" :agency="agency"/>
+    <profileDetil :titles="titles" :inbox="inbox" :nextlevel="nextlevel" :waiting="waiting" :backlog="backlog" :appove="appove" :agency="agency"/>
     <Footer />
   </div>
 </template>
