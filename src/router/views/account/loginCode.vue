@@ -58,11 +58,16 @@ export default {
           })
             .then((response) => {
               if(response.data.messagesboxs == 'Success'){
+                console.log('test: ',response.data)
               let data = response.data.result[0];             
               localStorage.setItem('f_code',this.password);
               localStorage.setItem('profile',data.f_contactId);          
               localStorage.setItem('token', response.data.token);
-              this.$router.push('/profile')
+                if(response.data.result[0].f_usertype === 2){
+                  this.$router.push('/profile')
+                }else{
+                  this.$router.push('/appove')
+                }              
               }else{
                   this.$swal({
                     icon: "error",

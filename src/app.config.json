@@ -75,6 +75,7 @@
   "evidenceExplanation":"คำอธิบายหลักฐาน",
   "uploadfile":"แนบหลักฐาน",
   "fillInInformation":"กรอกข้อมูล",
+  "appoveTitle":"ผลการประเมิน ปีงบประมาณ",
   "fillInInformationYear":"กรอกสรุปรายปี",
   "titleG1":"องค์ประกอบที่ 1 นโยบายและการบริหารจัดการ",
   "titleG2":"องค์ประกอบที่ 2 ระบบบริการ",
@@ -89,6 +90,7 @@
   "qrCodeValueA":"https://yfhs.anamai.moph.go.th/poll/forma",
   "qrCodeTitle":"แบบประเมิน",
   "clickLink":"อ่านรายละเอียด",
+  "zoneArea":"เขตพื้นที่จังหวัด",
   "qrCodeValueB":"https://yfhs.anamai.moph.go.th/poll/formb",
   "qrCodeValueC":"https://yfhs.anamai.moph.go.th/poll/formc",
   "titleRegster": "ลงทะเบียนสมาชิก"

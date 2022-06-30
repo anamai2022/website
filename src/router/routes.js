@@ -138,5 +138,9 @@ export default [
     path: "/dashbord",
     name: "dashbord",
     component: () => import("./views/dashbord/index"),
+  },{ 
+    path: "/appove",
+    name: "appove",
+    component: () => import("./views/appove/index"),
   }
 ];
