@@ -7,7 +7,7 @@ class HttpRequest {
             baseURL: url,
             timeout: 120000,
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("id_token")}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
               "x-request-id": uuid(),
             },
           }); 
