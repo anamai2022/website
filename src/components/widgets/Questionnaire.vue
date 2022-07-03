@@ -10,7 +10,7 @@
         &nbsp;&nbsp;
         <button class="ex1 btn btn-primary" type="submit" @click="ResetItem()">
           {{ ResetForm }}
-        </button>        
+        </button>
       </div>
     </div>
   </div>

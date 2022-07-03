@@ -50,7 +50,7 @@
                   <span class="d-none d-sm-inline-block">G4</span>
                     <p id="totalG4" name="totalG4" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG4 }}</font>
-                    </p>                     
+                    </p>
                 </template>
                 <QuestionnaireTable :GData="G4" :title="titleG4"/>
               </b-tab>
@@ -62,10 +62,10 @@
                   <span class="d-none d-sm-inline-block">G5</span>
                     <p id="totalG5" name="totalG5" class="text-muted mb-2">
                         Total: <font color="red">{{ totalG5 }}</font>
-                    </p>                     
+                    </p>
                 </template>
                  <QuestionnaireTable :GData="G5" :title="titleG5"/>
-              </b-tab>              
+              </b-tab>
             </b-tabs>
           </div>
         </div>

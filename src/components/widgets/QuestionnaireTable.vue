@@ -20,8 +20,8 @@
           <td v-if="values.f_hadertitle ==0">
             <p class="ex1">{{ values.f_title }}</p>
           </td>
-          <td v-else><b color="red">{{ values.f_title }}</b></td>  
-          <td v-if="values.f_hadertitle ==0">{{ totalScore }}</td> 
+          <td v-else><b color="red">{{ values.f_title }}</b></td>
+          <td v-if="values.f_hadertitle ==0">{{ totalScore }}</td>
           <td v-else></td>
           <td v-if="values.f_hadertitle ==0">
             <b-button
@@ -37,14 +37,14 @@
               <i class="fas fa-file-alt font-size-16 align-middle me-2"></i>
               {{ evidenceExplanation }}</b-button
             >&nbsp;&nbsp;
-            <b-button variant="info" v-if="values.f_upload_file == '1' || values.f_upload_image == '1'">
+            <b-button variant="info" v-if="values.f_upload_file == '1' || values.f_upload_image == '1'" @click="rightDrawerUploadFile(index, values.f_code, values.f_title, values.f_detail, values.f_upload_image, values.f_upload_file)">
               <i class="fas fa-file-upload font-size-16 align-middle me-2"></i>
               {{ uploadfile }}</b-button
-            >&nbsp;&nbsp;                
+            >&nbsp;&nbsp;
             <b-button variant="success" v-if="values.f_total == '1'">
               <i class="fas fa-file-invoice font-size-16 align-middle me-2"></i>
               {{ fillInInformationYear }}</b-button
-            >&nbsp;&nbsp;     
+            >&nbsp;&nbsp;
             <b-button variant="warning" v-if="values.f_address_url == '1'">
               <i class="fas fa-file-code font-size-16 align-middle me-2"></i>
               {{ fillInInformation }}</b-button
@@ -54,7 +54,7 @@
         </tr>
       </tbody>
     </table>
-      <Drawer
+      <!-- <Drawer
         @close="rightDrawerDescription"
         :align="'right'"
         :closeable="true"
@@ -69,16 +69,46 @@
           </div>
           <div class="offcanvas-body ">
             <div class="newspaper">
-              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>            
-              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}             
+              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>
+              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}
             </div>
           </div>
           <div class="offcanvas-body ">
-            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>   
+            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>
           </div>
         <div class="offcanvas-body " v-if="showImg === true">
           <Lightbox :form="form" :mode="mode" />
-        </div>          
+        </div>
+        </div>
+      </Drawer> -->
+      <Drawer
+        @close="rightDrawerUploadFile"
+        :align="'right'"
+        :closeable="true"
+        :maskClosable="true"
+        :zIndex="1002"
+      >
+      <div v-if="openRightUploadDrawer">
+          <div class="offcanvas-header newspaper">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <font color="#020223">{{DrawerTitle}}</font>
+            </h5>
+          </div>
+          <div class="offcanvas-body ">
+            <div class="newspaper">
+              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>
+              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}
+            </div>
+          </div>
+          <div class="offcanvas-body ">
+            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>
+          </div>
+        <div class="offcanvas-body " v-if="showImg === true">
+          File Image
+        </div>
+        <div class="offcanvas-body " v-if="showFile === true">
+          File upload
+        </div>
         </div>
       </Drawer>
   </div>
@@ -89,6 +119,7 @@ import appConfig from "@/app.config";
 import Drawer from "vue-simple-drawer";
 import { MasterService, QuestionnaireService } from "@/api/index.js";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
+import QuestionnaireUpload from "@/components/widgets/questionnaire/QuestionnaireUpload.vue"
 export default {
   name: "QuestionnaireTable",
   props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title"],
@@ -101,7 +132,7 @@ export default {
       },
     ],
   },
-  components: { Drawer, Lightbox},
+  components: { Drawer, Lightbox, QuestionnaireUpload},
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -137,12 +168,14 @@ export default {
       f_upload_file: 0,
       f_upload_image: 0,
       f_address_url: 0,
-      openRightDrawer: false, 
+      openRightDrawer: false,
+      openRightDrawerUpload: false,
       titleDrawer: null,
-      DrawerCode: null,  
-      DrawerTitle: null, 
-      DrawerRemark: null,   
-      showImg: false,    
+      DrawerCode: null,
+      DrawerTitle: null,
+      DrawerRemark: null,
+      showImg: false,
+      showFile: false,
     };
   },
   computed: {},
@@ -173,12 +206,22 @@ export default {
       this.DrawerTitle = f_title
       this.DrawerRemark = f_detail
     },
+    rightDrawerUploadFile(index, f_code, f_title, f_detail,f_upload_image,f_upload_file){
+      this.openRightUploadDrawer = !this.openRightUploadDrawer;
+      console.log(index,f_code)
+      this.titleDrawer = index
+      this.DrawerCode = f_code
+      this.DrawerTitle = f_title
+      this.DrawerRemark = f_detail
+      console.log(index,f_upload_image)
+      console.log(index,f_upload_file)
+    },
     voteScore(event, i) {
       console.log("target value: " + event, "Number : ", i);
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
-    },   
+    },
   },
   beforeCreate() {},
   created() {
