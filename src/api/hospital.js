@@ -13,6 +13,7 @@ export class HospitalProvider extends HttpRequest {
       async getHospitalByCode() {
         try {
           const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/hospital/" + localStorage.getItem("profile"));
+          console.log('Hospital Data :',data)
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
@@ -21,7 +22,8 @@ export class HospitalProvider extends HttpRequest {
 
       async getSaveByCode(payload) {        
         try {
-          const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/hospital/",payload);          
+          const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/hospital/",payload);  
+          console.log('Hospital Save Data :',data, 'payload : ',payload)        
           return data;
         } catch (error) {
           console.log(error)

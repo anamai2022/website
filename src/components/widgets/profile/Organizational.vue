@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <p>ลักษณะสำคัญขององค์กร</p>
-    <div v-if="dataSet !== 'null'">
+    <div v-if="mode !== 'Create'">
       <div class="col-12"  v-for="(items, index) in dataSet" :key="index">
         <p>{{vision}}</p>
         <textarea id="f_vision" name="f_vision" v-model="items.f_vision" rows="4" cols="50">{{items.f_vision}}</textarea>
@@ -39,9 +39,10 @@
 <script>
 import appConfig from "@/app.config";
 import  { profileService } from "@/api/index.js";
+import moment from 'moment';
 export default {
   name: "Organizational",
-  props: ["form", "mode", "dataSet",  ],
+  props: ["mode", "dataSet",  ],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -65,7 +66,8 @@ export default {
       vision: appConfig.vision,
       mission: appConfig.mission,
       goal: appConfig.goal,
-      policy: appConfig.policy,      
+      policy: appConfig.policy,   
+      toDay: new Date(),
     };
   },
   computed: {},
@@ -74,26 +76,61 @@ export default {
       const dataSet = []
     },
     async handleSave() {  
-      let profielCode = await profileService.getProfileByCode()
-      if (profielCode.result === "null") {
-        console.log("profielCode Create : ",profielCode)
+      if (this.mode == 'Create') {        
         let Organizational = {
-          visionData: this.f_vision,
-          missionData: this.f_mistion,
-          policyData: this.f_gotoKnow,
-          goalData: this.f_policy,
+          f_hospitalcode:localStorage.getItem('profile'), 
+          f_vision: this.f_vision,
+          f_mistion: this.f_mistion,
+          f_gotoKnow: this.f_gotoKnow,
+          f_policy: this.f_policy,
+          f_createDate:moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
+          f_createBy:localStorage.getItem('f_code'),
           f_status: 1,
         };
-        await profileService.getSaveByCode(Organizational);        
-      } else {
-          console.log("profielCode Update : ",profielCode)
-        let Organizational = {
-          visionData: this.f_vision,
-          missionData: this.f_mistion,
-          policyData: this.f_gotoKnow,
-          goalData: this.f_policy,
+        let resultSave = await profileService.getSaveProfileByCode(Organizational);   
+        if(resultSave.messagesboxs == 'Success'){
+               this.$swal({
+                icon: "success",
+                title: resultSave.messagesboxs,
+                text: resultSave.messagesboxs,
+                allowOutsideClick: false,
+              });
+          this.$router.go()
+        }else{
+               this.$swal({
+                icon: "error",
+                title:resultSave.messagesboxs,
+                text: resultSave.messagesboxs,
+                allowOutsideClick: false,
+              });
+          this.$router.go()          
         }
-        await profileService.getUpdateAll(localStorage.getItem("profile"),Organizational)
+      } else {          
+        let Organizational = {
+          f_vision: this.dataSet[0].f_vision,
+          f_mistion: this.dataSet[0].f_mistion,
+          f_gotoKnow: this.dataSet[0].f_gotoKnow,
+          f_policy: this.dataSet[0].f_policy,
+          f_updateDate:moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
+          f_updateBy:localStorage.getItem('f_code'),          
+        }        
+        let resultUpdate = await profileService.getUpdateAll(this.dataSet[0].f_code,Organizational)
+         if(resultUpdate.messagesboxs == 'Success'){            
+              this.$swal({
+                icon: "success",
+                title: resultUpdate.messagesboxs,
+                text: resultUpdate.messagesboxs,
+                allowOutsideClick: false,
+              });
+        }else{
+              this.$swal({
+                icon: "error",
+                title: resultUpdate.messagesboxs,
+                text: resultUpdate.messagesboxs,
+                allowOutsideClick: false,
+              });                 
+        }
+        this.$router.go()
       }
     },    
   },
@@ -114,5 +151,15 @@ export default {
 }
 .ex1 {
   margin-left: 30px;
+}
+#custom-target {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  border-style: solid;
+}
+
+.position-absolute {
+  position: absolute;
 }
 </style>

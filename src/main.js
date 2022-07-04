@@ -13,7 +13,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-
+import Notifications from 'vue-notification'
 // configure language
 locale.use(lang)
 
@@ -44,6 +44,7 @@ Vue.use(VueGoogleMaps, {
   installComponents: true
 })
 Vue.component('apexchart', VueApexCharts)
+Vue.use(Notifications)
 
 new Vue({
   router,

@@ -57,13 +57,13 @@
                     </b-button>
                     <b-modal
                       id="modal-hospital"
-                      :title="hospitalProfile"
+                      :title="hospitalProfile +'  '+titleStatuMode+' : '+ modeHispital"
                       title-class="font-18"
                       hide-footer
                     >
                       <popupProfile
                         :form="form"
-                        :mode="mode"
+                        :mode="modeHispital"
                         :hospitalData="hospitalData"
                       />
                     </b-modal>
@@ -76,7 +76,7 @@
 
         <div class="card">
           <div class="card-body">
-            <OrganizationalCharacteristics :dataSet="OrganizationalCharacteristicsData"/>
+            <OrganizationalCharacteristics :mode="modeOrgran" :dataSet="OrganizationalCharacteristicsData"/>
               <b-button v-b-modal.modal-Organizational variant="success">
                 <i
                   class="fas fa-address-book font-size-16 align-middle me-2"
@@ -85,13 +85,12 @@
               </b-button>
               <b-modal
                 id="modal-Organizational"
-                :title="OrganizationalCharacteristics"
+                :title="OrganizationalCharacteristics+'  '+titleStatuMode+' : '+ modeOrgran"
                 title-class="font-18"
                 hide-footer
               >
                 <Organizational
-                  :form="form"
-                  :mode="mode"
+                  :mode="modeOrgran"
                   :dataSet="OrganizationalCharacteristicsData"
                   :policyData="policyData"/></b-modal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <b-button
@@ -106,12 +105,12 @@
               </b-button>
               <b-modal
                 id="modal-OrganizationalPerson"
-                :title="PersonInChargeOfAdolescentClinic"
+                :title="PersonInChargeOfAdolescentClinic+'  '+titleStatuMode+' : '+ modeHispital"
                 title-class="font-18"
                 hide-footer
                 ><PersonInChargeOfAdolescentClinic
                   :form="form"
-                  :mode="mode"
+                  :mode="modeHispital"
                   :ContactData="ContactData"                  
               /></b-modal>            
           </div>
@@ -169,6 +168,7 @@ export default {
   data() {
     return {
       DataSetQuestionnaire: Dataquestionnaire,
+      titleStatuMode: appConfig.titleStatuMode,
       informationHeader: appConfig.informationHeader,
       informationDetail: appConfig.informationDetail,
       linkeHome: appConfig.linkeHome,
@@ -207,6 +207,8 @@ export default {
       ContactData: null,
       hospitalData: null,
       DataSet:null,
+      modeHispital:null,
+      modeOrgran:null,
       f_hospitalname: null,
       OrganizationalCharacteristicsData: null,      
     };
@@ -231,31 +233,58 @@ export default {
     this.getContact();
     this.getProfile();
     this.getHospital();    
-    if(this.OrganizationalCharacteristicsData == null){
-      console.log("null")
-    }else{
-      console.log('test')
-    }
+  
   },
   methods: {
     async getContact(){
       const results = await contactService.getContactAll();
-      this.ContactData = results.result   
+      if(results.messagesboxs == 'unSuccess' ){
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputContact ,
+              text: appConfig.plaseInputMessageContact ,
+              allowOutsideClick: false,
+            });
+      }else{
+        this.ContactData = results.result           
+      }
       return results
     },
     async getProfile(){
       const result = await profileService.getProfileByCode();
-      this.OrganizationalCharacteristicsData = result.result    
-      
-      this.visionData = this.OrganizationalCharacteristicsData.f_vision;
-      this.goalData = this.OrganizationalCharacteristicsData.f_gotoKnow;
-      this.missionData = this.OrganizationalCharacteristicsData.f_mistion;
-      this.policyData = this.OrganizationalCharacteristicsData.f_policy;
+      if(result.messagesboxs == 'unSuccess' ){
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputOrgran ,
+              text: appConfig.plaseInputMessageOrgran ,
+              allowOutsideClick: false,
+            });
+        this.modeOrgran = 'Create'                 
+      }else{
+        this.OrganizationalCharacteristicsData = result.result   
+        this.visionData = this.OrganizationalCharacteristicsData.f_vision;
+        this.goalData = this.OrganizationalCharacteristicsData.f_gotoKnow;
+        this.missionData = this.OrganizationalCharacteristicsData.f_mistion;
+        this.policyData = this.OrganizationalCharacteristicsData.f_policy;
+        this.modeOrgran = 'Update'
+      }
+      console.log(this.modeOrgran)
       return result
     },
     async getHospital(){
       const resultx = await HospitalService.getHospitalByCode();
-      this.hospitalData = resultx.result[0]      
+      if(resultx.messagesboxs == 'unSuccess' ){
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputMessage ,
+              text: appConfig.plaseInputProfile ,
+              allowOutsideClick: false,
+            });
+        this.modeHispital = 'Create'         
+      }else{      
+        this.hospitalData = resultx.result[0]
+        this.modeHispital = 'Update'        
+      }
       return resultx
     }
   },

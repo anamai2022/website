@@ -121,9 +121,7 @@ export default {
     handleReset() {
       location.reload();
     },
-    handleSave() {
-      console.log('test')
-    },
+    handleSave() {},
      
   },
   beforeCreate() {},

@@ -3,7 +3,7 @@
     <b-form>
       <b-form-group
         class="mb-3"
-        label="ชื่อสถานบริการ:	"
+        label="ชื่อสถานบริการ:"
         label-for="formrow-firstname-input"
       >
         <b-form-input
@@ -209,7 +209,7 @@ export default {
       console.log("handle Reset", this.hospitalData);
     },
     async handleSave() {
-      if (this.hospitalData.f_code == null) {
+      if (this.mode == 'Create') {
         let hopsital = {
           f_code: this.hospitalData.f_code,
           f_hospitalname: this.hospitalData.f_hospitalname,
@@ -223,7 +223,8 @@ export default {
           f_ipaddress: this.ipAddressData,
           f_status: 1,
         };
-        await HospitalService.getSaveByCode(hopsital);        
+        let resultCreate = await HospitalService.getSaveByCode(hopsital);           
+        this.$router.go()
       } else {
         let hopsital = {
           f_hospitalname: this.hospitalData.f_hospitalname,
@@ -236,7 +237,8 @@ export default {
           f_longitude: this.longitude,
           f_ipaddress: this.ipAddressData,
         }
-        await HospitalService.getUpdateAll(this.hospitalData.f_code,hopsital)
+        let resultUpdate = await HospitalService.getUpdateAll(this.hospitalData.f_code,hopsital)
+        this.$router.go()  
       }
     },
     handleGetlocationMapPressed() {

@@ -67,7 +67,7 @@ export default {
                 text: response.data.messagesboxs,
                 allowOutsideClick: false,
               });
-              this.$router.push('/');
+              this.$router.go()
           }
         })
         .catch(error => {
@@ -77,7 +77,7 @@ export default {
                 text: 'กรุณาติดต่อเจ้าหน้าที่ : '+ error,
                 allowOutsideClick: false,
               });
-          this.$router.push('/');
+         this.$router.go()
         })  
         }else{
         this.$swal({
@@ -86,7 +86,7 @@ export default {
               text: 'กรุณาติดต่อเจ้าหน้าที่ : ',
               allowOutsideClick: false,
             });
-        this.$router.push('/');
+        this.$router.go()
         }
     
     },

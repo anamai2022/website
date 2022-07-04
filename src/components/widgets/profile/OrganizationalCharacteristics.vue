@@ -39,7 +39,7 @@
 <script>import appConfig from "@/app.config";
 export default {
   name: 'OrganizationalCharacteristics',
-  props: ["form","mode","dataSet"],  
+  props: ["mode","dataSet"],  
   page: {
     title: appConfig.shortname,
     meta: [
@@ -71,9 +71,15 @@ export default {
   },
   computed: {},
   methods: {},
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
+  beforeCreate() {
+    
+  },
+  created() {
+     console.log(this.mode)
+  },
+  beforeMount() {
+    console.log(this.mode)
+  },
   mounted() {},
   beforeUpdate() {},
   updated() {},

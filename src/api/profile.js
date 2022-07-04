@@ -12,16 +12,16 @@ export class ProfileProvider extends HttpRequest {
 
       async getProfileByCode() {
         try {
-          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));
+          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));          
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
         }
       } 
       
-      async getSaveProfileByCode() {
+      async getSaveProfileByCode(payload) {
         try {
-          const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+localStorage.getItem("profile"));
+          const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/profile/",payload);
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
@@ -29,6 +29,7 @@ export class ProfileProvider extends HttpRequest {
       }
 
       async getUpdateAll(f_code,payload){
+        console.log(f_code,payload)
         try {
           const { data } = await axios.put(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+ f_code,payload);          
           return data;
