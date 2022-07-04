@@ -30,12 +30,10 @@ export default {
   },
   data() {
     return {
-      user: {
         firstName: null,
         lastName: null,
         email: null,
         password: null,
-      },
       submitted: false,
       regError: null,
       tryingToRegister: false,
@@ -54,6 +52,10 @@ export default {
       logointitle: appConfig.logointitle,
       titleHeader: appConfig.title,
       ForgotYourPassword: appConfig.ForgotYourPassword,
+      loginAccount: appConfig.loginAccount,
+      agreeAccount: appConfig.agreeAccount,
+      TermsofUse: appConfig.TermsofUse,
+      Register: appConfig.Register,
     };
   },
   validations: {
@@ -73,71 +75,48 @@ export default {
       },
     },
   },
-  computed: {
-    ...mapState("authfack", ["status"]),
-    notification() {
-      return this.$store ? this.$store.state.notification : null;
-    },
-  },
+  computed: {},
   methods: {
-    ...authMethods,
-    ...authFackMethods,
-    ...notificationMethods,
-    // Try to register the user in with the email, username
-    // and password they provided.
     tryToRegisterIn() {
       this.submitted = true;
-      // stop here if form is invalid
-      this.$v.$touch();
-
-      if (this.$v.$invalid) {
-        return;
-      } else {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          this.tryingToRegister = true;
-          // Reset the regError if it existed.
-          this.regError = null;
-          return (
-            this.register({
-              email: this.user.email,
-              password: this.user.password,
-            })
-              // eslint-disable-next-line no-unused-vars
-              .then((token) => {
-                this.tryingToRegister = false;
-                this.isRegisterError = false;
-                this.registerSuccess = true;
-                if (this.registerSuccess) {
-                  this.$router.push(
-                    this.$route.query.redirectFrom || {
-                      name: "default",
-                    }
-                  );
-                }
-              })
-              .catch((error) => {
-                this.tryingToRegister = false;
-                this.regError = error ? error : "";
-                this.isRegisterError = true;
-              })
-          );
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "fakebackend") {
-          const { email, firstName, lastName, password } = this.user;
-          if (email && firstName && lastName && password) {
-            this.registeruser(this.user);
+      if(this.firstName != null && this.lastName != null && this.email != null){
+        let payload = {
+          f_firstName: this.firstName,
+          f_lastName: this.lastName,
+          f_email: this.email,
+          f_remark: this.password,
+        };
+        axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/user/register", payload)
+        .then((response) => {
+          if(response.data.messagesboxs == 'Success'){
+              this.$router.push('/logincode')
+          }else{
+              this.$swal({
+                icon: "error",
+                title: "ไม่สามารถลงทะเบียนระบบได้",
+                text: response.data.messagesboxs,
+                allowOutsideClick: false,
+              });
+              this.$router.push('/logincode');
           }
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "authapi") {
-          axios
-            .post("http://127.0.0.1:8000/api/register", {
-              firstName: this.user.firstName,
-              lastName: this.user.lastName,
-              email: this.user.email,
-              password: this.user.password,
-            })
-            .then((res) => {
-              return res;
+        })
+        .catch(error => {
+          this.$swal({
+                icon: "error",
+                title: "ไม่สามารถลงทะเบียนระบบได้",
+                text: 'กรุณาติดต่อเจ้าหน้าที่ : '+ error,
+                allowOutsideClick: false,
+              });
+          this.$router.push('/logincode');
+        })        
+      }else{
+        this.$swal({
+              icon: "error",
+              title: "ไม่สามารถลงทะเบียนระบบได้",
+              text: 'กรุณาติดต่อเจ้าหน้าที่ : ',
+              allowOutsideClick: false,
             });
-        }
+        this.$router.push('/logincode');
       }
     },
   },
@@ -198,13 +177,6 @@ export default {
               >{{ regError }}</b-alert
             >
 
-            <div
-              v-if="notification.message"
-              :class="'alert ' + notification.type"
-            >
-              {{ notification.message }}
-            </div>
-
             <b-form class="p-2" @submit.prevent="tryToRegisterIn">
               <b-form-group
                 class="mb-3"
@@ -214,17 +186,25 @@ export default {
               >
                 <b-form-input
                   id="username"
-                  v-model="user.firstName"
+                  name="username"
+                  class="mb-3"
+                  v-model="firstName"
                   type="text"
                   placeholder="Enter firstName"
                   :class="{
                     'is-invalid': submitted && $v.user.firstName.$error,
                   }"
                 ></b-form-input>
-
+                <div
+                  v-if="submitted && !$v.user.firstName.required"
+                  class="invalid-feedback"
+                >
+                  firstName is required.
+                </div>
                 <b-form-input
-                  id="username"
-                  v-model="user.lastName"
+                  id="lastname"
+                  name="lastname"
+                  v-model="lastName"
                   type="text"
                   placeholder="Enter lastName"
                   :class="{
@@ -233,10 +213,10 @@ export default {
                 ></b-form-input>
 
                 <div
-                  v-if="submitted && !$v.user.firstName.required"
+                  v-if="submitted && !$v.user.lastName.required"
                   class="invalid-feedback"
                 >
-                  firstName is required.
+                  lastName is required.
                 </div>
               </b-form-group>
 
@@ -248,7 +228,7 @@ export default {
               >
                 <b-form-input
                   id="email"
-                  v-model="user.email"
+                  v-model="email"
                   type="email"
                   placeholder="Enter email"
                   :class="{ 'is-invalid': submitted && $v.user.email.$error }"
@@ -272,7 +252,7 @@ export default {
               >
                 <b-form-input
                   id="password"
-                  v-model="user.password"
+                  v-model="password"
                   type="password"
                   placeholder="Enter password"
                   :class="{
@@ -288,19 +268,19 @@ export default {
               </b-form-group>
 
               <div class="mt-4 d-grid">
-                <b-button type="submit" variant="primary" class="btn-block"
-                  >Register</b-button
-                >
+                <b-button type="submit" variant="primary" class="btn-block">{{
+                  Register
+                }}</b-button>
               </div>
 
               <div class="mt-4 text-center">
                 <p class="mb-0">
-                  By registering you agree to the Skote
+                  {{ agreeAccount }}
                   <a
                     href="javascript: void(0);"
                     class="text-primary"
                     v-b-modal.modal-standard
-                    >Terms of Use</a
+                    >{{ TermsofUse }}</a
                   >
                   <b-modal
                     id="modal-standard"
@@ -372,10 +352,10 @@ export default {
 
         <div class="mt-5 text-center">
           <p>
-            Already have an account ?
-            <router-link tag="a" to="/login" class="fw-medium text-primary"
-              >Login</router-link
-            >
+            {{ loginAccount }}
+            <router-link tag="a" to="/login" class="fw-medium text-primary">{{
+              Login
+            }}</router-link>
           </p>
 
           <p>

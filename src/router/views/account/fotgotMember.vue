@@ -32,8 +32,8 @@ export default {
       isResetError: false,
       ResetPassword: appConfig.ResetPassword,
       title: appConfig.title,
-      emailLabel: appConfig.memberCode,
-      placeholderMember: appConfig.placeholderMember,
+      emailLabel: appConfig.email,
+      placeholderEmail: appConfig.placeholderEmail,
       RememberIt: appConfig.RememberIt,
       CreateWith: appConfig.CreateWith,
       footerDesign: appConfig.footerDesign,   
@@ -55,40 +55,20 @@ export default {
       this.submitted = true;
       // stop here if form is invalid
       this.$v.$touch();
-        if(this.email != null)       {
-        axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/user/forgotpassword/"+ this.email)
-        .then((response) => {
-          if(response.data.messagesboxs == 'Success'){
-              this.$router.push('/')
-          }else{
-              this.$swal({
-                icon: "error",
-                title: "ไม่พบข้อมูลในระบบ",
-                text: response.data.messagesboxs,
-                allowOutsideClick: false,
-              });
-              this.$router.push('/');
-          }
-        })
-        .catch(error => {
-          this.$swal({
-                icon: "error",
-                title: "ไม่พบข้อมูลในระบบ",
-                text: 'กรุณาติดต่อเจ้าหน้าที่ : '+ error,
-                allowOutsideClick: false,
-              });
-          this.$router.push('/');
-        })  
-        }else{
-        this.$swal({
-              icon: "error",
-              title: "ไม่พบข้อมูลในระบบ",
-              text: 'กรุณาติดต่อเจ้าหน้าที่ : ',
-              allowOutsideClick: false,
-            });
-        this.$router.push('/');
-        }
-    
+
+      if (this.$v.$invalid) {
+        return;
+      } else {
+          axios
+            .post("http://127.0.0.1:8000/api/password/create", {
+              email: this.email,
+            })
+            .then((res) => {
+              this.isResetError = true;
+              this.error = res.data;
+              return res;
+            });        
+      }
     },
   },
 };
@@ -139,20 +119,20 @@ export default {
                 <div class="mb-3">
                   <label for="useremail">{{emailLabel}}</label>
                   <input
-                    type="text"
+                    type="email"
                     v-model="email"
                     class="form-control"
                     id="useremail"
-                    :placeholder="placeholderMember"
+                    :placeholder="placeholderEmail"
                     :class="{ 'is-invalid': submitted && $v.email.$error }"
                   />
                   <div
                     v-if="submitted && $v.email.$error"
                     class="invalid-feedback"
                   >
-                    <span v-if="!$v.email.required">{{placeholderMember}}.</span>
+                    <span v-if="!$v.email.required">Email is required.</span>
                     <span v-if="!$v.email.email"
-                      >{{placeholderMember}}.</span
+                      >Please enter valid email.</span
                     >
                   </div>
                 </div>
