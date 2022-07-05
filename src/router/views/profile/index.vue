@@ -28,7 +28,10 @@ export default {
     var username = localStorage.getItem('token')
       if (!username) {
         this.$router.push('/logincode')
-      } else {
+        localStorage.removeItem('token');
+        localStorage.removeItem('f_code');
+        localStorage.removeItem('profile');
+      } else {        
         this.setUserProfile = localStorage.getItem('token')
       }
       if (this.$route.params.id != null) {      

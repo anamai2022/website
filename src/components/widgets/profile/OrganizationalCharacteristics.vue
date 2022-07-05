@@ -74,12 +74,8 @@ export default {
   beforeCreate() {
     
   },
-  created() {
-     console.log(this.mode)
-  },
-  beforeMount() {
-    console.log(this.mode)
-  },
+  created() {},
+  beforeMount() {},
   mounted() {},
   beforeUpdate() {},
   updated() {},

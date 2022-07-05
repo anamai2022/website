@@ -223,7 +223,13 @@ export default {
           f_ipaddress: this.ipAddressData,
           f_status: 1,
         };
-        let resultCreate = await HospitalService.getSaveByCode(hopsital);           
+        let resultCreate = await HospitalService.getSaveByCode(hopsital);    
+          this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputContact ,
+              text: resultCreate.messagesboxs ,
+              allowOutsideClick: false,
+            });               
         this.$router.go()
       } else {
         let hopsital = {
@@ -238,6 +244,12 @@ export default {
           f_ipaddress: this.ipAddressData,
         }
         let resultUpdate = await HospitalService.getUpdateAll(this.hospitalData.f_code,hopsital)
+          this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputContact ,
+              text: resultUpdate.messagesboxs ,
+              allowOutsideClick: false,
+            });
         this.$router.go()  
       }
     },

@@ -34,5 +34,32 @@ export class MasterProvider extends HttpRequest {
         } catch (error) {
           return { statusCode: error.response.status };
         }        
-      }                   
+      }   
+      
+      async getOrganizationAll(){
+        try {
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/master/organization");
+          return data;
+        } catch (error) {
+          return { statusCode: error.response.status };
+        }        
+      } 
+      
+      async getPositionAll(){
+        try {
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/master/position");
+          return data;
+        } catch (error) {
+          return { statusCode: error.response.status };
+        }        
+      }   
+      
+      async getInstitutionAll(){
+        try {
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/master/institution");
+          return data;
+        } catch (error) {
+          return { statusCode: error.response.status };
+        }        
+      }        
 }

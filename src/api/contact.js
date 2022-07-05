@@ -5,11 +5,19 @@ export class ContactProvider extends HttpRequest {
   
     async getContactAll() {
         try {
-          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/contact/");
-          console.log('Contact Data: ',data)
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/contact/");        
           return data;
         } catch (error) {
           return { statusCode: error.response.status };
         }
-      }    
+      }   
+
+      async SaveContact(payload) {
+        try {
+          const { data } = await this.post(`${process.env.VUE_APP_ENDPOINT}` + "/contact/",payload);            
+          return data;
+        } catch (error) {
+          return { statusCode: error };
+        }
+      }      
 }

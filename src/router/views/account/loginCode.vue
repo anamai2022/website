@@ -57,8 +57,7 @@ export default {
             f_login: this.password,
           })
             .then((response) => {
-              if(response.data.messagesboxs == 'Success'){
-                console.log('test: ',response.data)
+              if(response.data.messagesboxs == 'Success'){                
               let data = response.data.result[0];             
               localStorage.setItem('f_code',this.password);
               localStorage.setItem('profile',data.f_contactId);          

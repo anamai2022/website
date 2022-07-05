@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <p>ลักษณะสำคัญขององค์กร</p>
-    <div class="col-lg-12">
+    <div class="col-lg-12" >
       <b-form>
         <b-form-group
           class="mb-3"
@@ -10,7 +10,9 @@
           label-cols-sm="3"
         >
           <b-form-input
-            id="horizontal-firstname-input"
+            id="f_firstName"
+            name="f_firstName"  
+            v-model="f_firstName"          
             type="text"
           ></b-form-input>
         </b-form-group>
@@ -21,7 +23,15 @@
           label-for="horizontal-email-input"
           label-cols-sm="3"
         >
-          <b-form-input id="horizontal-email-input" type="text"></b-form-input>
+          <el-select id="f_prosition" name="f_prosition" v-model="f_prosition" filterable :placeholder="placeholderSelect">
+            <el-option
+              v-for="item in positionDB"
+              :key="item.f_MasterId"
+              :label="item.f_MasterName"
+              :value="item.f_MasterId"
+            >
+            </el-option>
+          </el-select>   
         </b-form-group>
 
         <b-form-group
@@ -31,7 +41,9 @@
           label-cols-sm="3"
         >
           <b-form-input
-            id="horizontal-password-input"
+            id="f_phone"
+            name="f_phone"  
+            v-model="f_phone"
             type="number"
           ></b-form-input>
         </b-form-group>
@@ -42,7 +54,9 @@
           label-cols-sm="3"
         >
           <b-form-input
-            id="horizontal-password-input"
+            id="f_email"
+            name="f_email"    
+            v-model="f_email"             
             type="email"
           ></b-form-input>
         </b-form-group>
@@ -50,7 +64,7 @@
           ชื่อผู้อำนวยการ :
         </div>
         <div class="col-6">
-          <el-select v-model="form.profile.f_director" filterable :placeholder="placeholderSelect">
+          <el-select v-model="f_director" filterable :placeholder="placeholderSelect">
             <el-option
               v-for="item in ContactData"
               :key="item.f_contactId"
@@ -65,7 +79,7 @@
           ชื่อแพทย์ผู้รับผิดชอบ :
         </div>
         <div class="col-6">
-          <el-select v-model="form.profile.f_physician" filterable :placeholder="placeholderSelect">
+          <el-select v-model="f_physician" filterable :placeholder="placeholderSelect">
             <el-option
               v-for="item in ContactData"
               :key="item.f_contactId"
@@ -93,10 +107,11 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-
+import  { contactService, MasterService  } from "@/api/index.js";
+import moment from 'moment';
 export default {
   name: "PersonInChargeOfAdolescentClinic",
-  props: ["form", "mode", "ContactData"],
+  props: ["mode", "ContactData","hospitalData"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -114,6 +129,14 @@ export default {
       Statement: appConfig.Statement,
       Remark: appConfig.Remark,
       placeholderSelect: appConfig.placeholderSelect,
+      toDay: new Date(),    
+      positionDB:null,
+      f_prosition:null,
+      f_director:null,
+      f_physician:null,
+      f_firstName:null,
+      f_phone:null,
+      f_email:null,
     };
   },
   computed: {},
@@ -121,11 +144,61 @@ export default {
     handleReset() {
       location.reload();
     },
-    handleSave() {},
-     
+  async  handleSave() {
+      console.log('Test')
+      let payload = {
+        f_firstName: this.f_firstName,
+        f_lastName: this.f_lastName,
+        f_nickname: this.f_nickname,
+        f_phone: this.f_phone,
+        f_email: this.f_email,
+        f_line: this.f_line,
+        f_organization:this.f_organization,
+        f_institution: this.f_institution,
+        f_position: this.f_position,
+        f_createDate: moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
+        f_createBy: localStorage.getItem('f_code'),
+        f_status: 1
+      }      
+      console.log(payload)
+      const results = await contactService.SaveContact(payload);    
+      if(results.messagesboxs == 'unSuccess' ){
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInput ,
+              text: results.messagesboxs ,
+              allowOutsideClick: false,
+            });
+      }else{
+        this.positionDB = results.result  
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInput ,
+              text: results.messagesboxs ,
+              allowOutsideClick: false,
+            });         
+      }      
+    }, 
+  async getContact(){
+      const results = await MasterService.getPositionAll();
+   
+      if(results.messagesboxs == 'unSuccess' ){
+        this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputContact ,
+              text: appConfig.plaseInputMessageContact ,
+              allowOutsideClick: false,
+            });
+      }else{
+        this.positionDB = results.result           
+      }
+      return results
+    },
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    this.getContact()
+  },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},

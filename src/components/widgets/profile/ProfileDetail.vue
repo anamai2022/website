@@ -31,7 +31,7 @@
                   />
                 </div>               
                 <h4 class="font-size-14 text-truncate">{{ hospital }}</h4>
-                <p class="text-muted mb-0 text-truncate">{{ hospitalData.f_hospitalname }}</p>              
+                <p class="text-muted mb-0 text-truncate">{{ f_hospitalname }}</p>              
               </div>
 
               <div class="col-sm-7">
@@ -62,7 +62,7 @@
                       hide-footer
                     >
                       <popupProfile
-                        :form="form"
+                        
                         :mode="modeHispital"
                         :hospitalData="hospitalData"
                       />
@@ -108,25 +108,25 @@
                 :title="PersonInChargeOfAdolescentClinic+'  '+titleStatuMode+' : '+ modeHispital"
                 title-class="font-18"
                 hide-footer
-                ><PersonInChargeOfAdolescentClinic
-                  :form="form"
+                ><PersonInChargeOfAdolescentClinic                                    
                   :mode="modeHispital"
-                  :ContactData="ContactData"                  
+                  :ContactData="ContactData"  
+                  :hospitalData="hospitalData"                
               /></b-modal>            
           </div>
         </div>
 
         <div class="card">
-          <assessmentStatus :form="form" :mode="mode" />
+          <assessmentStatus  :mode="mode" />
         </div>
       </div>
 
       <div class="col-xl-8">
         <div class="card">
-          <historyProfile :form="form" :mode="mode" :budgetYear="budgetYear" />
+          <historyProfile :mode="mode" :budgetYear="budgetYear" />
         </div>
         <div class="card" v-if="showImg === true">
-          <Lightbox :form="form" :mode="mode" />
+          <Lightbox  :mode="mode" />
         </div>
       </div>
     </div>
@@ -155,7 +155,7 @@ export default {
       },
     ],
   },
-  props: ["form", "mode"],
+  props: ["mode"],
   components: {
     popupProfile,
     Organizational,
@@ -202,8 +202,7 @@ export default {
       QuestionsAttachment: appConfig.QuestionsAttachment,
       QuestionsGroup: appConfig.QuestionsGroup,
       OrganizationalData: appConfig.OrganizationalData,
-      PersonInChargeOfAdolescentClinic:
-        appConfig.PersonInChargeOfAdolescentClinic,
+      PersonInChargeOfAdolescentClinic: appConfig.PersonInChargeOfAdolescentClinic,
       ContactData: null,
       hospitalData: null,
       DataSet:null,
@@ -229,15 +228,20 @@ export default {
     if (this.gradeSelfAssessmentResults == null) {
       this.gradeSelfAssessmentResults = "F";
     }
-   
     this.getContact();
     this.getProfile();
     this.getHospital();    
-  
+    
   },
   methods: {
     async getContact(){
       const results = await contactService.getContactAll();
+      // if(results.statusCode == 403){
+      //   this.$router.push('/logincode')
+      //   localStorage.removeItem('token');
+      //   localStorage.removeItem('f_code');
+      //   localStorage.removeItem('profile');        
+      // }      
       if(results.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -252,6 +256,12 @@ export default {
     },
     async getProfile(){
       const result = await profileService.getProfileByCode();
+      // if(result.statusCode == 403){
+      //   this.$router.push('/logincode')
+      //   localStorage.removeItem('token');
+      //   localStorage.removeItem('f_code');
+      //   localStorage.removeItem('profile');
+      // }
       if(result.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -268,11 +278,16 @@ export default {
         this.policyData = this.OrganizationalCharacteristicsData.f_policy;
         this.modeOrgran = 'Update'
       }
-      console.log(this.modeOrgran)
       return result
     },
     async getHospital(){
       const resultx = await HospitalService.getHospitalByCode();
+      // if(resultx.statusCode == 403){
+      //   this.$router.push('/logincode')
+      //   localStorage.removeItem('token');
+      //   localStorage.removeItem('f_code');
+      //   localStorage.removeItem('profile');        
+      // }      
       if(resultx.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -280,9 +295,11 @@ export default {
               text: appConfig.plaseInputProfile ,
               allowOutsideClick: false,
             });
+        this.f_hospitalname = null,
         this.modeHispital = 'Create'         
       }else{      
         this.hospitalData = resultx.result[0]
+        this.f_hospitalname = this.hospitalData.f_hospitalname;
         this.modeHispital = 'Update'        
       }
       return resultx
