@@ -11,6 +11,10 @@
         <button class="ex1 btn btn-primary" type="submit" @click="ResetItem()">
           {{ ResetForm }}
         </button>
+        &nbsp;&nbsp;
+        <button class="ex1 btn btn-danger" type="submit" @click="calculator()">
+          {{ calculatorForm }}
+        </button>
       </div>
     </div>
   </div>
@@ -39,8 +43,10 @@ export default {
       title: appConfig.description,
       SubmitForm: appConfig.SubmitForm,
       ResetForm: appConfig.ResetForm,
+      calculatorForm: appConfig.calculatorForm,
       ProfileData: null,
       YearData: null,
+      sumTotal:100,
     };
   },
   computed: {},
@@ -50,6 +56,15 @@ export default {
     },
     ResetItem() {
       console.log("Reset");
+    },
+    calculator(){
+      console.log('calculator',this.sumTotal)
+                 this.$swal({
+                  icon: "success",
+                  title: "ผลคำนวณ",
+                  text: this.sumTotal,
+                  allowOutsideClick: false,
+                });      
     },
     async getYear(){
       const results = await MasterService.getYearAll();
