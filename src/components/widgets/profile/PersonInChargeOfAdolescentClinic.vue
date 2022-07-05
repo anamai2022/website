@@ -23,12 +23,12 @@
           label-for="horizontal-email-input"
           label-cols-sm="3"
         >
-          <el-select id="f_prosition" name="f_prosition" v-model="f_prosition" filterable :placeholder="placeholderSelect">
+          <el-select v-model="value" filterable :placeholder="placeholderSelect">
             <el-option
-              v-for="item in positionDB"
+              v-for="item in positionDB"              
               :key="item.f_MasterId"
               :label="item.f_MasterName"
-              :value="item.f_MasterId"
+              :value="item.f_MasterName"
             >
             </el-option>
           </el-select>   
@@ -60,35 +60,35 @@
             type="email"
           ></b-form-input>
         </b-form-group>
-        <div class="col-6">
-          ชื่อผู้อำนวยการ :
-        </div>
-        <div class="col-6">
-          <el-select v-model="f_director" filterable :placeholder="placeholderSelect">
-            <el-option
-              v-for="item in ContactData"
-              :key="item.f_contactId"
-              :label="item.f_firstName +' '+item.f_lastName"
-              :value="item.f_contactId"
-            >
-            </el-option>
-          </el-select>          
-        </div>
 
-        <div class="col-6">
-          ชื่อแพทย์ผู้รับผิดชอบ :
-        </div>
-        <div class="col-6">
-          <el-select v-model="f_physician" filterable :placeholder="placeholderSelect">
-            <el-option
-              v-for="item in ContactData"
-              :key="item.f_contactId"
-              :label="item.f_firstName +' '+item.f_lastName"
-              :value="item.f_contactId"
-            >
-            </el-option>
-          </el-select>          
-        </div>
+       <b-form-group
+          class="mb-4"
+          label="ชื่อผู้อำนวยการ :"
+          label-for="horizontal-password-input"
+          label-cols-sm="3"
+        >
+          <b-form-input
+            id="f_director"
+            name="f_director"    
+            v-model="f_director"             
+            type="email"
+          ></b-form-input>
+        </b-form-group>
+
+       <b-form-group
+          class="mb-4"
+          label="ชื่อแพทย์ผู้รับผิดชอบ : "
+          label-for="horizontal-password-input"
+          label-cols-sm="3"
+        >
+          <b-form-input
+            id="f_physician"
+            name="f_physician"    
+            v-model="f_physician"             
+            type="email"
+          ></b-form-input>
+        </b-form-group>
+
         <br>
       </b-form>
     </div>
@@ -107,7 +107,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-import  { contactService, MasterService  } from "@/api/index.js";
+import  { contactService, MasterService, profileService  } from "@/api/index.js";
 import moment from 'moment';
 export default {
   name: "PersonInChargeOfAdolescentClinic",
@@ -137,6 +137,7 @@ export default {
       f_firstName:null,
       f_phone:null,
       f_email:null,
+      value:null,
     };
   },
   computed: {},
@@ -144,24 +145,76 @@ export default {
     handleReset() {
       location.reload();
     },
-  async  handleSave() {
-      console.log('Test')
-      let payload = {
-        f_firstName: this.f_firstName,
-        f_lastName: this.f_lastName,
-        f_nickname: this.f_nickname,
+  async  handleSave() {      
+    let contact = await contactService.getSearch(this.f_firstName)
+      console.log('contact : ',contact,this.f_firstName)
+      if(contact.messagesboxs == 'unSuccess'){
+        await this.saveData(this.f_firstName) 
+      }else{
+        this.$swal({
+              icon: "warning",
+              title: 'ข้อมูลรายชื่อซ้ำ' ,
+              text: contact.messagesboxs ,
+              allowOutsideClick: false,
+            });
+      }
+    let director = await contactService.getSearch(this.f_director)
+      console.log('director : ',director,this.f_director)
+      if(director.messagesboxs == 'unSuccess'){
+        await this.saveData(this.f_director) 
+      }else{
+        this.$swal({
+              icon: "warning",
+              title: 'ข้อมูลรายชื่อซ้ำ' ,
+              text: director.messagesboxs ,
+              allowOutsideClick: false,
+            });
+      }    
+    let physician = await contactService.getSearch(this.f_physician)              
+      console.log('physician : ',physician,this.f_physician)
+     if(physician.messagesboxs == 'unSuccess'){
+       await this.saveData(this.f_physician) 
+      }else{
+        this.$swal({
+              icon: "warning",
+              title: 'ข้อมูลรายชื่อซ้ำ' ,
+              text: physician.messagesboxs ,
+              allowOutsideClick: false,
+            });
+      }  
+      if(this.hospitalData.length > 0){
+        let payload ={
+          f_hospitalcode: this.f_hospitalcode,
+          f_director: this.f_director,
+          f_physician: this.f_physician,
+          f_responsiblePerson: this.f_responsiblePerson,
+        }
+        await profileService.getSaveProfileByCode(payload)
+      }else{
+          this.$swal({
+              icon: "warning",
+              title: appConfig.plaseInputOrgran,
+              text: appConfig.OrganizationalCharacteristics ,
+              allowOutsideClick: false,
+            });        
+      }  
+    }, 
+  async saveData(name){
+    
+        let payload = {
+        f_firstName: name,
         f_phone: this.f_phone,
         f_email: this.f_email,
         f_line: this.f_line,
         f_organization:this.f_organization,
         f_institution: this.f_institution,
-        f_position: this.f_position,
+        f_position: this.value,
         f_createDate: moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
         f_createBy: localStorage.getItem('f_code'),
         f_status: 1
       }      
       console.log(payload)
-      const results = await contactService.SaveContact(payload);    
+      const results = await contactService.SaveContact(payload);   
       if(results.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -169,16 +222,15 @@ export default {
               text: results.messagesboxs ,
               allowOutsideClick: false,
             });
-      }else{
-        this.positionDB = results.result  
+      }else{ 
         this.$swal({
-              icon: "warning",
+              icon: "success",
               title: appConfig.plaseInput ,
               text: results.messagesboxs ,
               allowOutsideClick: false,
             });         
-      }      
-    }, 
+      }
+  },
   async getContact(){
       const results = await MasterService.getPositionAll();
    
@@ -198,6 +250,7 @@ export default {
   beforeCreate() {},
   created() {
     this.getContact()
+    console.log('hospitalData :',this.hospitalData)
   },
   beforeMount() {},
   mounted() {},

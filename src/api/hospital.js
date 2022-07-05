@@ -24,7 +24,6 @@ export class HospitalProvider extends HttpRequest {
           const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/hospital/",payload);     
           return data;
         } catch (error) {
-          console.log(error)
           return { statusCode: error.response.status };
         }
       }
