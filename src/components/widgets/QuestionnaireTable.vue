@@ -21,11 +21,13 @@
             <p class="ex1">{{ values.f_title }}</p>
           </td>
           <td v-else><b color="red">{{ values.f_title }}</b></td>
-          <td v-if="values.f_hadertitle ==0">{{ totalScore }}</td>
-          <td v-else></td>
+          <td v-if="values.f_hadertitle ==0" v-bind:id="`${values.f_code}data`" v-bind:name="`${values.f_code}data`">{{ totalScore }}</td>
+          <td v-else v-bind:id="`${values.f_code}sum`" v-bind:name="`${values.f_code}sum`">{{Sum}}</td>
           <td v-if="values.f_hadertitle ==0">
             <b-button
               variant="primary"
+              v-bind:id="`${values.f_code}Score`"
+              v-bind:name="`${values.f_code}Score`"              
               v-for="(value, index) in ScoreData"
               :key="index"
               @click="voteScore(value.f_score, index, values.f_code)"
@@ -141,7 +143,7 @@
         </div>
         </div>
       </Drawer>  
-   <Drawer
+      <Drawer
         @close="rightDrawerFormTotal"
         :align="'right'"
         :closeable="true"
@@ -236,6 +238,7 @@ export default {
       DrawerRemark: null,
       showImg: false,
       showFile: false,
+      Sum:0,
     };
   },
   computed: {},
@@ -294,7 +297,11 @@ export default {
     },    
     voteScore(event, i,f_code) {
       console.log("target value: " + event, "Number : ", i, "Code : ", f_code);
-      this.totalScore = event
+      console.log("target id: "+ event);
+      let IdCodes = f_code+'data';
+      let IdSum = f_code+'sum';
+      document.getElementById(IdCodes).innerText = event               
+      document.getElementById(IdSum).innerText = this.Sum 
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
