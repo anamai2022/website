@@ -32,8 +32,8 @@
           </td>
           <td
             v-else
-            v-bind:id="`${values.f_code}sum`"
-            v-bind:name="`${values.f_code}sum`"
+            v-bind:id="`${values.f_question_group}sum`"
+            v-bind:name="`${values.f_question_group}sum`"
           ></td>
           <td v-if="values.f_hadertitle == 0">
             <b-button
@@ -522,7 +522,7 @@ export default {
       );
       console.log("target id: " + event);
       let IdCodes = f_code + "data";
-      let IdSum = f_code + "sum";
+      
       document.getElementById(IdCodes).innerText = event;
       let dataScore = { code: f_code, score: event, group: f_question_group };
       this.Sum.push(dataScore);
@@ -539,6 +539,14 @@ export default {
         return res;
       }, {});
       console.log(result);
+      for (let index = 0; index < result.length; index++) {
+        const element = result[index];
+        console.log(element.group,element.score)
+        if(f_question_group == element.group){
+          let IdSum = f_question_group + "sum";
+          document.getElementById(IdSum).innerHTML = element.score; 
+        }
+      }
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
