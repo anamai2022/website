@@ -26,12 +26,12 @@
           <td v-if="values.f_hadertitle ==0">
             <b-button
               variant="primary"
-              v-for="(values, index) in ScoreData"
+              v-for="(value, index) in ScoreData"
               :key="index"
-              @click="voteScore(values.f_score, index)"
+              @click="voteScore(value.f_score, index, values.f_code)"
             >
               <i class="font-size-16 align-middle me-2"></i>
-              {{ values.f_score }}</b-button
+              {{ value.f_score }}</b-button
             >&nbsp;&nbsp;
             <b-button variant="secondary" v-if="values.f_description == '1'" @click="rightDrawerDescription(index, values.f_code, values.f_title, values.f_detail)">
               <i class="fas fa-file-alt font-size-16 align-middle me-2"></i>
@@ -41,11 +41,11 @@
               <i class="fas fa-file-upload font-size-16 align-middle me-2"></i>
               {{ uploadfile }}</b-button
             >&nbsp;&nbsp;
-            <b-button variant="success" v-if="values.f_total == '1'">
+            <b-button variant="success" v-if="values.f_total == '1'" @click="rightDrawerYearTotal(index, values.f_code, values.f_title, values.f_detail)">
               <i class="fas fa-file-invoice font-size-16 align-middle me-2"></i>
               {{ fillInInformationYear }}</b-button
             >&nbsp;&nbsp;
-            <b-button variant="warning" v-if="values.f_address_url == '1'">
+            <b-button variant="warning" v-if="values.f_address_url == '1'" @click="rightDrawerFormTotal(index, values.f_code, values.f_title, values.f_detail)">
               <i class="fas fa-file-code font-size-16 align-middle me-2"></i>
               {{ fillInInformation }}</b-button
             >
@@ -54,7 +54,7 @@
         </tr>
       </tbody>
     </table>
-      <!-- <Drawer
+      <Drawer
         @close="rightDrawerDescription"
         :align="'right'"
         :closeable="true"
@@ -64,6 +64,7 @@
         <div v-if="openRightDrawer">
           <div class="offcanvas-header newspaper">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <font color="#BF490D" >{{ evidenceExplanation }}</font><br>
               <font color="#020223">{{DrawerTitle}}</font>
             </h5>
           </div>
@@ -80,7 +81,7 @@
           <Lightbox :form="form" :mode="mode" />
         </div>
         </div>
-      </Drawer> -->
+      </Drawer>
       <Drawer
         @close="rightDrawerUploadFile"
         :align="'right'"
@@ -89,8 +90,9 @@
         :zIndex="1002"
       >
       <div v-if="openRightUploadDrawer">
-          <div class="offcanvas-header newspaper">
+          <div class="offcanvas-header newspaper">            
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <font color="#BF490D" >{{ uploadfile }}</font><br>
               <font color="#020223">{{DrawerTitle}}</font>
             </h5>
           </div>
@@ -111,6 +113,62 @@
         </div>
         </div>
       </Drawer>
+      <Drawer
+        @close="rightDrawerYearTotal"
+        :align="'right'"
+        :closeable="true"
+        :maskClosable="true"
+        :zIndex="1100"
+      >
+        <div v-if="openRightYearDrawer">
+          <div class="offcanvas-header newspaper">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <font color="#BF490D" >{{ fillInInformationYear }}</font><br>
+              <font color="#020223">{{DrawerTitle}}</font>
+            </h5>
+          </div>
+          <div class="offcanvas-body ">
+            <div class="newspaper">
+              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>
+              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}
+            </div>
+          </div>
+          <div class="offcanvas-body ">
+            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>
+          </div>
+        <div class="offcanvas-body " v-if="showImg === true">
+          <Lightbox :form="form" :mode="mode" />
+        </div>
+        </div>
+      </Drawer>  
+   <Drawer
+        @close="rightDrawerFormTotal"
+        :align="'right'"
+        :closeable="true"
+        :maskClosable="true"
+        :zIndex="1100"
+      >
+        <div v-if="openRightFormDrawer">
+          <div class="offcanvas-header newspaper">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+              <font color="#BF490D" >{{ fillInInformation }}</font><br>
+              <font color="#020223">{{DrawerTitle}}</font>
+            </h5>
+          </div>
+          <div class="offcanvas-body ">
+            <div class="newspaper">
+              <h4><font color="#083FD2">{{evidenceExplanation}}</font></h4>
+              &nbsp;&nbsp;&nbsp;&nbsp;{{DrawerRemark}}
+            </div>
+          </div>
+          <div class="offcanvas-body ">
+            <h4><font color="#083FD2">{{QuestionsAttachment}}</font></h4>
+          </div>
+        <div class="offcanvas-body " v-if="showImg === true">
+          <Lightbox :form="form" :mode="mode" />
+        </div>
+        </div>
+      </Drawer>             
   </div>
 </template>
 
@@ -169,7 +227,9 @@ export default {
       f_upload_image: 0,
       f_address_url: 0,
       openRightDrawer: false,
-      openRightDrawerUpload: false,
+      openRightUploadDrawer: false,
+      openRightYearDrawer: false,
+      openRightFormDrawer:false,
       titleDrawer: null,
       DrawerCode: null,
       DrawerTitle: null,
@@ -200,7 +260,7 @@ export default {
     },
     rightDrawerDescription(index, f_code, f_title, f_detail){
       this.openRightDrawer = !this.openRightDrawer;
-      console.log(index,f_code)
+      console.log('Desc : ',index,f_code)
       this.titleDrawer = index
       this.DrawerCode = f_code
       this.DrawerTitle = f_title
@@ -208,7 +268,7 @@ export default {
     },
     rightDrawerUploadFile(index, f_code, f_title, f_detail,f_upload_image,f_upload_file){
       this.openRightUploadDrawer = !this.openRightUploadDrawer;
-      console.log(index,f_code)
+      console.log('Upload : ',index,f_code,f_title,f_upload_file)
       this.titleDrawer = index
       this.DrawerCode = f_code
       this.DrawerTitle = f_title
@@ -216,8 +276,25 @@ export default {
       console.log(index,f_upload_image)
       console.log(index,f_upload_file)
     },
-    voteScore(event, i) {
-      console.log("target value: " + event, "Number : ", i);
+    rightDrawerYearTotal(index, f_code, f_title, f_detail){
+      this.openRightYearDrawer = !this.openRightYearDrawer;
+      console.log('Desc : ',index,f_code)
+      this.titleDrawer = index
+      this.DrawerCode = f_code
+      this.DrawerTitle = f_title
+      this.DrawerRemark = f_detail
+    },
+    rightDrawerFormTotal(index, f_code, f_title, f_detail){
+      this.openRightFormDrawer = !this.openRightFormDrawer;
+      console.log('Desc : ',index,f_code)
+      this.titleDrawer = index
+      this.DrawerCode = f_code
+      this.DrawerTitle = f_title
+      this.DrawerRemark = f_detail
+    },    
+    voteScore(event, i,f_code) {
+      console.log("target value: " + event, "Number : ", i, "Code : ", f_code);
+      this.totalScore = event
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
