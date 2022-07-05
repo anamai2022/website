@@ -75,7 +75,7 @@ export default [
   },
   {
     path: "/logout",
-    name: "logout",
+    name: "logouts",
     meta: {
       authRequired: true,
       beforeResolve(routeTo, routeFrom, next) {
@@ -108,11 +108,11 @@ export default [
     component: () => import("./views/questionnaire"),
   },{
     path: "/questionnaire/:id",
-    name: "questionnaire",
+    name: "questionnaireId",
     component: () => import("./views/questionnaire"),
   },{
     path: "/poll/:id",
-    name: "poll",
+    name: "pollId",
     component: () => import("./views/poll"),
   },{
     path: "/poll",
@@ -144,27 +144,27 @@ export default [
     component: () => import("./views/appove/index"),
   },{ 
     path: "/appove/:id",
-    name: "appove",
+    name: "appoveId",
     component: () => import("./views/appove/index"),
   },{ 
     path: "/appove/inbox",
-    name: "appove",
+    name: "appoveInbox",
     component: () => import("./views/appove/index"),
   },{ 
     path: "/appove/nextlevel",
-    name: "appove",
+    name: "appoveNextlevel",
     component: () => import("./views/appove/nextlevel"),
   },{ 
     path: "/appove/waiting",
-    name: "appove",
+    name: "appoveWaiting",
     component: () => import("./views/appove/waiting"),
   },{ 
     path: "/appove/backlog",
-    name: "appove",
+    name: "appoveBacklog",
     component: () => import("./views/appove/backlog"),
   },{ 
     path: "/appove/appove",
-    name: "appove",
+    name: "appoveAuto",
     component: () => import("./views/appove/appove"),
   }
 ];

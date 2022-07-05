@@ -111,7 +111,7 @@ import  { contactService, MasterService, profileService  } from "@/api/index.js"
 import moment from 'moment';
 export default {
   name: "PersonInChargeOfAdolescentClinic",
-  props: ["mode", "ContactData","hospitalData"],
+  props: ["mode", "ContactData","hospitalData" ,"profileData"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -147,7 +147,6 @@ export default {
     },
   async  handleSave() {      
     let contact = await contactService.getSearch(this.f_firstName)
-      console.log('contact : ',contact,this.f_firstName)
       if(contact.messagesboxs == 'unSuccess'){
         await this.saveData(this.f_firstName) 
       }else{
@@ -159,7 +158,6 @@ export default {
             });
       }
     let director = await contactService.getSearch(this.f_director)
-      console.log('director : ',director,this.f_director)
       if(director.messagesboxs == 'unSuccess'){
         await this.saveData(this.f_director) 
       }else{
@@ -170,8 +168,7 @@ export default {
               allowOutsideClick: false,
             });
       }    
-    let physician = await contactService.getSearch(this.f_physician)              
-      console.log('physician : ',physician,this.f_physician)
+    let physician = await contactService.getSearch(this.f_physician)     
      if(physician.messagesboxs == 'unSuccess'){
        await this.saveData(this.f_physician) 
       }else{
@@ -182,14 +179,17 @@ export default {
               allowOutsideClick: false,
             });
       }  
-      if(this.hospitalData.length > 0){
+      
+      if(this.profileData != null){
         let payload ={
-          f_hospitalcode: this.f_hospitalcode,
-          f_director: this.f_director,
-          f_physician: this.f_physician,
-          f_responsiblePerson: this.f_responsiblePerson,
+          f_hospitalcode: this.hospitalData.f_hospitalcode,
+          f_director: this.f_firstName,
+          f_physician: this.f_director,
+          f_responsiblePerson: this.f_physician,
+          f_updateDate: moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
+          f_updateBy: localStorage.getItem('f_code'),          
         }
-        await profileService.getSaveProfileByCode(payload)
+        await profileService.getUpdateHospitalByCode(this.profileData[0].f_code,payload)
       }else{
           this.$swal({
               icon: "warning",
@@ -197,7 +197,8 @@ export default {
               text: appConfig.OrganizationalCharacteristics ,
               allowOutsideClick: false,
             });        
-      }  
+      } 
+      this.$router.go()   
     }, 
   async saveData(name){
     
@@ -250,7 +251,9 @@ export default {
   beforeCreate() {},
   created() {
     this.getContact()
-    console.log('hospitalData :',this.hospitalData)
+      this.f_director=this.profileData[0].f_responsiblePerson
+      this.f_physician=this.profileData[0].f_physician
+      this.f_firstName=this.profileData[0].f_director
   },
   beforeMount() {},
   mounted() {},

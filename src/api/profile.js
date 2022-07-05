@@ -29,7 +29,6 @@ export class ProfileProvider extends HttpRequest {
       }
 
       async getUpdateAll(f_code,payload){
-        console.log(f_code,payload)
         try {
           const { data } = await axios.put(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+ f_code,payload);          
           return data;
@@ -38,4 +37,14 @@ export class ProfileProvider extends HttpRequest {
           return { statusCode: error.response.status };
         }        
       }
+      async getUpdateHospitalByCode(f_code,payload){
+        console.log(f_code,payload)
+        try {
+          const { data } = await axios.put(`${process.env.VUE_APP_ENDPOINT}` + "/profile/"+ f_code,payload);          
+          return data;
+        } catch (error) {
+          console.log(error)
+          return { statusCode: error.response.status };
+        }        
+      }   
 }

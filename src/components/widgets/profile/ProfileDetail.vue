@@ -111,7 +111,8 @@
                 ><PersonInChargeOfAdolescentClinic                                    
                   :mode="modeHispital"
                   :ContactData="ContactData"  
-                  :hospitalData="hospitalData"                
+                  :hospitalData="hospitalData"
+                  :profileData="OrganizationalCharacteristicsData"                
               /></b-modal>            
           </div>
         </div>
