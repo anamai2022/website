@@ -26,7 +26,7 @@
             <b color="red">{{ values.f_title }}</b>
           </td>
           <td class="subScore" v-if="values.f_hadertitle == 1" >{{values.f_questionWtSub}}</td>          
-          <td class="subScoreBack" v-else>{{values.f_questionWtSub}}</td>
+          <td class="subScoreBack" v-else></td>
           <td class="subScoreBack"
             v-if="values.f_hadertitle == 0"
             v-bind:id="`${values.f_code}data`"
@@ -519,36 +519,35 @@ export default {
       this.DrawerRemark = f_detail;
     },
     voteScore(event, i, f_code, f_question_group, f_section) {
-      console.log(
-        "target value: " + event,
-        "Number : ",
-        i,
-        "Code : ",
-        f_code,
-        "Group : ",
-        f_question_group,
-        "f_section : ",
-        f_section
-      );
-      console.log("target id: " + event);
       let IdCodes = f_code + "data";
       
       document.getElementById(IdCodes).innerText = event;
-      let dataScore = { code: f_code, score: event, group: f_question_group };
+      let dataScore = { code: f_code, score: event, group: f_question_group , tab:f_section};
       this.Sum.push(dataScore);
       console.log("count Array : ", this.Sum.length);
       console.log("Array Data: ", this.Sum);
-
+      console.log('f_question_group:',f_question_group)
+      if(f_section == 'G1'){
       var result = [];
-      this.Sum.reduce(function(res, value) {
+      this.Sum.reduce(function(res, value, tab) {
         if (!res[value.group]) {
-          res[value.group] = { group: value.group, score: 0 };
+          res[value.group] = { group: value.group, score: 0, tab: f_section };
           result.push(res[value.group]);
         }
         res[value.group].score += value.score;
         return res;
       }, {});
-      console.log(result);
+      
+        console.log(result);
+      }else if( f_question_group == 'G2'){
+        var result = [];
+        console.log(result);
+      }else{
+        var result = [];
+        console.log(result);
+      }
+
+
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
         console.log(element.group,element.score)
