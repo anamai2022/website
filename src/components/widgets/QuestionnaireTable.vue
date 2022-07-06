@@ -1,8 +1,9 @@
 <template>
-  <div class="table-responsive">
-    <b
-      ><font color="#083FD2">{{ title }}</font></b
-    >
+  <div class="table-responsive">    
+    <div class="row">
+      <div class="col-6 titleScore">{{ title }}</div>
+      <div class="col-6 score">{{score}}&nbsp;&nbsp;:&nbsp;&nbsp;{{GScore}}</div>
+    </div>
     <table class="table table-nowrap table-hover mb-0">
       <thead>
         <tr>
@@ -10,6 +11,7 @@
           <th scope="col">
             {{ AssessmentCriteria }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GData }}
           </th>
+          <th scope="col subScore">{{ score }}</th>
           <th scope="col">{{ Assessment }}</th>
           <th scope="col">{{ AssessmentDetail }}</th>
         </tr>
@@ -23,14 +25,16 @@
           <td v-else>
             <b color="red">{{ values.f_title }}</b>
           </td>
-          <td
+          <td class="subScore" v-if="values.f_hadertitle == 1" >{{values.f_questionWtSub}}</td>          
+          <td class="subScoreBack" v-else>{{values.f_questionWtSub}}</td>
+          <td class="subScoreBack"
             v-if="values.f_hadertitle == 0"
             v-bind:id="`${values.f_code}data`"
             v-bind:name="`${values.f_code}data`"
           >
             {{ totalScore }}
           </td>
-          <td
+          <td class="score"
             v-else
             v-bind:id="`${values.f_question_group}sum`"
             v-bind:name="`${values.f_question_group}sum`"
@@ -384,7 +388,7 @@ import Satisfaction from "@/components/widgets/questionnaire/Satisfaction.vue";
 import TopForm from "@/components/widgets/questionnaire/TopForm.vue";
 export default {
   name: "QuestionnaireTable",
-  props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title"],
+  props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title", "GScore"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -442,6 +446,12 @@ export default {
       showFile: false,
       Sum: [],
       DataCaculator: 0,
+      titleG1WT:appConfig.titleG1WT,
+      titleG2WT:appConfig.titleG2WT,
+      titleG3WT:appConfig.titleG3WT,
+      titleG4WT:appConfig.titleG4WT,
+      titleG5WT:appConfig.titleG5WT,
+      score:appConfig.score,
       fieldsFile: [{ idFile: 1 }],
       fieldsImage: [{ idImage: 1 }],
     };
@@ -735,5 +745,25 @@ export default {
 }
 .newspaper {
   width: 300px;
+}
+.score{
+  color: #F52909;
+  font-size: 14px;  
+}
+.titleScore{
+  font-weight: bold;
+  color: #F52909;
+  font-size: 14px;
+}
+.subScore{
+  text-align: center;
+  font-weight: bold;
+  color: #0BA934;
+  font-size: 12px;
+}
+.subScoreBack{
+  text-align: center;
+  color: #040404;
+  font-size: 12px;
 }
 </style>

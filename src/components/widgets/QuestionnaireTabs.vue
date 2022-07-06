@@ -3,8 +3,25 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">เลขที่เอกสาร&nbsp;&nbsp;:&nbsp;&nbsp;<font color="red">{{toDayDataFormat}}</font></h4>
-            <p class="card-title-desc">การประเมินตนเองตามมาตราฐานบริการสุขภาพที่เป็นมิตรสำหรับวัยรุ่น</p>
+            <div class="row">
+              <div class="col-6 ">
+                <h4 class="card-title">เลขที่เอกสาร&nbsp;&nbsp;:&nbsp;&nbsp;<font color="red">{{toDayDataFormat}}</font></h4>
+                <p class="card-title-desc">การประเมินตนเองตามมาตราฐานบริการสุขภาพที่เป็นมิตรสำหรับวัยรุ่น</p>                
+              </div>
+              <div class="col-6 rightButton">
+                <button class="btn btn-success" type="submit" @click="SaveItem()">
+                    {{ SubmitForm }}
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-warning" type="submit" @click="ResetItem()">
+                    {{ ResetForm }}
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-danger" type="submit" @click="calculator()">
+                    {{ calculatorForm }}
+                </button>                
+              </div>
+            </div>  
             <b-tabs justified nav-class="nav-tabs-custom" content-class="p-3 text-muted">
               <b-tab active>
                 <template v-slot:title>
@@ -13,10 +30,10 @@
                   </span>
                   <span class="d-none d-sm-inline-block">G1</span>
                     <p id="totalG1" name="totalG1" class="text-muted mb-2">
-                        Total: <font color="red">{{ totalG1 }}</font>
+                        {{totalScore}}: <font color="red">{{ totalG1 }}</font>
                     </p>                  
                 </template>
-                <QuestionnaireTable :GData="G1" :title="titleG1"/>
+                <QuestionnaireTable :GData="G1" :title="titleG1" :GScore="GScore1"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -25,10 +42,10 @@
                   </span>
                   <span class="d-none d-sm-inline-block">G2</span>
                     <p id="totalG2" name="totalG2" class="text-muted mb-2">
-                        Total: <font color="red">{{ totalG2 }}</font>
+                        {{totalScore}}: <font color="red">{{ totalG2 }}</font>
                     </p>                     
                 </template>
-                <QuestionnaireTable :GData="G2" :title="titleG2"/>
+                <QuestionnaireTable :GData="G2" :title="titleG2" :GScore="GScore2"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -37,10 +54,10 @@
                   </span>
                   <span class="d-none d-sm-inline-block">G3</span>
                     <p id="totalG3" name="totalG3" class="text-muted mb-2">
-                        Total: <font color="red">{{ totalG3 }}</font>
+                        {{totalScore}}: <font color="red">{{ totalG3 }}</font>
                     </p>                     
                 </template>
-                <QuestionnaireTable :GData="G3" :title="titleG3"/>
+                <QuestionnaireTable :GData="G3" :title="titleG3" :GScore="GScore3"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -49,10 +66,10 @@
                   </span>
                   <span class="d-none d-sm-inline-block">G4</span>
                     <p id="totalG4" name="totalG4" class="text-muted mb-2">
-                        Total: <font color="red">{{ totalG4 }}</font>
+                        {{totalScore}}: <font color="red">{{ totalG4 }}</font>
                     </p>
                 </template>
-                <QuestionnaireTable :GData="G4" :title="titleG4"/>
+                <QuestionnaireTable :GData="G4" :title="titleG4" :GScore="GScore4"/>
               </b-tab>
               <b-tab>
                 <template v-slot:title>
@@ -61,10 +78,10 @@
                   </span>
                   <span class="d-none d-sm-inline-block">G5</span>
                     <p id="totalG5" name="totalG5" class="text-muted mb-2">
-                        Total: <font color="red">{{ totalG5 }}</font>
+                        {{totalScore}}: <font color="red">{{ totalG5 }}</font>
                     </p>
                 </template>
-                 <QuestionnaireTable :GData="G5" :title="titleG5"/>
+                 <QuestionnaireTable :GData="G5" :title="titleG5" :GScore="GScore5"/>
               </b-tab>
             </b-tabs>
           </div>
@@ -77,7 +94,7 @@ import QuestionnaireTable from "@/components/widgets/QuestionnaireTable.vue";
 import moment from "moment";
 export default {
   name: 'QuestionnaireTabs',
-  props: ["form","mode","questionnaire","budgetYear"],  
+  props: ["form","mode","questionnaire","budgetYear","GScore"],  
   page: {
     title: appConfig.shortname,
     meta: [
@@ -90,6 +107,9 @@ export default {
   components: {QuestionnaireTable, },
   data() {
     return {
+      SubmitForm: appConfig.SubmitForm,
+      ResetForm: appConfig.ResetForm,
+      calculatorForm: appConfig.calculatorForm,      
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
       assessmentStatus: appConfig.assessmentStatus,
       historyProfile: appConfig.historyProfile,
@@ -116,10 +136,33 @@ export default {
       titleG3: appConfig.titleG3,
       titleG4: appConfig.titleG4,
       titleG5: appConfig.titleG5,
+      GScore1:appConfig.titleG1WT,
+      GScore2:appConfig.titleG2WT,
+      GScore3:appConfig.titleG3WT,
+      GScore4:appConfig.titleG4WT,
+      GScore5:appConfig.titleG5WT,   
+      totalScore:appConfig.totalScore, 
+      score:appConfig.score,  
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    SaveItem() {
+      console.log("Save");
+    },
+    ResetItem() {
+      console.log("Reset");
+    },
+    calculator(){
+      console.log('calculator',this.sumTotal)
+                 this.$swal({
+                  icon: "success",
+                  title: "ผลคำนวณ",
+                  text: this.sumTotal,
+                  allowOutsideClick: false,
+                });      
+    },    
+  },
   beforeCreate() {},
   created() {},
   beforeMount() {},
@@ -152,5 +195,8 @@ export default {
 }
 .ex1 {
   margin-left: 30px;
+}
+.rightButton{
+  text-align:right
 }
 </style>

@@ -75,7 +75,7 @@
                 </div>
                 <div class="d-flex">
                   <div class="me-3">
-                    <i class="fas fa-user-md h4 text-primary"></i>
+                    <i class="fas fa-hospital-alt h4 text-primary"></i>
                   </div>
                   <div class="flex-grow-1">
                     <div>
@@ -90,29 +90,7 @@
                     </div>
                   </div>
                 </div>
-              </li>
-              <li class="event-list">
-                <div class="event-timeline-dot">
-                  <i class="bx bx-right-arrow-circle"></i>
-                </div>
-                <div class="d-flex">
-                  <div class="me-3">
-                    <i class="fas fa-hospital-alt h4 text-primary"></i>
-                  </div>
-                  <div class="flex-grow-1">
-                    <div>
-                      <h5 class="font-size-15">
-                        <a href="javascript: void(0);" class="text-dark"
-                          >{{assessmentLevel4}}</a
-                        >
-                      </h5>
-                      <span class="text-primary">{{assessmentScore}} : </span><br>
-                      <span class="text-primary">{{assessmentStatusAppove}} : </span><br>
-                      <span class="text-primary">{{assessmentDateAppove}} : </span>
-                    </div>
-                  </div>
-                </div>
-              </li>                            
+              </li>                          
             </ul>
           </div>
         </div>
