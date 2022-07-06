@@ -1,8 +1,10 @@
 <template>
-  <div class="table-responsive">    
+  <div class="table-responsive">
     <div class="row">
       <div class="col-6 titleScore">{{ title }}</div>
-      <div class="col-6 score">{{score}}&nbsp;&nbsp;:&nbsp;&nbsp;{{GScore}}</div>
+      <div class="col-6 score">
+        {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}
+      </div>
     </div>
     <table class="table table-nowrap table-hover mb-0">
       <thead>
@@ -25,19 +27,23 @@
           <td v-else>
             <b color="red">{{ values.f_title }}</b>
           </td>
-          <td class="subScore" v-if="values.f_hadertitle == 1" >{{values.f_questionWtSub}}</td>          
+          <td class="subScore" v-if="values.f_hadertitle == 1">
+            {{ values.f_questionWtSub }}
+          </td>
           <td class="subScoreBack" v-else></td>
-          <td class="subScoreBack"
+          <td
+            class="subScoreBack"
             v-if="values.f_hadertitle == 0"
             v-bind:id="`${values.f_code}data`"
             v-bind:name="`${values.f_code}data`"
           >
             {{ totalScore }}
           </td>
-          <td class="score"
+          <td
+            class="score"
             v-else
-            v-bind:id="`${values.f_question_group}sum`"
-            v-bind:name="`${values.f_question_group}sum`"
+            v-bind:id="`${values.f_section}-${values.f_question_group}sum`"
+            v-bind:name="`${values.f_section}-${values.f_question_group}sum`"
           ></td>
           <td v-if="values.f_hadertitle == 0">
             <b-button
@@ -194,7 +200,7 @@
             <font color="#083FD2">{{ QuestionsAttachment }}</font>
           </h4>
         </div>
-        {{f_upload_file}}
+        {{ f_upload_file }}
         <div class="offcanvas-body " v-if="f_upload_image == 1">
           <div
             v-for="(fieldsFile, index) in fieldsFile"
@@ -388,7 +394,15 @@ import Satisfaction from "@/components/widgets/questionnaire/Satisfaction.vue";
 import TopForm from "@/components/widgets/questionnaire/TopForm.vue";
 export default {
   name: "QuestionnaireTable",
-  props: ["form", "mode", "questionnaire", "budgetYear", "GData", "title", "GScore"],
+  props: [
+    "form",
+    "mode",
+    "questionnaire",
+    "budgetYear",
+    "GData",
+    "title",
+    "GScore",
+  ],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -446,12 +460,12 @@ export default {
       showFile: false,
       Sum: [],
       DataCaculator: 0,
-      titleG1WT:appConfig.titleG1WT,
-      titleG2WT:appConfig.titleG2WT,
-      titleG3WT:appConfig.titleG3WT,
-      titleG4WT:appConfig.titleG4WT,
-      titleG5WT:appConfig.titleG5WT,
-      score:appConfig.score,
+      titleG1WT: appConfig.titleG1WT,
+      titleG2WT: appConfig.titleG2WT,
+      titleG3WT: appConfig.titleG3WT,
+      titleG4WT: appConfig.titleG4WT,
+      titleG5WT: appConfig.titleG5WT,
+      score: appConfig.score,
       fieldsFile: [{ idFile: 1 }],
       fieldsImage: [{ idImage: 1 }],
     };
@@ -494,7 +508,7 @@ export default {
     ) {
       this.openRightUploadDrawer = !this.openRightUploadDrawer;
       console.log("Upload : ", index, f_code, f_title);
-      console.log('type : ',f_upload_image, f_upload_file)
+      console.log("type : ", f_upload_image, f_upload_file);
       this.titleDrawer = index;
       this.DrawerCode = f_code;
       this.DrawerTitle = f_title;
@@ -520,42 +534,64 @@ export default {
     },
     voteScore(event, i, f_code, f_question_group, f_section) {
       let IdCodes = f_code + "data";
-      
-      document.getElementById(IdCodes).innerText = event;
-      let dataScore = { code: f_code, score: event, group: f_question_group , tab:f_section};
-      this.Sum.push(dataScore);
-      console.log("count Array : ", this.Sum.length);
-      console.log("Array Data: ", this.Sum);
-      console.log('f_question_group:',f_question_group)
-      if(f_section == 'G1'){
-      var result = [];
-      this.Sum.reduce(function(res, value, tab) {
-        if (!res[value.group]) {
-          res[value.group] = { group: value.group, score: 0, tab: f_section };
-          result.push(res[value.group]);
-        }
-        res[value.group].score += value.score;
-        return res;
-      }, {});
-      
-        console.log(result);
-      }else if( f_question_group == 'G2'){
-        var result = [];
-        console.log(result);
-      }else{
-        var result = [];
-        console.log(result);
-      }
 
+      document.getElementById(IdCodes).innerText = event;
+      let dataScore = {
+        code: f_code,
+        score: event,
+        group: f_question_group,
+        tab: f_section,
+      };
+      this.Sum.push(dataScore);
+      // console.log("count Array : ", this.Sum.length);
+      // console.log("Array Data: ", this.Sum);
+      // console.log('f_question_group:',f_question_group);
+
+      var result = [];
+      this.Sum.reduce(function(res, value) {
+        if (!res[value.tab]) {
+          if (!res[value.group]) {
+            res[value.group] = { group: value.group, score: 0, tab: f_section };
+            result.push(res[value.group]);
+          }
+          res[value.group].score += value.score;
+          return res;
+        }
+      }, {});
+
+      console.log(result);
 
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
-        console.log(element.group,element.score)
-        if(f_question_group == element.group){
-          let IdSum = f_question_group + "sum";
-          document.getElementById(IdSum).innerHTML = element.score; 
-        }
+        console.log(element.group, element.score, element.tab);
+         if (f_question_group == element.group) {
+            let IdSum = f_section+'-'+f_question_group + "sum";
+            console.log("ById : ", IdSum);
+            document.getElementById(IdSum).innerHTML = element.score;
+          }
       }
+        let yearData = new Date().getFullYear() + 543;          
+        const payload={
+                f_section: IdCode[0],
+                f_docrunning: this.f_docrunning,
+                f_userCode: this.f_userCode,
+                f_zone: this.f_zone,
+                f_province: this.f_province,
+                f_hospitalLevel: this.f_hospitalLevel,
+                f_hospitalCode: this.f_hospitalCode,
+                f_positionCode: this.f_positionCode,
+                f_year: yearData,                               
+                f_score: dataScore,
+                f_title: f_title,
+                f_codetitle: f_code,
+                f_status: 1,
+                f_score: dataScore,
+                f_question:f_question,
+                f_sequence:f_sequence,
+                f_question_group:f_question_group,
+            };
+            console.log( payload)      
+
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
@@ -584,8 +620,8 @@ export default {
     },
     onChangeUploadFile(e) {
       let files = e.target.files || e.dataTransfer.files;
-      let inputFileId =event.currentTarget.id
-      let coderunning = inputFileId.split("FileDoc");      
+      let inputFileId = event.currentTarget.id;
+      let coderunning = inputFileId.split("FileDoc");
       files = e.target.files[0];
       let checkFile = e.target.files;
       if (checkFile.length > 0) {
@@ -603,14 +639,14 @@ export default {
             .post(`${process.env.VUE_APP_ENDPOINT}` + "/upload", fileData)
             .then((result) => {
               let filename = result.data.filename;
-            //  console.log(filename);
+              //  console.log(filename);
               this.$swal({
                 icon: "success",
                 title: "Upload File To Server Success",
                 text: "File Name : " + filename + "ข้อ" + inputFileId,
                 allowOutsideClick: false,
               });
-            const payload={
+              const payload = {
                 f_docrunning: this.f_docrunning,
                 f_userCode: this.f_userCode,
                 f_zone: this.f_zone,
@@ -624,11 +660,11 @@ export default {
                 f_section: coderunning[1],
                 f_filesize: files.size,
                 f_year: this.year,
-                f_type:'file',
+                f_type: "file",
                 f_status: 1,
-            };
-            axios
-              .post("/upload/save", payload)
+              };
+              axios
+                .post("/upload/save", payload)
                 .then((results) => {
                   this.$swal({
                     icon: "success",
@@ -646,8 +682,8 @@ export default {
                     allowOutsideClick: false,
                   });
                 });
-          //  console.log(inputFileId);
-            document.getElementById(inputFileId).disabled = true;
+              //  console.log(inputFileId);
+              document.getElementById(inputFileId).disabled = true;
             });
         } catch (error) {
           this.$swal({
@@ -660,64 +696,63 @@ export default {
       } else {
         console.log("Error file" + files);
       }
-    }, 
-    buttonUploadFile(){
-      let buttonUploadID = event.target.id
-    //  console.log('divId: ' + buttonUploadID)
-      let CodeButton =  buttonUploadID.split('buttonUpload');
-    //  console.log(CodeButton[1]);
-      let codeAddressUrl = 'address_url'+ CodeButton[1];
-      let codeAdditionalMessage = 'additional_message'+ CodeButton[1];
+    },
+    buttonUploadFile() {
+      let buttonUploadID = event.target.id;
+      //  console.log('divId: ' + buttonUploadID)
+      let CodeButton = buttonUploadID.split("buttonUpload");
+      //  console.log(CodeButton[1]);
+      let codeAddressUrl = "address_url" + CodeButton[1];
+      let codeAdditionalMessage = "additional_message" + CodeButton[1];
       var input = document.getElementById(codeAddressUrl).value;
-    //  console.log(input);
+      //  console.log(input);
       var input1 = document.getElementById(codeAdditionalMessage).value;
-    //  console.log(input1);    
-            let yearData = new Date().getFullYear() + 543;
-        const payload={
-              f_docrunning: this.f_docrunning,
-              f_userCode: this.f_userCode,
-              f_zone: this.f_zone,
-              f_province: this.f_province,
-              f_hospitalLevel: this.f_hospitalLevel,
-              f_hospitalCode: this.f_hospitalCode,
-              f_positionCode: this.f_positionCode,
-              f_section: CodeButton[1],
-              f_address_url: input,  
-              f_additional_message: input1,  
-              f_year: yearData,   
-              f_status: 1,                                
-            }; 
+      //  console.log(input1);
+      let yearData = new Date().getFullYear() + 543;
+      const payload = {
+        f_docrunning: this.f_docrunning,
+        f_userCode: this.f_userCode,
+        f_zone: this.f_zone,
+        f_province: this.f_province,
+        f_hospitalLevel: this.f_hospitalLevel,
+        f_hospitalCode: this.f_hospitalCode,
+        f_positionCode: this.f_positionCode,
+        f_section: CodeButton[1],
+        f_address_url: input,
+        f_additional_message: input1,
+        f_year: yearData,
+        f_status: 1,
+      };
       // console.log( payload)
-            try{
-                axios
-                .post(`${process.env.VUE_APP_ENDPOINT}` + "/answerquesion/", payload)
-                .then((results) => {
-      //            console.log(results);            
-                        this.$swal({
-                          icon: "success",
-                          title: results.data.messagesboxs,
-                          text: results.data.statusText,
-                          allowOutsideClick: false,
-                        });          
-                      })
-                      .catch((error) => {
-                        this.$swal({
-                          icon: "error",
-                          title:
-                            "ไม่สามารถเรียกเซอร์วิสการบันทึกข้อมูลการ upload ได้",
-                          text: `${error.response}: ${error.message}`,
-                          allowOutsideClick: false,
-                        });
-                      });
-            }catch(err){
-                  this.$swal({
-                  icon: "error",
-                  title: "ไม่สามารถเชื่อมต่อ Service การให้คะแนน",
-                  text: error,
-                  allowOutsideClick: false,
-                });
-            }
-    },    
+      try {
+        axios
+          .post(`${process.env.VUE_APP_ENDPOINT}` + "/answerquesion/", payload)
+          .then((results) => {
+            //            console.log(results);
+            this.$swal({
+              icon: "success",
+              title: results.data.messagesboxs,
+              text: results.data.statusText,
+              allowOutsideClick: false,
+            });
+          })
+          .catch((error) => {
+            this.$swal({
+              icon: "error",
+              title: "ไม่สามารถเรียกเซอร์วิสการบันทึกข้อมูลการ upload ได้",
+              text: `${error.response}: ${error.message}`,
+              allowOutsideClick: false,
+            });
+          });
+      } catch (err) {
+        this.$swal({
+          icon: "error",
+          title: "ไม่สามารถเชื่อมต่อ Service การให้คะแนน",
+          text: error,
+          allowOutsideClick: false,
+        });
+      }
+    },
   },
   beforeCreate() {},
   created() {
@@ -745,22 +780,22 @@ export default {
 .newspaper {
   width: 300px;
 }
-.score{
-  color: #F52909;
-  font-size: 14px;  
-}
-.titleScore{
-  font-weight: bold;
-  color: #F52909;
+.score {
+  color: #f52909;
   font-size: 14px;
 }
-.subScore{
+.titleScore {
+  font-weight: bold;
+  color: #f52909;
+  font-size: 14px;
+}
+.subScore {
   text-align: center;
   font-weight: bold;
-  color: #0BA934;
+  color: #0ba934;
   font-size: 12px;
 }
-.subScoreBack{
+.subScoreBack {
   text-align: center;
   color: #040404;
   font-size: 12px;
