@@ -11,55 +11,20 @@
                 </div>
             </div>
         <el-table
-    :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-    :default-sort = "{prop: 'date', order: 'descending'}"
+    :data="HospitalData"
+    :default-sort = "{prop: 'f_hospitalname', order: 'descending'}"
     style="width: 100%" 
     stripe
     :row-class-name="tableRowClassName">
     <el-table-column
       fixed
-      prop="date"
+      prop="f_hospitalname"
       label="โรงพยาบาล"
       width="150">
     </el-table-column>
     <el-table-column
-      prop="name"
+      prop="f_province"
       label="จังหวัด"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="state"
-      label="G1"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="city"
-      label="G2"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="G3"
-      width="300">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="G4"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="G5"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="Total"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="ระดับ"
       width="120">
     </el-table-column>
 
@@ -92,14 +57,15 @@
       :page-sizes="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]"
       :page-size="pageSize"
       layout="sizes, prev, pager, next"
-      :total="this.tableData.length">
+      :total="this.HospitalData.length">
     </el-pagination>
           </div>
         </div>
       </div>
-    </div>    
+    </div>   
 </template>
 <script>
+import  {  HospitalService } from "@/api/index.js";
 import appConfig from "@/app.config";
 import { tableData } from "./dataAdvancedtable";
 import BEditableTable from 'bootstrap-vue-editable-table';
@@ -130,17 +96,19 @@ components: {
     BEditableTable
   },  
   data() {
-    return {
-      tableData: tableData,
+    return {    
       informationHeader: appConfig.informationHeader,
       informationDetail: appConfig.informationDetail,
       linkeHome: appConfig.linkeHome,
-      tableData:tableData,
       search: '',
       total:11,
       pageSize: 4,
       page: 1,
+      HospitalData:null,
     };
+  },
+   created() {
+    this.getProfile()
   },
     methods: {
       handleEdit(index, row) {
@@ -166,7 +134,13 @@ components: {
           return 'warning-row';
         }
         return '';
-      },      
+      },   
+    async getProfile(){
+      let f_code = 1
+      const results = await HospitalService.getHospitalZoneAreaAll(f_code);
+      this.HospitalData = results.result      
+      return results
+    },         
     },
 };
 </script>

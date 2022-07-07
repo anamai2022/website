@@ -23,6 +23,7 @@
   </section>
 </template>
 <script>
+import  {  HospitalService } from "@/api/index.js";
 import appConfig from "@/app.config";
 import moment from "moment";
 import { emailData } from "./data-inbox";
@@ -52,11 +53,11 @@ export default {
   },
   data() {
     return {
+      HospitalData:null,
       emailData: emailData,
       paginatedEmailData: emailData,
       appoveTitle: this.titles,
       yearBudget:null,
-      titles: this.mode,
       items: [
         {
           text: appConfig.zoneArea,
@@ -125,6 +126,7 @@ export default {
       this.startIndex,
       this.endIndex
     );
+    this.getProfile()
   },
 
   methods: {
@@ -136,7 +138,13 @@ export default {
         this.startIndex,
         this.endIndex
       );
-    }
+    },
+     async getProfile(){
+      let f_code = 1
+      const results = await HospitalService.getHospitalZoneAreaAll(f_code);
+      this.HospitalData = results.result      
+      return results
+    },     
   },
 async beforeMount() {
   console.log('link id :',this.$route.query.id)

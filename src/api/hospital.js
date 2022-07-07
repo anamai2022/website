@@ -37,4 +37,13 @@ export class HospitalProvider extends HttpRequest {
           return { statusCode: error.response.status };
         }        
       }
+
+      async getHospitalZoneAreaAll(f_code) {
+        try {
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/appove/zone/"+f_code);
+          return data;
+        } catch (error) {
+          return { statusCode: error.response.status };
+        }
+      }        
 }
