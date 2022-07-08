@@ -44,8 +44,7 @@ export default {
       console.log("Reset");
     },
   },
-  created(){
-    console.log('Data Profile : ',this.profile)
+  created(){    
     this.profileDB = this.profile
   },
   mounted() {},
@@ -64,6 +63,7 @@ export default {
       let runningTime = date.format("hhmmss");
       this.toDayDataFormat = runnigYear + runnigMonth + runnigDay + runningTime;
       let d = date.format("YYYY");
+      localStorage.setItem('f_docrunning',this.toDayDataFormat )
     }
     this.year =date.format("YYYY");    
   },

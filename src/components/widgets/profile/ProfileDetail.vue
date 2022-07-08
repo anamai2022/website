@@ -61,10 +61,11 @@
                       title-class="font-18"
                       hide-footer
                     >
-                      <popupProfile
-                        
+                      <popupProfile                        
                         :mode="modeHispital"
                         :hospitalData="hospitalData"
+                        :longitudes="longitude"
+                        :latitudes="latitude"
                       />
                     </b-modal>
                   </div>
@@ -210,6 +211,8 @@ export default {
       modeHispital:null,
       modeOrgran:null,
       f_hospitalname: null,
+      latitude:null,
+      longitude:null,
       OrganizationalCharacteristicsData: null,      
     };
   },
@@ -236,13 +239,7 @@ export default {
   },
   methods: {
     async getContact(){
-      const results = await contactService.getContactAll();
-      // if(results.statusCode == 403){
-      //   this.$router.push('/logincode')
-      //   localStorage.removeItem('token');
-      //   localStorage.removeItem('f_code');
-      //   localStorage.removeItem('profile');        
-      // }      
+      const results = await contactService.getContactAll(); 
       if(results.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -257,12 +254,6 @@ export default {
     },
     async getProfile(){
       const result = await profileService.getProfileByCode();
-      // if(result.statusCode == 403){
-      //   this.$router.push('/logincode')
-      //   localStorage.removeItem('token');
-      //   localStorage.removeItem('f_code');
-      //   localStorage.removeItem('profile');
-      // }
       if(result.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -283,12 +274,6 @@ export default {
     },
     async getHospital(){
       const resultx = await HospitalService.getHospitalByCode();
-      // if(resultx.statusCode == 403){
-      //   this.$router.push('/logincode')
-      //   localStorage.removeItem('token');
-      //   localStorage.removeItem('f_code');
-      //   localStorage.removeItem('profile');        
-      // }      
       if(resultx.messagesboxs == 'unSuccess' ){
         this.$swal({
               icon: "warning",
@@ -301,6 +286,8 @@ export default {
       }else{      
         this.hospitalData = resultx.result[0]
         this.f_hospitalname = this.hospitalData.f_hospitalname;
+        this.longitude = this.hospitalData.f_longitude;
+        this.latitude = this.hospitalData.f_latitude;
         this.modeHispital = 'Update'        
       }
       return resultx

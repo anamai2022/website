@@ -133,7 +133,7 @@
           <p>Latitude : {{ longitude }} Longitude : {{ latitude }}</p>
           <p>IP Address : {{ ipAddressData }}</p>
           <gmap-map
-            :center="{ lat: 13.8497732, lng: 100.526625 }"
+            :center="{ lat: latitudes, lng: longitudes }"
             :zoom="17"
             style="height: 300px"
           >
@@ -166,7 +166,7 @@ import appConfig from "@/app.config";
 import { MasterService, HospitalService } from "@/api/index.js";
 export default {
   name: "PopupProfile",
-  props: ["form", "mode", "hospitalData"],
+  props: ["form", "mode", "hospitalData", "latitudes", "longitudes"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -192,11 +192,10 @@ export default {
       latitude: null,
       ipAddressData: null,
       LevelData: null,
-      markers: [
-        {
+      markers: [],
+      latlog:{
           position: { lat: 13.8497732, lng: 100.526625 },
         },
-      ],
     };
   },
   computed: {},
@@ -239,8 +238,8 @@ export default {
           f_address: this.hospitalData.f_address,
           f_telphone: this.hospitalData.f_telphone,
           f_fax: this.hospitalData.f_fax,
-          f_latitude: this.latitude,
-          f_longitude: this.longitude,
+          f_latitude: this.hospitalData.f_latitude,
+          f_longitude: this.hospitalData.f_longitude,
           f_ipaddress: this.ipAddressData,
         }
         let resultUpdate = await HospitalService.getUpdateAll(this.hospitalData.f_code,hopsital)
@@ -278,6 +277,14 @@ export default {
     this.handleGetlocationMapPressed();
     this.handleGetIpAddress();
     this.getZoneArea();
+    if(this.longitudes != "null" && this.latitudes != "null"){
+      this.markers =  {
+          position: { lat: this.latitudes, lng: this.longitudes },
+        }      
+    }else{
+      this.markers = this.latlog
+    }
+    
   },
   beforeMount() {},
   mounted() {},

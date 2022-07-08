@@ -58,7 +58,10 @@
                   index,
                   values.f_code,
                   values.f_question_group,
-                  values.f_section
+                  values.f_section,
+                  values.f_title,
+                  values.f_question,
+                  values.f_sequence
                 )
               "
             >
@@ -459,6 +462,7 @@ export default {
       showImg: false,
       showFile: false,
       Sum: [],
+      scoreTotal:[],
       DataCaculator: 0,
       titleG1WT: appConfig.titleG1WT,
       titleG2WT: appConfig.titleG2WT,
@@ -532,7 +536,7 @@ export default {
       this.DrawerTitle = f_title;
       this.DrawerRemark = f_detail;
     },
-    voteScore(event, i, f_code, f_question_group, f_section) {
+    voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence) {
       let IdCodes = f_code + "data";
 
       document.getElementById(IdCodes).innerText = event;
@@ -543,10 +547,6 @@ export default {
         tab: f_section,
       };
       this.Sum.push(dataScore);
-      // console.log("count Array : ", this.Sum.length);
-      // console.log("Array Data: ", this.Sum);
-      // console.log('f_question_group:',f_question_group);
-
       var result = [];
       this.Sum.reduce(function(res, value) {
         if (!res[value.tab]) {
@@ -558,12 +558,18 @@ export default {
           return res;
         }
       }, {});
-
-      console.log(result);
-
+      this.scoreTotal = result
+      console.log('map data : ',this.scoreTotal);
+      let payScore = {
+        group : result,
+        f_docrunning: localStorage.getItem("f_docrunning"),
+        f_userCode: localStorage.getItem("f_code"),                
+        f_hospitalCode: localStorage.getItem("profile"),        
+      }
+      console.log('Score Total By Group : ',payScore)
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
-        console.log(element.group, element.score, element.tab);
+       // console.log(element.group, element.score, element.tab);
          if (f_question_group == element.group) {
             let IdSum = f_section+'-'+f_question_group + "sum";
             console.log("ById : ", IdSum);
@@ -572,20 +578,15 @@ export default {
       }
         let yearData = new Date().getFullYear() + 543;          
         const payload={
-                f_section: IdCode[0],
-                f_docrunning: this.f_docrunning,
-                f_userCode: this.f_userCode,
-                f_zone: this.f_zone,
-                f_province: this.f_province,
-                f_hospitalLevel: this.f_hospitalLevel,
-                f_hospitalCode: this.f_hospitalCode,
-                f_positionCode: this.f_positionCode,
+                f_section: f_section,
+                f_docrunning: localStorage.getItem("f_docrunning"),
+                f_userCode: localStorage.getItem("f_code"),                
+                f_hospitalCode: localStorage.getItem("profile"),
                 f_year: yearData,                               
-                f_score: dataScore,
+                f_score: event,
                 f_title: f_title,
                 f_codetitle: f_code,
                 f_status: 1,
-                f_score: dataScore,
                 f_question:f_question,
                 f_sequence:f_sequence,
                 f_question_group:f_question_group,
