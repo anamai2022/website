@@ -61,7 +61,8 @@
                   values.f_section,
                   values.f_title,
                   values.f_question,
-                  values.f_sequence
+                  values.f_sequence,
+                  values
                 )
               "
             >
@@ -536,9 +537,9 @@ export default {
       this.DrawerTitle = f_title;
       this.DrawerRemark = f_detail;
     },
-    voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence) {
+    voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence, dataSet) {
       let IdCodes = f_code + "data";
-
+      console.log('Data question : => ',dataSet)      
       document.getElementById(IdCodes).innerText = event;
       let dataScore = {
         code: f_code,
