@@ -56,9 +56,7 @@ export default {
   },
   computed: {},
   methods: {
-   created() {
-    console.log("ssss",this.MenuData)
-   },
+   created() {},
    windowScroll() {
       const navbar = document.getElementById("navbar");
       if (

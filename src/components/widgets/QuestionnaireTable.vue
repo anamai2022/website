@@ -15,6 +15,7 @@
           </th>
           <th scope="col subScore">{{ score }}</th>
           <th scope="col">{{ Assessment }}</th>
+          <th scope="col">{{ score }}</th>
           <th scope="col">{{ AssessmentDetail }}</th>
         </tr>
       </thead>
@@ -28,7 +29,7 @@
             <b color="red">{{ values.f_title }}</b>
           </td>
           <td class="subScore" v-if="values.f_hadertitle == 1">
-            {{ values.f_questionWtSub }}
+            {{ values.f_questionWtMain }}
           </td>
           <td class="subScoreBack" v-else></td>
           <td
@@ -69,6 +70,9 @@
               <i class="font-size-16 align-middle me-2"></i>
               {{ value.f_score }}</b-button
             >&nbsp;&nbsp;
+          </td>
+          <td v-else></td>
+          <td>           
             <b-button
               variant="secondary"
               v-if="values.f_description == '1'"
@@ -145,9 +149,7 @@
             >
               <i class="fas fa-file-code font-size-16 align-middle me-2"></i>
               {{ fillInInformation }}</b-button
-            >
-          </td>
-          <td v-else></td>
+            ></td>
         </tr>
       </tbody>
     </table>
@@ -570,11 +572,11 @@ export default {
       console.log('Score Total By Group : ',payScore)
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
-       // console.log(element.group, element.score, element.tab);
          if (f_question_group == element.group) {
             let IdSum = f_section+'-'+f_question_group + "sum";
             console.log("ById : ", IdSum);
-            document.getElementById(IdSum).innerHTML = element.score;
+            let count = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
+            document.getElementById(IdSum).innerHTML = count;
           }
       }
         let yearData = new Date().getFullYear() + 543;          
