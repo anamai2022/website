@@ -31,7 +31,7 @@
           <td class="subScore" v-if="values.f_hadertitle == 1">
             {{ values.f_questionWtMain }}
           </td>
-          <td class="subScoreBack" v-else></td>
+          <td class="subScoreBack" v-else>{{ShowScoreWT}}</td>
           <td
             class="subScoreBack"
             v-if="values.f_hadertitle == 0"
@@ -248,6 +248,7 @@
 
 <script>
 import appConfig from "@/app.config";
+import Config from "@/config.json";
 import Drawer from "vue-simple-drawer";
 import { MasterService, QuestionnaireService } from "@/api/index.js";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
@@ -332,6 +333,7 @@ export default {
       titleG3WT: appConfig.titleG3WT,
       titleG4WT: appConfig.titleG4WT,
       titleG5WT: appConfig.titleG5WT,
+      ShowScoreWT: Config.ShowScoreWT,
       score: appConfig.score,
       fieldsFile: [{ idFile: 1 }],
       fieldsImage: [{ idImage: 1 }],
