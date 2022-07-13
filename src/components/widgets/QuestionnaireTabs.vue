@@ -31,7 +31,8 @@
                   <span class="d-none d-sm-inline-block">G1</span>
                     <p id="totalG1" name="totalG1" class="text-muted mb-2">
                         {{totalScore}}: <font color="red">{{ totalG1 }}</font>
-                    </p>                  
+                    </p>
+                    <input type="number" id="G1PassTotal" name="G1PassTotal" v-model="G1PassTotal" readonly>                  
                 </template>
                 <QuestionnaireTable :GData="G1" :title="titleG1" :GScore="GScore1"/>
               </b-tab>
@@ -43,7 +44,8 @@
                   <span class="d-none d-sm-inline-block">G2</span>
                     <p id="totalG2" name="totalG2" class="text-muted mb-2">
                         {{totalScore}}: <font color="red">{{ totalG2 }}</font>
-                    </p>                     
+                    </p> 
+                    <input type="number" id="G2PassTotal" name="G2PassTotal" v-model="G2PassTotal" readonly>                                      
                 </template>
                 <QuestionnaireTable :GData="G2" :title="titleG2" :GScore="GScore2"/>
               </b-tab>
@@ -55,7 +57,8 @@
                   <span class="d-none d-sm-inline-block">G3</span>
                     <p id="totalG3" name="totalG3" class="text-muted mb-2">
                         {{totalScore}}: <font color="red">{{ totalG3 }}</font>
-                    </p>                     
+                    </p>  
+                    <input type="number" id="G3PassTotal" name="G3PassTotal" v-model="G3PassTotal" readonly>                                     
                 </template>
                 <QuestionnaireTable :GData="G3" :title="titleG3" :GScore="GScore3"/>
               </b-tab>
@@ -68,6 +71,7 @@
                     <p id="totalG4" name="totalG4" class="text-muted mb-2">
                         {{totalScore}}: <font color="red">{{ totalG4 }}</font>
                     </p>
+                    <input type="number" id="G4PassTotal" name="G4PassTotal" v-model="G4PassTotal" readonly>                  
                 </template>
                 <QuestionnaireTable :GData="G4" :title="titleG4" :GScore="GScore4"/>
               </b-tab>
@@ -80,6 +84,7 @@
                     <p id="totalG5" name="totalG5" class="text-muted mb-2">
                         {{totalScore}}: <font color="red">{{ totalG5 }}</font>
                     </p>
+                    <input type="number" id="G5PassTotal" name="G5PassTotal" v-model="G5PassTotal" readonly>                  
                 </template>
                  <QuestionnaireTable :GData="G5" :title="titleG5" :GScore="GScore5"/>
               </b-tab>
@@ -131,6 +136,11 @@ export default {
       G3:"G3",
       G4:"G4",
       G5:"G5",
+      G1PassTotal:20,
+      G2PassTotal:10,
+      G3PassTotal:20,
+      G4PassTotal:10,
+      G5PassTotal:10,
       titleG1: appConfig.titleG1,
       titleG2: appConfig.titleG2,
       titleG3: appConfig.titleG3,
@@ -154,6 +164,7 @@ export default {
       console.log("Reset");
     },
     calculator(){
+      this.sumTotal = this.G1PassTotal + this.G2PassTotal + this.G3PassTotal + this.G4PassTotal + this.G5PassTotal
       console.log('calculator',this.sumTotal)
                  this.$swal({
                   icon: "success",

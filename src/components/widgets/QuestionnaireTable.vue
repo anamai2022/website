@@ -13,7 +13,7 @@
           <th scope="col">
             {{ AssessmentCriteria }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GData }}
           </th>
-          <th scope="col subScore">{{ score }}</th>
+          <th scope="col subScore">{{ wigthScore }}</th>
           <th scope="col">{{ Assessment }}</th>
           <th scope="col">{{ score }}</th>
           <th scope="col">{{ AssessmentDetail }}</th>
@@ -29,9 +29,10 @@
             <b color="red">{{ values.f_title }}</b>
           </td>
           <td class="subScore" v-if="values.f_hadertitle == 1">
-            {{ values.f_questionWtMain }}
+            <div v-if="ShowScoreWT ==1">{{ values.f_questionWtMain }}</div>
+            <div v-else></div>
           </td>
-          <td class="subScoreBack" v-else>{{ShowScoreWT}}</td>
+          <td class="subScoreBack" v-else></td>
           <td
             class="subScoreBack"
             v-if="values.f_hadertitle == 0"
@@ -45,12 +46,12 @@
             v-else
             v-bind:id="`${values.f_section}-${values.f_question_group}sum`"
             v-bind:name="`${values.f_section}-${values.f_question_group}sum`"
-          ></td>
+          > = </td>
           <td v-if="values.f_hadertitle == 0">
             <b-button
               variant="primary"
-              v-bind:id="`${values.f_code}Score`"
-              v-bind:name="`${values.f_code}Score`"
+              v-bind:id="`${index}-${values.f_code}-Score`"
+              v-bind:name="`${index}-${values.f_code}-Score`"
               v-for="(value, index) in ScoreData"
               :key="index"
               @click="
@@ -71,7 +72,10 @@
               {{ value.f_score }}</b-button
             >&nbsp;&nbsp;
           </td>
-          <td v-else></td>
+          <td v-else
+            v-bind:id="`${values.f_section}-${values.f_question_group}title`"
+            v-bind:name="`${values.f_section}-${values.f_question_group}title`"
+          ></td>
           <td>           
             <b-button
               variant="secondary"
@@ -335,8 +339,9 @@ export default {
       titleG5WT: appConfig.titleG5WT,
       ShowScoreWT: Config.ShowScoreWT,
       score: appConfig.score,
+      wigthScore: appConfig.wigthScore,
       fieldsFile: [{ idFile: 1 }],
-      fieldsImage: [{ idImage: 1 }],
+      fieldsImage: [{ idImage: 1 }],      
     };
   },
   computed: {},
@@ -406,8 +411,11 @@ export default {
     },
     voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence, dataSet) {
       let IdCodes = f_code + "data";
+      let IdScore = i +'-'+f_code+'-'+"Score";
+      console.log('Id Data: ',IdCodes,'Id Score :',IdScore)
       console.log('Data question : => ',dataSet)      
-      document.getElementById(IdCodes).innerText = event;
+      document.getElementById(IdCodes).innerText = event;     
+      document.getElementById(IdScore).disabled = true;   
       let dataScore = {
         code: f_code,
         score: event,
@@ -435,13 +443,14 @@ export default {
         f_hospitalCode: localStorage.getItem("profile"),        
       }
       console.log('Score Total By Group : ',payScore)
+      console.log('Data Total : ', dataSet.f_questionWtMain)
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
          if (f_question_group == element.group) {
             let IdSum = f_section+'-'+f_question_group + "sum";
-            console.log("ById : ", IdSum);
-            let count = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
-            document.getElementById(IdSum).innerHTML = count;
+            let IdSumTitle = f_section+'-'+f_question_group + "title";
+            document.getElementById(IdSum).innerHTML = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
+            document.getElementById(IdSumTitle).innerHTML = element.score + '/' +  dataSet.f_questionWtSub + '*' + dataSet.f_questionWtMain                        
           }
       }
         let yearData = new Date().getFullYear() + 543;          
