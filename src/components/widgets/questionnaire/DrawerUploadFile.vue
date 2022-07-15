@@ -137,7 +137,7 @@
 <script>
 import appConfig from "@/app.config";
 import Drawer from "vue-simple-drawer";
-import { MasterService } from "@/api/index.js";
+import { attachmentService } from "@/api/index.js";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 
 export default {
@@ -167,11 +167,13 @@ export default {
       f_address_url: 0,      
       fieldsFile: [{ idFile: 1 }],
       fieldsImage: [{ idImage: 1 }],
+      index: 0,
+      indexs: 0,
     };
   },
   computed: {},
   methods: {
-  onChangeUploadImg(e) {
+async onChangeUploadImg(e) {
       let inputFileId =event.currentTarget.id
       let files = e.target.files || e.dataTransfer.files;
       let coderunning = inputFileId.split("FileImg"); 
@@ -183,19 +185,10 @@ export default {
         console.log("Error file" + files);
       }
       const fileData = new FormData();
-      fileData.append("file", files);
-      try {
-        axios
-          .post(`${process.env.VUE_APP_ENDPOINT}` + "/upload", fileData)
-          .then((result) => {
-            let filename = result.data.filename;
-            this.$swal({
-              icon: "success",
-              title: "upload Image To Server Success",
-              text: "File Name : " + filename + "ข้อ" + inputFileId,
-              allowOutsideClick: false,
-            });
-            const payload={
+      fileData.append("file", files);     
+    let result = await attachmentService.SaveImg(fileData)
+    let filename = result.filename;
+          let payload={
                 f_docrunning: this.f_docrunning,
                 f_userCode: this.f_userCode,
                 f_zone: this.f_zone,
@@ -212,60 +205,32 @@ export default {
                 f_type:'image',
                 f_status: 1,
             };
-            axios
-              .post("/upload/save", payload)
-                .then((results) => {
-                  this.$swal({
-                    icon: "success",
-                    title: results.data.message,
-                    text: results.data.statusText,
-                    allowOutsideClick: false,
-                  });
-                })
-                .catch((error) => {
-                  this.$swal({
-                    icon: "error",
-                    title:
-                      "ไม่สามารถเรียกเซอร์วิสการบันทึกข้อมูลการ upload ได้",
-                    text: `${error.response}: ${error.message}`,
-                    allowOutsideClick: false,
-                  });
-                });
-          //  console.log(inputFileId);
-            document.getElementById(inputFileId).disabled = true;
-          });
-      } catch (error) {
-        this.$swal({
-          icon: "error",
-          title: "ไม่สามารถบันทึการ upload ลงฐานข้อมูลได้",
-          text: error,
-          allowOutsideClick: false,
-        });
-      }
+            console.log('payload', payload)
+      await attachmentService.InsertData(payload)
     },    
-    buttonAddFileUpload(event, f_code, index) {
+  buttonAddFileUpload(event, f_code, index) {
       let uploadId = event.target.id;
       console.log(uploadId);
       console.log(event);
       console.log("f_code : " + f_code);
       this.fieldsFile.push({ FileDoc: "" });
     },
-    buttonDeleteFileUpload(index) {
+  buttonDeleteFileUpload(index) {
       this.fieldsFile.splice(index, 1);
       console.log(index);
     },
-    buttonAddImageUpload(event, f_code, index) {
+  buttonAddImageUpload(event, f_code, index) {
       let uploadId = event.target.id;
       console.log(uploadId);
       console.log(event);
       console.log("f_code : " + f_code);
       this.fieldsImage.push({ FileImage: "" });
     },
-    buttonDeleteImageUpload(index) {
+  buttonDeleteImageUpload(index) {
       this.fieldsImage.splice(index, 1);
       console.log(index);
     },
-    onChangeUploadFile(e) {
+async onChangeUploadFile(e) {
       let files = e.target.files || e.dataTransfer.files;
       let inputFileId = event.currentTarget.id;
       let coderunning = inputFileId.split("FileDoc");
@@ -281,19 +246,9 @@ export default {
         console.log("File upload commit ::::::");
         const fileData = new FormData();
         fileData.append("file", files);
-        try {
-          axios
-            .post(`${process.env.VUE_APP_ENDPOINT}` + "/upload", fileData)
-            .then((result) => {
-              let filename = result.data.filename;
-              //  console.log(filename);
-              this.$swal({
-                icon: "success",
-                title: "Upload File To Server Success",
-                text: "File Name : " + filename + "ข้อ" + inputFileId,
-                allowOutsideClick: false,
-              });
-              const payload = {
+      let result = await attachmentService.SaveFile(fileData)
+      let filename = result.filename;
+      let payload={
                 f_docrunning: this.f_docrunning,
                 f_userCode: this.f_userCode,
                 f_zone: this.f_zone,
@@ -307,44 +262,15 @@ export default {
                 f_section: coderunning[1],
                 f_filesize: files.size,
                 f_year: this.year,
-                f_type: "file",
+                f_type:'file',
                 f_status: 1,
-              };
-              axios
-                .post("/upload/save", payload)
-                .then((results) => {
-                  this.$swal({
-                    icon: "success",
-                    title: results.data.message,
-                    text: results.data.statusText,
-                    allowOutsideClick: false,
-                  });
-                })
-                .catch((error) => {
-                  this.$swal({
-                    icon: "error",
-                    title:
-                      "ไม่สามารถเรียกเซอร์วิสการบันทึกข้อมูลการ upload ได้",
-                    text: `${error.response}: ${error.message}`,
-                    allowOutsideClick: false,
-                  });
-                });
-              //  console.log(inputFileId);
-              document.getElementById(inputFileId).disabled = true;
-            });
-        } catch (error) {
-          this.$swal({
-            icon: "error",
-            title: "ไม่สามารถบันทึการ upload ลงฐานข้อมูลได้",
-            text: error,
-            allowOutsideClick: false,
-          });
-        }
+            };
+      await attachmentService.InsertData(payload)
       } else {
         console.log("Error file" + files);
       }
     },
-      buttonUploadFile() {
+  buttonUploadFile() {
       let buttonUploadID = event.target.id;
       //  console.log('divId: ' + buttonUploadID)
       let CodeButton = buttonUploadID.split("buttonUpload");

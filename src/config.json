@@ -4,5 +4,6 @@
     "G2Min": 60,
     "G3Min": 60,
     "G4Min": 60,
-    "G5Min": 60
+    "G5Min": 60,
+    "HospitalLevel":100001
 }

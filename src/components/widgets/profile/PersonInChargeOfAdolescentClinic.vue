@@ -214,7 +214,6 @@ export default {
         f_createBy: localStorage.getItem('f_code'),
         f_status: 1
       }      
-      console.log(payload)
       const results = await contactService.SaveContact(payload);   
       if(results.messagesboxs == 'unSuccess' ){
         this.$swal({

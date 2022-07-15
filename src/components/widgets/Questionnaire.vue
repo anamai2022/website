@@ -1,29 +1,15 @@
 <template>
   <div class="row">
     <QuestionnaireHeader :form="form" :mode="mode" :profile="ProfileData"/>
-    <QuestionnaireTabs :form="form" :mode="mode" />
-    <div class="col-12">
-      <div class="mb-3">
-        <button class="ex1 btn btn-primary" type="submit" @click="SaveItem()">
-          {{ SubmitForm }}
-        </button>
-        &nbsp;&nbsp;
-        <button class="ex1 btn btn-primary" type="submit" @click="ResetItem()">
-          {{ ResetForm }}
-        </button>
-        &nbsp;&nbsp;
-        <button class="ex1 btn btn-danger" type="submit" @click="calculator()">
-          {{ calculatorForm }}
-        </button>
-      </div>
-    </div>
+    <QuestionnaireTabs :form="form" :mode="mode" /> 
   </div>
 </template>
 <script>
 import appConfig from "@/app.config";
-import  { MasterService, HospitalService } from "@/api/index.js";
+import  { MasterService, HospitalService,ScoreService } from "@/api/index.js";
 import QuestionnaireHeader from "@/components/widgets/QuestionnaireHeader.vue";
 import QuestionnaireTabs from "@/components/widgets/QuestionnaireTabs.vue";
+import moment from 'moment';
 
 export default {
   name: "QuestionnaireComponents",
@@ -57,6 +43,12 @@ export default {
     ResetItem() {
       console.log("Reset");
     },
+    async getDataQuestionnaire(){
+      this.dataDateTime = moment().format("LLLL");
+      moment.locale("th");
+      let yearData = new Date().getFullYear() + 543;      
+      let result = await ScoreService.GetScoreById(localStorage.getItem("profile"),localStorage.getItem("f_docrunning"),yearData)    
+    },
     calculator(){
       console.log('calculator',this.sumTotal)
                  this.$swal({
@@ -81,7 +73,9 @@ export default {
     this.getProfile();
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    this.getDataQuestionnaire()
+  },
   beforeMount() {},
   beforeUpdate() {},
   updated() {},

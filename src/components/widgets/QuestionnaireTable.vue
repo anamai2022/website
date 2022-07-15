@@ -38,15 +38,18 @@
             v-if="values.f_hadertitle == 0"
             v-bind:id="`${values.f_code}data`"
             v-bind:name="`${values.f_code}data`"
-          >
-            {{ totalScore }}
+          >                        
+            <div v-for="row in GetScoreByRunning" :key="GetScoreByRunning.f_code">
+              <p v-if="row.f_codetitle == values.f_code">              
+                <font color="#D22F19">{{ row.f_score }}</font></p>              
+            </div>                        
           </td>
           <td
             class="score"
             v-else
             v-bind:id="`${values.f_section}-${values.f_question_group}sum`"
             v-bind:name="`${values.f_section}-${values.f_question_group}sum`"
-          > = </td>
+          ></td>
           <td v-if="values.f_hadertitle == 0">
             <b-button
               variant="primary"
@@ -254,13 +257,14 @@
 import appConfig from "@/app.config";
 import Config from "@/config.json";
 import Drawer from "vue-simple-drawer";
-import { MasterService, QuestionnaireService } from "@/api/index.js";
+import { MasterService, QuestionnaireService ,ScoreService } from "@/api/index.js";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 import QuestionnaireUpload from "@/components/widgets/questionnaire/QuestionnaireUpload.vue";
 import Satisfaction from "@/components/widgets/questionnaire/Satisfaction.vue";
 import TopForm from "@/components/widgets/questionnaire/TopForm.vue";
 import DrawerEvidenceExplanation from "@/components/widgets/questionnaire/DrawerEvidenceExplanation.vue";
 import DrawerUploadFile from "@/components/widgets/questionnaire/DrawerUploadFile.vue";
+import moment from 'moment';
 
 export default {
   name: "QuestionnaireTable",
@@ -272,6 +276,7 @@ export default {
     "GData",
     "title",
     "GScore",
+    "ModeReset",
   ],
   page: {
     title: appConfig.shortname,
@@ -282,7 +287,7 @@ export default {
       },
     ],
   },
-  components: { Drawer, Lightbox, QuestionnaireUpload, Satisfaction, TopForm ,DrawerEvidenceExplanation, DrawerUploadFile,},
+  components: { Drawer, Lightbox, QuestionnaireUpload, Satisfaction, TopForm ,DrawerEvidenceExplanation, DrawerUploadFile, },
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -339,9 +344,11 @@ export default {
       titleG5WT: appConfig.titleG5WT,
       ShowScoreWT: Config.ShowScoreWT,
       score: appConfig.score,
+      HospitalLevel: Config.HospitalLevel,
       wigthScore: appConfig.wigthScore,
       fieldsFile: [{ idFile: 1 }],
-      fieldsImage: [{ idImage: 1 }],      
+      fieldsImage: [{ idImage: 1 }], 
+      GetScoreByRunning :[],     
     };
   },
   computed: {},
@@ -409,11 +416,9 @@ export default {
       this.DrawerTitle = f_title;
       this.DrawerRemark = f_detail;
     },
-    voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence, dataSet) {
+    async voteScore(event, i, f_code, f_question_group, f_section,f_title,f_question, f_sequence, dataSet) {
       let IdCodes = f_code + "data";
       let IdScore = i +'-'+f_code+'-'+"Score";
-      console.log('Id Data: ',IdCodes,'Id Score :',IdScore)
-      console.log('Data question : => ',dataSet)      
       document.getElementById(IdCodes).innerText = event;     
       document.getElementById(IdScore).disabled = true;   
       let dataScore = {
@@ -434,23 +439,24 @@ export default {
           return res;
         }
       }, {});
-      this.scoreTotal = result
-      console.log('map data : ',this.scoreTotal);
+      this.scoreTotal = result      
       let payScore = {
         group : result,
         f_docrunning: localStorage.getItem("f_docrunning"),
         f_userCode: localStorage.getItem("f_code"),                
         f_hospitalCode: localStorage.getItem("profile"),        
       }
-      console.log('Score Total By Group : ',payScore)
-      console.log('Data Total : ', dataSet.f_questionWtMain)
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
          if (f_question_group == element.group) {
             let IdSum = f_section+'-'+f_question_group + "sum";
             let IdSumTitle = f_section+'-'+f_question_group + "title";
-            document.getElementById(IdSum).innerHTML = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
-            document.getElementById(IdSumTitle).innerHTML = element.score + '/' +  dataSet.f_questionWtSub + '*' + dataSet.f_questionWtMain                        
+            if(this.ShowScoreWT == 1){
+              document.getElementById(IdSum).innerHTML = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
+              document.getElementById(IdSumTitle).innerHTML = element.score + '/' +  dataSet.f_questionWtSub + '*' + dataSet.f_questionWtMain  
+            }else{
+              document.getElementById(IdSum).innerHTML = element.score / dataSet.f_questionWtSub * dataSet.f_questionWtMain
+            }                                  
           }
       }
         let yearData = new Date().getFullYear() + 543;          
@@ -467,26 +473,49 @@ export default {
                 f_question:f_question,
                 f_sequence:f_sequence,
                 f_question_group:f_question_group,
-            };
-            console.log( payload)      
-
+                f_createdate: moment(this.toDay).format('YYYY-MM-DD HH:mm:ss'),
+                f_province:'-',
+                f_hospitalLevel: this.HospitalLevel
+            };                  
+      await ScoreService.SaveScore(payload)
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
     },
-
+    async getDataQuestionnaire(){
+      this.dataDateTime = moment().format("LLLL");
+      moment.locale("th");
+      let yearData = new Date().getFullYear() + 543;      
+      let data = await ScoreService.GetScoreById(localStorage.getItem("profile"),localStorage.getItem("f_docrunning"),yearData,this.GData)    
+      if( data.messagesboxs = 'Success'){
+        this.GetScoreByRunning = data.result
+      }else{
+        this.GetScoreByRunning = null
+      }
+    },
   },
-  beforeCreate() {},
+  beforeCreate() {
+    
+  },
   created() {
     this.getYear();
     this.getScoreAll();
     this.getZoneAreaAll();
     this.getQuestionnaireAll();
+    this.getDataQuestionnaire();
   },
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
+  beforeMount() {
+    
+  },
+  mounted() {
+    
+  },
+  beforeUpdate() {
+    
+  },
+  updated() {
+    
+  },
   beforeUnmount() {},
   unmounted() {},
 };

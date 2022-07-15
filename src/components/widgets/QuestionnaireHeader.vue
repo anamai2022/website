@@ -61,7 +61,7 @@ export default {
       let runnigMonth = date.format("MM");
       let runnigDay = date.format("DD");
       let runningTime = date.format("hhmmss");
-      this.toDayDataFormat = runnigYear + runnigMonth + runnigDay + runningTime;
+      this.toDayDataFormat = runnigYear + localStorage.getItem("profile") ;
       let d = date.format("YYYY");
       localStorage.setItem('f_docrunning',this.toDayDataFormat )
     }

@@ -29,12 +29,14 @@
   "Step3Title":"ส่วนที่ 3 ด้านความพึงพอใจในการรับบริการสุขภาพที่เป็นมิตรสำหรับวัยรุ่นและเยาวชน",
   "Step4Title":"ส่วนที่ 4",
   "Step5Title":"ส่วนที่ 5",
-  "SubmitForm":"บันทึกข้อมูล",
+  "SubmitForm":"ส่งแบบประเมินสู่ขั้นตอนต่อไปเรียบร้อย",
   "ResetForm":"ยกเลิก",
   "informationHeader":"อยู่ระหว่างการปรับปรุงระบบ",
   "informationDetail":"หน้าเว็บนี้ยังไม่ได้ทำการพัฒนาหรือรอระหว่างการพัฒนาระบบ",
   "linkeHome":"กลับไปหน้าหลัก",
   "logout":"ออกจากระบบ",
+  "titleSendAppoveLevel1":"ส่งเพื่อทำการประเมินขั้นตอนต่อไป",
+  "titleSendMessageLevel":"เมื่อทำการกดส่งแล้วจะไม่สามารถแก้ไขข้อมูลได้",
   "hospitalname":"โรงพยาบาล",
   "hospitalProfile":"ข้อมูลโรงพยาบาล",
   "budgetYear":"ปีงบประมาณ",
@@ -122,5 +124,7 @@
   "calculatorForm":"คำนวณแบบประเมิน",
   "qrCodeValueB":"https://yfhs.anamai.moph.go.th/poll/formb",
   "qrCodeValueC":"https://yfhs.anamai.moph.go.th/poll/formc",
+  "remarkTitle":"หมายเหตุ : ",
+  "remarkDetail":"ระบบจะทำการเก็บข้อมูลการกดทุกครั้งดังนั้นการคำนวณอาจไม่ตรงหาต้องการคำนวณผลสรุปในแต่ละองค์ให้กดคำนวณ",
   "titleRegster": "ลงทะเบียนสมาชิก"
 }
