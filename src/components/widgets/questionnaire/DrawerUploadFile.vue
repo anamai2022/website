@@ -139,7 +139,7 @@ import appConfig from "@/app.config";
 import Drawer from "vue-simple-drawer";
 import { attachmentService } from "@/api/index.js";
 import Lightbox from "@/components/widgets/profile/Lightbox.vue";
-
+import moment from 'moment';
 export default {
   name: "DrawerUploadFile",
   props: ["code", "GData", "title", "detail", "GroupTab", "uploadImage", "uploadFile", "additionalMessage","addressUrl"],
@@ -184,28 +184,30 @@ async onChangeUploadImg(e) {
       } else {
         console.log("Error file" + files);
       }
+      moment.locale("th");
+      let yearData = new Date().getFullYear() + 543;      
       const fileData = new FormData();
       fileData.append("file", files);     
     let result = await attachmentService.SaveImg(fileData)
     let filename = result.filename;
           let payload={
-                f_docrunning: this.f_docrunning,
-                f_userCode: this.f_userCode,
+                f_docrunning: localStorage.getItem("f_docrunning"),
+                f_userCode: localStorage.getItem('f_code'),
                 f_zone: this.f_zone,
                 f_province: this.f_province,
                 f_filedocument: files.name,
                 f_image: filename,
                 f_filetype: files.type,
                 f_hospitalLevel: this.f_hospitalLevel,
-                f_hospitalCode: this.f_hospitalCode,
+                f_hospitalCode: localStorage.getItem("profile"),
                 f_positionCode: this.f_positionCode,
                 f_section: coderunning[1],
                 f_filesize: files.size,
-                f_year: this.year,
+                f_year: yearData,
                 f_type:'image',
                 f_status: 1,
             };
-            console.log('payload', payload)
+            
       await attachmentService.InsertData(payload)
     },    
   buttonAddFileUpload(event, f_code, index) {
@@ -244,24 +246,27 @@ async onChangeUploadFile(e) {
         console.log("File upload Documents ::::");
         console.log("File upload Documents: " + files.name);
         console.log("File upload commit ::::::");
+      moment.locale("th");
+      let yearData = new Date().getFullYear() + 543;      
+            
         const fileData = new FormData();
         fileData.append("file", files);
       let result = await attachmentService.SaveFile(fileData)
       let filename = result.filename;
       let payload={
-                f_docrunning: this.f_docrunning,
-                f_userCode: this.f_userCode,
+                f_docrunning: localStorage.getItem("f_docrunning"),
+                f_userCode: localStorage.getItem('f_code'),
                 f_zone: this.f_zone,
                 f_province: this.f_province,
                 f_filedocument: files.name,
                 f_image: filename,
                 f_filetype: files.type,
                 f_hospitalLevel: this.f_hospitalLevel,
-                f_hospitalCode: this.f_hospitalCode,
+                f_hospitalCode: localStorage.getItem("profile"),
                 f_positionCode: this.f_positionCode,
                 f_section: coderunning[1],
                 f_filesize: files.size,
-                f_year: this.year,
+                f_year: yearData,
                 f_type:'file',
                 f_status: 1,
             };
