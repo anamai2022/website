@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr v-for="(values, index) in QuestionnaireData" :key="index">
-          <th></th>
+          <td></td>
           <td v-if="values.f_hadertitle == 0">
             <p class="ex1">{{ values.f_title }}</p>
           </td>

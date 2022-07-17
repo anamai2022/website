@@ -12,7 +12,7 @@ export class ScoreProvider extends HttpRequest {
       }
       async GetScoreById(f_hospitalCode,f_docrunning,f_year,f_section) {
         try {
-          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section);                      
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section);                      
           return data;
         } catch (error) {
           return { statusCode: error };
@@ -20,7 +20,7 @@ export class ScoreProvider extends HttpRequest {
       }  
       async GetScoreByTabId(f_hospitalCode,f_docrunning,f_year,f_section) {
         try {
-          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section);                      
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section);                      
           return data;
         } catch (error) {
           return { statusCode: error };
@@ -28,7 +28,24 @@ export class ScoreProvider extends HttpRequest {
       }           
       async GetScoreByDocumentId(f_hospitalCode,f_docrunning,f_year,f_section,f_codetitle) {
         try {          
-          const { data } = await axios.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section+'/'+f_codetitle);                      
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section+'/'+f_codetitle);                      
+          console.log('vue call ',data)
+          return data;
+        } catch (error) {
+          return { statusCode: error };
+        }
+      } 
+      async GetScoreByQuestionId(f_hospitalCode,f_docrunning,f_year,f_section,f_codetitle) {
+        try {          
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}` + "/score/document/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section+'/'+f_codetitle);                      
+          return data;
+        } catch (error) {
+          return { statusCode: error };
+        }
+      }
+      async GetGroupDocumentRunning(f_hospitalCode,f_year){
+        try{
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/group/"+f_hospitalCode+'/'+f_year);
           return data;
         } catch (error) {
           return { statusCode: error };

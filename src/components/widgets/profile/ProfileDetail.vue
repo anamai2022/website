@@ -22,7 +22,7 @@
           </div>
           <div class="card-body pt-0">
             <div class="row">
-              <div class="col-sm-5">
+              <div class="col-sm-8">
                 <div class="avatar-md profile-user-wid mb-4">
                   <img
                     src="@/assets/images/logobig.png"
@@ -36,20 +36,7 @@
 
               <div class="col-sm-7">
                 <div class="pt-4">
-                  <div class="row">
-                    <div class="col-6">
-                      <h5 class="font-size-15">{{ budgetYearName }}</h5>
-                      <p class="text-muted mb-0">{{ budgetYear }}</p>
-                    </div>
-                    <div class="col-6">
-                      <h5 class="font-size-15">{{ selfAssessmentResults }}</h5>
-                      <p class="text-muted mb-0">
-                        {{ statusSelfAssessmentResults }}
-                      </p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <b-button v-b-modal.modal-hospital variant="primary" right>
+                  <b-button v-b-modal.modal-hospital variant="primary" right>
                       <i
                         class="fas fa-hospital-user font-size-16 align-middle me-2"
                       ></i
@@ -67,7 +54,9 @@
                         :longitudes="longitude"
                         :latitudes="latitude"
                       />
-                    </b-modal>
+                    </b-modal>               
+                  <div class="mt-4">
+                    
                   </div>
                 </div>
               </div>
