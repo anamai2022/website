@@ -275,62 +275,35 @@ async onChangeUploadFile(e) {
         console.log("Error file" + files);
       }
     },
-  buttonUploadFile() {
-      let buttonUploadID = event.target.id;
-      //  console.log('divId: ' + buttonUploadID)
-      let CodeButton = buttonUploadID.split("buttonUpload");
-      //  console.log(CodeButton[1]);
-      let codeAddressUrl = "address_url" + CodeButton[1];
-      let codeAdditionalMessage = "additional_message" + CodeButton[1];
-      var input = document.getElementById(codeAddressUrl).value;
-      //  console.log(input);
-      var input1 = document.getElementById(codeAdditionalMessage).value;
-      //  console.log(input1);
-      let yearData = new Date().getFullYear() + 543;
-      const payload = {
-        f_docrunning: this.f_docrunning,
-        f_userCode: this.f_userCode,
-        f_zone: this.f_zone,
-        f_province: this.f_province,
-        f_hospitalLevel: this.f_hospitalLevel,
-        f_hospitalCode: this.f_hospitalCode,
-        f_positionCode: this.f_positionCode,
-        f_section: CodeButton[1],
-        f_address_url: input,
-        f_additional_message: input1,
-        f_year: yearData,
-        f_status: 1,
-      };
-      // console.log( payload)
-      try {
-        axios
-          .post(`${process.env.VUE_APP_ENDPOINT}` + "/answerquesion/", payload)
-          .then((results) => {
-            //            console.log(results);
-            this.$swal({
-              icon: "success",
-              title: results.data.messagesboxs,
-              text: results.data.statusText,
-              allowOutsideClick: false,
-            });
-          })
-          .catch((error) => {
-            this.$swal({
-              icon: "error",
-              title: "ไม่สามารถเรียกเซอร์วิสการบันทึกข้อมูลการ upload ได้",
-              text: `${error.response}: ${error.message}`,
-              allowOutsideClick: false,
-            });
-          });
-      } catch (err) {
-        this.$swal({
-          icon: "error",
-          title: "ไม่สามารถเชื่อมต่อ Service การให้คะแนน",
-          text: error,
-          allowOutsideClick: false,
-        });
-      }
-    },
+    async  buttonUploadFile() {
+          let buttonUploadID = event.target.id;
+          //  console.log('divId: ' + buttonUploadID)
+          let CodeButton = buttonUploadID.split("buttonUpload");
+            console.log('AAAAA',CodeButton[1]);
+          let codeAddressUrl = "address_url" + CodeButton[1];
+          let codeAdditionalMessage = "additional_message" + CodeButton[1];
+          var input = document.getElementById(codeAddressUrl).value;
+            console.log('BBBBB',input);
+          var input1 = document.getElementById(codeAdditionalMessage).value;
+            console.log('CCCCC',input1);
+          let yearData = new Date().getFullYear() + 543;
+          const payload = {
+            f_docrunning: localStorage.getItem("f_docrunning"),
+            f_userCode: localStorage.getItem('f_code'),
+            f_zone: this.f_zone,
+            f_province: this.f_province,
+            f_hospitalLevel: this.f_hospitalLevel,
+            f_hospitalCode: localStorage.getItem("profile"),
+            f_positionCode: this.f_positionCode,
+            f_section: CodeButton[1],
+            f_address_url: input,
+            f_additional_message: input1,
+            f_year: yearData,
+            f_status: 1,
+          };
+          console.log( payload)
+        await attachmentService.InsertData(payload)
+        },
   },
   beforeCreate() {},
   created() {},
