@@ -164,6 +164,7 @@ export default {
       GetScoreByRunning: [],
       wigthScore: appConfig.wigthScore,
       setYear : new Date().getFullYear() + 543,
+      documentCode:null,
     };
   },
   computed: {},
@@ -225,11 +226,9 @@ export default {
         this.GetScoreByRunning = null;
       }
     },
-  async  getScoreToView() {     
-      console.log('Group Tab Sum =:',this.QuestionnaireData.length)                   
+  async  getScoreToView() {                           
       for (let i = 0; i < this.QuestionnaireData.length; i++) {                
-        if(this.QuestionnaireData[i].f_hadertitle == 0){
-          console.log("Group Tab : ",this.QuestionnaireData[i].f_code,this.QuestionnaireData[i].f_section, this.QuestionnaireData[i].f_hadertitle)
+        if(this.QuestionnaireData[i].f_hadertitle == 0){          
           await this.getScoreData(
             localStorage.getItem("profile"),
             localStorage.getItem("f_docrunning"),
@@ -248,11 +247,11 @@ export default {
         f_section,
         f_code
       )
-      console.log('Score => ',dataShow)
     },
     async getScoreGroup(f_hospitalCode,f_year){
-      let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)
-      console.log(data)
+      let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)            
+      this.documentCode = data.result[0].f_docrunning
+      console.log('Document Code : ',data.result[0].f_docrunning)
     }
   },
   beforeCreate() {},
@@ -262,12 +261,12 @@ export default {
     this.getZoneAreaAll();
     this.getQuestionnaireAll();
     this.getDataQuestionnaire();
-        
+    this.getScoreGroup();    
   },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {
-    this.getScoreGroup();
+    
    // this.getScoreToView();
   },
   updated() {},

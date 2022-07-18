@@ -45,7 +45,7 @@ export class ScoreProvider extends HttpRequest {
       }
       async GetGroupDocumentRunning(f_hospitalCode,f_year){
         try{
-          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/group/"+f_hospitalCode+'/'+f_year);
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/group/"+f_hospitalCode+'/'+f_year);          
           return data;
         } catch (error) {
           return { statusCode: error };
