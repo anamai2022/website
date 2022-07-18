@@ -2,13 +2,12 @@
   <div class="table-responsive">
     <div class="row">
       <div class="col-6 titleScore">{{ title }}</div>
-      <div class="col-6 score">
-        {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}
-        <div class="row" v-if="G1 != 0">{{ G1 }}</div>
-        <div class="row" v-if="G2 != 0">{{ G2 }}</div>
-        <div class="row" v-if="G3 != 0">{{ G3 }}</div>
-        <div class="row" v-if="G4 != 0">{{ G4 }}</div>
-        <div class="row" v-if="G5 != 0">{{ G5 }}</div>
+      <div class="col-6 score">        
+        <div class="row" v-if="G1 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp; = &nbsp;&nbsp;{{ G1 }}</div>
+        <div class="row" v-if="G2 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G2 }}</div>
+        <div class="row" v-if="G3 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G3 }}</div>
+        <div class="row" v-if="G4 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G4 }}</div>
+        <div class="row" v-if="G5 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G5 }}</div>
       </div>
     </div>
     <table class="table table-nowrap table-hover mb-0">
