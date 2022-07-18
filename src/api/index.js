@@ -6,6 +6,7 @@ import { MasterProvider } from './master'
 import { QuestionnaireProvider } from './questionnaire'
 import { ScoreProvider } from './score'
 import { attachmentProvider } from './attachment'
+import { FlowAnswerProvider } from './flowAnswer'
 
 export const authService = new AuthProvider();
 export const contactService = new ContactProvider();
@@ -15,3 +16,4 @@ export const MasterService = new MasterProvider();
 export const QuestionnaireService = new QuestionnaireProvider();
 export const ScoreService = new ScoreProvider();
 export const attachmentService = new attachmentProvider();
+export const FlowAnswerService = new FlowAnswerProvider();
