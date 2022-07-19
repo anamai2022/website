@@ -211,6 +211,12 @@
 import appConfig from "@/app.config";
 import Config from "@/config.json";
 import QuestionnaireTable from "@/components/widgets/QuestionnaireTable.vue";
+import {
+  MasterService,
+  QuestionnaireService,
+  ScoreService,
+  FlowAnswerService,
+} from "@/api/index.js";
 import moment from "moment";
 export default {
   name: "QuestionnaireTabs",
@@ -321,7 +327,27 @@ export default {
       }); 
       this.$router.go()       
     },
-    calculator() {
+  async  calculator() {
+      let f_hadertitle = 0
+      const resCountQuestion = await QuestionnaireService.getCountQuestion(
+        f_hadertitle,
+        f_section,
+        f_question_group
+      );
+      const resSumScore = await ScoreService.GetSumScore(
+        f_hospitalCode,
+        f_docrunning,
+        yearData,
+        f_section,
+        f_question_group
+      );
+      const resCountScore = await ScoreService.GetSumScore(
+        f_hospitalCode,
+        f_docrunning,
+        yearData,
+        f_section,
+        f_question_group
+      );      
       this.sumTotal =
         this.G1PassTotal +
         this.G2PassTotal +

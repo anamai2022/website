@@ -2,12 +2,23 @@
   <div class="table-responsive">
     <div class="row">
       <div class="col-6 titleScore">{{ title }}</div>
-      <div class="col-6 score">        
-        <div class="row" v-if="G1 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp; = &nbsp;&nbsp;{{ G1 }}</div>
-        <div class="row" v-if="G2 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G2 }}</div>
-        <div class="row" v-if="G3 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G3 }}</div>
-        <div class="row" v-if="G4 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G4 }}</div>
-        <div class="row" v-if="G5 != 0">{{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G5 }}</div>
+      <div class="col-6 score">
+        <div class="row" v-if="G1 != 0">
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp; =
+          &nbsp;&nbsp;{{ G1 }}
+        </div>
+        <div class="row" v-if="G2 != 0">
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G2 }}
+        </div>
+        <div class="row" v-if="G3 != 0">
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G3 }}
+        </div>
+        <div class="row" v-if="G4 != 0">
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G4 }}
+        </div>
+        <div class="row" v-if="G5 != 0">
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G5 }}
+        </div>
       </div>
     </div>
     <table class="table table-nowrap table-hover mb-0">
@@ -486,6 +497,7 @@ export default {
       f_sequence,
       dataSet
     ) {
+      let yearData = new Date().getFullYear() + 543;
       let IdCodes = f_code + "data";
       let IdScore = i + "-" + f_code + "-" + "Score";
       document.getElementById(IdCodes).innerText = event;
@@ -497,6 +509,7 @@ export default {
         tab: f_section,
       };
       this.Sum.push(dataScore);
+
       var result = [];
       this.Sum.reduce(function(res, value) {
         if (!res[value.tab]) {
@@ -519,46 +532,12 @@ export default {
         f_userCode: localStorage.getItem("f_code"),
         f_hospitalCode: localStorage.getItem("profile"),
       };
+
       for (let index = 0; index < result.length; index++) {
         const element = result[index];
         if (f_question_group == element.group) {
           let IdSum = f_section + "-" + f_question_group + "sum";
           let IdSumTitle = f_section + "-" + f_question_group + "title";
-          console.log("Group G :=> ", element.tab);
-          switch (element.tab) {
-            case "G1":
-              this.G1 = (element.score / dataSet.f_questionWtSub) * dataSet.f_questionWtMain;    
-              var result = [];         
-              
-              console.log("Score G1 :===> ", result.push(this.G1));
-              break;
-            case "G2":
-              this.G2 =
-                (element.score / dataSet.f_questionWtSub) *
-                dataSet.f_questionWtMain;
-              console.log("Score G2 :===> ", this.G2);
-              break;
-            case "G3":
-              this.G3 =
-                (element.score / dataSet.f_questionWtSub) *
-                dataSet.f_questionWtMain;
-              console.log("Score G3 :===> ", this.G3);
-              break;
-            case "G4":
-              this.G4 =
-                (element.score / dataSet.f_questionWtSub) *
-                dataSet.f_questionWtMain;
-              console.log("Score G4 :===> ", this.G4);
-              break;
-            case "G5":
-              this.G5 =
-                (element.score / dataSet.f_questionWtSub) *
-                dataSet.f_questionWtMain;
-              console.log("Score G5 :===> ", this.G5);
-              break;
-            default:
-              console.log("Not Case Sum G Tab");
-          }
           if (this.ShowScoreWT == 1) {
             document.getElementById(IdSum).innerHTML =
               (element.score / dataSet.f_questionWtSub) *
@@ -576,7 +555,7 @@ export default {
           }
         }
       }
-      let yearData = new Date().getFullYear() + 543;
+       
       const payload = {
         f_section: f_section,
         f_docrunning: localStorage.getItem("f_docrunning"),
@@ -614,6 +593,30 @@ export default {
         f_status: 0,
       };
       await FlowAnswerService.SaveData(pay);
+      let f_hadertitle = 0
+      const resCountQuestion = await QuestionnaireService.getCountQuestion(
+        f_hadertitle,
+        f_section,
+        f_question_group
+      );
+      console.log('resCountQuestion',resCountQuestion)
+      const resSumScore = await ScoreService.GetSumScore(
+        localStorage.getItem("profile"),
+        localStorage.getItem("f_docrunning"),
+        yearData,
+        f_section,
+        f_question_group
+      );
+      console.log('resSumScore',resSumScore)
+      const resCountScore = await ScoreService.GetCountScore(
+        localStorage.getItem("profile"),
+        localStorage.getItem("f_docrunning"),
+        yearData,
+        f_section,
+        f_question_group
+      );   
+      console.log('resCountScore',resCountScore)
+     
     },
     handlerClick(f_code, index) {
       console.log("value f_code : " + f_code, "Number : ", index);
@@ -634,6 +637,15 @@ export default {
         this.GetScoreByRunning = null;
       }
     },
+    // async getCountQuestion(f_hadertitle,f_section,f_question_group){
+    //   const resCountQuestion = await QuestionnaireService.getCountQuestion(f_hadertitle,f_section,f_question_group);
+    // },
+    // async GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
+    //   const resSumScore = await ScoreService.GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group)
+    // },
+    // async GetCountScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
+    //   const resCountScore = await ScoreService.GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group)
+    // },
   },
   beforeCreate() {},
   created() {

@@ -43,12 +43,20 @@ export class ScoreProvider extends HttpRequest {
           return { statusCode: error };
         }
       }
-      async GetGroupDocumentRunning(f_hospitalCode,f_year){
+      async GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
         try{
-          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/group/"+f_hospitalCode+'/'+f_year);          
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/sumscore/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section+'/'+f_question_group);          
           return data;
         } catch (error) {
           return { statusCode: error };
         }
       }      
+      async GetCountScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
+        try{
+          const { data } = await this.get(`${process.env.VUE_APP_ENDPOINT}`+"/score/countscore/"+f_hospitalCode+'/'+f_docrunning+'/'+f_year+'/'+f_section+'/'+f_question_group);          
+          return data;
+        } catch (error) {
+          return { statusCode: error };
+        }
+      }            
 }
