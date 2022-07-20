@@ -14,10 +14,13 @@
           {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G3 }}
         </div>
         <div class="row" v-if="G4 != 0">
-          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G4 }}
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G4 }}          
         </div>
         <div class="row" v-if="G5 != 0">
-          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G5 }}
+          {{ score }}&nbsp;&nbsp;:&nbsp;&nbsp;{{ GScore }}&nbsp;&nbsp;{{ G5 }}          
+        </div>
+        <div v-else>
+          <input v-model="G5PassTotal">
         </div>
       </div>
     </div>
@@ -318,6 +321,7 @@ export default {
     "title",
     "GScore",
     "ModeReset",
+    "G5PassTotal",
   ],
   page: {
     title: appConfig.shortname,
@@ -607,7 +611,9 @@ export default {
         f_section,
         f_question_group
       );
-      console.log('resSumScore',resSumScore)
+      console.log('resSumScore',resSumScore) 
+      console.log('Send Data : ',resSumScore.result[0].f_score)
+      this.G5PassTotal  =resSumScore.result[0].f_score
       const resCountScore = await ScoreService.GetCountScore(
         localStorage.getItem("profile"),
         localStorage.getItem("f_docrunning"),

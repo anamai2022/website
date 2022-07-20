@@ -170,6 +170,7 @@
                 :title="titleG5"
                 :GScore="GScore5"
                 :ModeReset="modeReset"
+                :G5PassTotal="G5PassTotal"
               />
             </b-tab>
           </b-tabs>
@@ -329,6 +330,7 @@ export default {
     },
   async  calculator() {
       let f_hadertitle = 0
+      let f_section = 1
       const resCountQuestion = await QuestionnaireService.getCountQuestion(
         f_hadertitle,
         f_section,
