@@ -111,6 +111,7 @@ import {
   MasterService,
   QuestionnaireService,
   ScoreService,
+  AnswerService,
 } from "@/api/index.js";
 import moment from "moment";
 export default {
@@ -248,10 +249,13 @@ export default {
         f_code
       )
     },
-    async getScoreGroup(f_hospitalCode,f_year){
+    async getScoreGroup(){
       let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)            
       this.documentCode = data.result[0].f_docrunning
       console.log('Document Code : ',data.result[0].f_docrunning)
+    },
+    async getQuestion(){
+      let data = await AnswerService.getDataAll(localStorage.getItem("f_docrunning"),this.setYear,localStorage.getItem("profile"))
     }
   },
   beforeCreate() {},
@@ -261,7 +265,8 @@ export default {
     this.getZoneAreaAll();
     this.getQuestionnaireAll();
     this.getDataQuestionnaire();
-    this.getScoreGroup();    
+    this.getQuestion();
+    //this.getScoreGroup();    
   },
   beforeMount() {},
   mounted() {},

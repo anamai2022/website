@@ -6,7 +6,7 @@
 </template>
 <script>
 import appConfig from "@/app.config";
-import  { MasterService, HospitalService,ScoreService } from "@/api/index.js";
+import  { MasterService, HospitalService,ScoreService, AnswerService } from "@/api/index.js";
 import QuestionnaireHeader from "@/components/widgets/QuestionnaireHeader.vue";
 import QuestionnaireTabs from "@/components/widgets/QuestionnaireTabs.vue";
 import moment from 'moment';
@@ -57,6 +57,9 @@ export default {
                   text: this.sumTotal,
                   allowOutsideClick: false,
                 });      
+    },
+    async getQuestion(){
+      let result = await AnswerService.getDataAll(localStorage.getItem("f_docrunning"),yearData,localStorage.getItem("profile"))  
     },
     async getYear(){
       const results = await MasterService.getYearAll();

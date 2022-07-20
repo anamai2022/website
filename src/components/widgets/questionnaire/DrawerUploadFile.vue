@@ -2,7 +2,7 @@
   <div>
     <div class="offcanvas-header newspaper">
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-        <font color="#BF490D">{{ evidenceExplanation }} : {{GroupTab}}</font
+        <font color="#BF490D">{{ evidenceExplanation }} : {{GroupTab}} :{{QuestionCode}}</font
         ><br />
         <font color="#020223">{{ title }}</font>        
         <font color="#BF490D">{{ uploadfile }}</font
@@ -100,6 +100,7 @@
       <input
         v-bind:id="`address_url${code}`"
         v-bind:name="`address_url${code}`"
+        v-model="f_address_url"
         class="form-control"
         type="text"
         ref="`address_url{code}`"
@@ -115,6 +116,7 @@
       <textarea
         v-bind:id="`additional_message${code}`"
         v-bind:name="`additional_message${code}`"
+        v-model="f_additional_message"
         class="form-control"
         :maxlength="225"
         rows="3"
@@ -127,7 +129,7 @@
         v-bind:id="`buttonUpload${code}`"
         v-bind:name="`buttonUpload${code}`"
         variant="primary"
-        @click="buttonUploadFile"
+        @click="buttonUploadFile()"
         >บันทึกข้อมูล</b-button
       >
     </div>
@@ -142,7 +144,7 @@ import Lightbox from "@/components/widgets/profile/Lightbox.vue";
 import moment from 'moment';
 export default {
   name: "DrawerUploadFile",
-  props: ["code", "GData", "title", "detail", "GroupTab", "uploadImage", "uploadFile", "additionalMessage","addressUrl"],
+  props: ["code", "GData", "title", "detail", "GroupTab", "uploadImage", "uploadFile", "additionalMessage","addressUrl","QuestionCode"],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -165,6 +167,8 @@ export default {
       f_upload_file: 0,
       f_upload_image: 0,
       f_address_url: 0,      
+      f_additional_message:null,
+      f_address_url:null,
       fieldsFile: [{ idFile: 1 }],
       fieldsImage: [{ idImage: 1 }],
       index: 0,
@@ -179,58 +183,47 @@ async onChangeUploadImg(e) {
       let coderunning = inputFileId.split("FileImg"); 
       files = e.target.files[0];
       let checkFile = e.target.files;
-      if (checkFile.length > 0) {
-        console.log("File upload Documents: " + files.name);
-      } else {
-        console.log("Error file" + files);
-      }
       moment.locale("th");
       let yearData = new Date().getFullYear() + 543;      
       const fileData = new FormData();
       fileData.append("file", files);     
-    let result = await attachmentService.SaveImg(fileData)
-    let filename = result.filename;
-          let payload={
-                f_docrunning: localStorage.getItem("f_docrunning"),
-                f_userCode: localStorage.getItem('f_code'),
-                f_zone: this.f_zone,
-                f_province: this.f_province,
-                f_filedocument: files.name,
-                f_image: filename,
-                f_filetype: files.type,
-                f_hospitalLevel: this.f_hospitalLevel,
-                f_hospitalCode: localStorage.getItem("profile"),
-                f_positionCode: this.f_positionCode,
-                f_section: coderunning[1],
-                f_filesize: files.size,
-                f_year: yearData,
-                f_type:'image',
-                f_status: 1,
-            };
+      let result = await attachmentService.SaveImg(fileData)
+      let filename = result.filename;
+            let payload={
+                  f_docrunning: localStorage.getItem("f_docrunning"),
+                  f_userCode: localStorage.getItem('f_code'),
+                  f_zone: this.f_zone,
+                  f_province: this.f_province,
+                  f_filedocument: files.name,
+                  f_image: filename,
+                  f_filetype: files.type,
+                  f_hospitalLevel: this.f_hospitalLevel,
+                  f_hospitalCode: localStorage.getItem("profile"),
+                  f_positionCode: this.f_positionCode,
+                  f_section: this.GroupTab,
+                  f_questioncode: this.QuestionCode,
+                  f_filesize: files.size,
+                  f_year: yearData,
+                  f_type:'image',
+                  f_createdate:moment(this.toDay).format("YYYY-MM-DD HH:mm:ss"),
+                  f_status: 1,
+              };
             
       await attachmentService.InsertData(payload)
     },    
   buttonAddFileUpload(event, f_code, index) {
-      let uploadId = event.target.id;
-      console.log(uploadId);
-      console.log(event);
-      console.log("f_code : " + f_code);
+      let uploadId = event.target.id;      
       this.fieldsFile.push({ FileDoc: "" });
     },
   buttonDeleteFileUpload(index) {
-      this.fieldsFile.splice(index, 1);
-      console.log(index);
+      this.fieldsFile.splice(index, 1);      
     },
   buttonAddImageUpload(event, f_code, index) {
       let uploadId = event.target.id;
-      console.log(uploadId);
-      console.log(event);
-      console.log("f_code : " + f_code);
       this.fieldsImage.push({ FileImage: "" });
     },
   buttonDeleteImageUpload(index) {
-      this.fieldsImage.splice(index, 1);
-      console.log(index);
+      this.fieldsImage.splice(index, 1);      
     },
 async onChangeUploadFile(e) {
       let files = e.target.files || e.dataTransfer.files;
@@ -239,18 +232,10 @@ async onChangeUploadFile(e) {
       files = e.target.files[0];
       let checkFile = e.target.files;
       if (checkFile.length > 0) {
-        console.log("File upload Documents ::::");
-        console.log("File Name : " + files.name);
-        console.log("File Type : " + files.type);
-        console.log("File size: " + files.size);
-        console.log("File upload Documents ::::");
-        console.log("File upload Documents: " + files.name);
-        console.log("File upload commit ::::::");
       moment.locale("th");
-      let yearData = new Date().getFullYear() + 543;      
-            
-        const fileData = new FormData();
-        fileData.append("file", files);
+      let yearData = new Date().getFullYear() + 543;                  
+      const fileData = new FormData();
+      fileData.append("file", files);
       let result = await attachmentService.SaveFile(fileData)
       let filename = result.filename;
       let payload={
@@ -264,10 +249,12 @@ async onChangeUploadFile(e) {
                 f_hospitalLevel: this.f_hospitalLevel,
                 f_hospitalCode: localStorage.getItem("profile"),
                 f_positionCode: this.f_positionCode,
-                f_section: coderunning[1],
+                f_section: this.GroupTab,
+                f_questioncode: this.QuestionCode,                
                 f_filesize: files.size,
                 f_year: yearData,
                 f_type:'file',
+                f_createdate:moment(this.toDay).format("YYYY-MM-DD HH:mm:ss"),
                 f_status: 1,
             };
       await attachmentService.InsertData(payload)
@@ -277,15 +264,11 @@ async onChangeUploadFile(e) {
     },
     async  buttonUploadFile() {
           let buttonUploadID = event.target.id;
-          //  console.log('divId: ' + buttonUploadID)
           let CodeButton = buttonUploadID.split("buttonUpload");
-            console.log('AAAAA',CodeButton[1]);
           let codeAddressUrl = "address_url" + CodeButton[1];
           let codeAdditionalMessage = "additional_message" + CodeButton[1];
           var input = document.getElementById(codeAddressUrl).value;
-            console.log('BBBBB',input);
-          var input1 = document.getElementById(codeAdditionalMessage).value;
-            console.log('CCCCC',input1);
+          var input1 = document.getElementById(codeAdditionalMessage).value;  
           let yearData = new Date().getFullYear() + 543;
           const payload = {
             f_docrunning: localStorage.getItem("f_docrunning"),
@@ -295,14 +278,23 @@ async onChangeUploadFile(e) {
             f_hospitalLevel: this.f_hospitalLevel,
             f_hospitalCode: localStorage.getItem("profile"),
             f_positionCode: this.f_positionCode,
-            f_section: CodeButton[1],
-            f_address_url: input,
-            f_additional_message: input1,
+            f_section: this.GroupTab,
+            f_questioncode: this.QuestionCode,
+            f_address_url: this.f_address_url,
+            f_additional_message: this.f_additional_message,
             f_year: yearData,
+            f_createdate:moment(this.toDay).format("YYYY-MM-DD HH:mm:ss"),
+            f_type:'text',
             f_status: 1,
           };
-          console.log( payload)
+        
         await attachmentService.InsertData(payload)
+            this.$swal({
+              icon: "success",
+              title: "upload Image To Server Success",
+              text: "File Name : "+ localStorage.getItem("f_docrunning"),
+              allowOutsideClick: false,
+            });
         },
   },
   beforeCreate() {},

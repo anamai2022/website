@@ -248,7 +248,7 @@ export default {
               icon: "warning",
               title: appConfig.plaseInputOrgran ,
               text: appConfig.plaseInputMessageOrgran ,
-              allowOutsideClick: false,
+              //allowOutsideClick: false,
             });
         this.modeOrgran = 'Create'                 
       }else{

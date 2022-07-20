@@ -214,6 +214,7 @@
         <DrawerUploadFile
           :GData="QuestionnaireData"
           :GroupTab="GData"
+          :QuestionCode="DrawerCode"
           :code="titleDrawer"
           :title="DrawerTitle"
           :detail="DrawerRemark"
@@ -643,15 +644,6 @@ export default {
         this.GetScoreByRunning = null;
       }
     },
-    // async getCountQuestion(f_hadertitle,f_section,f_question_group){
-    //   const resCountQuestion = await QuestionnaireService.getCountQuestion(f_hadertitle,f_section,f_question_group);
-    // },
-    // async GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
-    //   const resSumScore = await ScoreService.GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group)
-    // },
-    // async GetCountScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group){
-    //   const resCountScore = await ScoreService.GetSumScore(f_hospitalCode,f_docrunning,f_year,f_section,f_question_group)
-    // },
   },
   beforeCreate() {},
   created() {
