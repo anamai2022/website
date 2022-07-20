@@ -23,17 +23,17 @@
       >
         <b-form-group
           class="mb-3 haderFile"
-          v-bind:id="`FileDocFormFile${code}_${index}`"
-          v-bind:name="`FileDocFormFile${code}_${index}`"
+          v-bind:id="`FileDocFormFile${QuestionCode}_${index}`"
+          v-bind:name="`FileDocFormFile${QuestionCode}_${index}`"
           label="อัปโหลดไฟล์ (Word, PDF , Excel):"
           label-for="formrow-firstname-input"
         >
           <input
-            v-bind:id="`FileDoc${code}_${index}`"
-            v-bind:name="`FileDoc${code}_${index}`"
+            v-bind:id="`FileDoc${QuestionCode}_${index}`"
+            v-bind:name="`FileDoc${QuestionCode}_${index}`"
             class="form-control"
             type="file"
-            ref="`File{code}`"
+            ref="`File{QuestionCode}`"
             accept=".pdf,.doc,.docx ,.xls,.xlsx"
             @change="onChangeUploadFile"
           />
@@ -43,7 +43,7 @@
         type="button"
         class="btn btn-success mt-3 mt-lg-0"
         value="Add"
-        @click="buttonAddFileUpload($event, code, index)"
+        @click="buttonAddFileUpload($event, QuestionCode, index)"
       />
       <input
         type="button"
@@ -60,14 +60,14 @@
       >
         <b-form-group
           class="mb-3 haderImage"
-          v-bind:id="`FileDocFormImage${code}_${indexs}`"
-          v-bind:name="`FileDocFormImage${code}_${indexs}`"
+          v-bind:id="`FileDocFormImage${QuestionCode}_${indexs}`"
+          v-bind:name="`FileDocFormImage${QuestionCode}_${indexs}`"
           label="อัปโหลดไฟล์ (JPG , PNG):"
           label-for="formrow-firstname-input"
         >
           <input
-            v-bind:id="`FileImage${code}_${indexs}`"
-            v-bind:name="`FileImage${code}_${indexs}`"
+            v-bind:id="`FileImage${QuestionCode}_${indexs}`"
+            v-bind:name="`FileImage${QuestionCode}_${indexs}`"
             class="form-control"
             type="file"
             ref="`Img{value.code}`"
@@ -80,7 +80,7 @@
         type="button"
         class="btn btn-success mt-3 mt-lg-0"
         value="Add"
-        @click="buttonAddImageUpload($event, code, indexs)"
+        @click="buttonAddImageUpload($event, QuestionCode, indexs)"
       />
       <input
         type="button"
@@ -91,19 +91,19 @@
     </div>
     <div class="offcanvas-body " v-if="addressUrl == 1">
     <b-form-group
-      v-bind:id="`url${code}`"
-      v-bind:name="`url${code}`"
+      v-bind:id="`url${QuestionCode}`"
+      v-bind:name="`url${QuestionCode}`"
       class="mb-3"
       label="ที่อยู่อินเตอร์เน็ต:"
       label-for="formrow-firstname-input"
     >
       <input
-        v-bind:id="`address_url${code}`"
-        v-bind:name="`address_url${code}`"
+        v-bind:id="`address_url${QuestionCode}`"
+        v-bind:name="`address_url${QuestionCode}`"
         v-model="f_address_url"
         class="form-control"
         type="text"
-        ref="`address_url{code}`"
+        ref="`address_url{QuestionCode}`"
       />
     </b-form-group>
     </div>
@@ -114,8 +114,8 @@
       label-for="formrow-firstname-input"
     >
       <textarea
-        v-bind:id="`additional_message${code}`"
-        v-bind:name="`additional_message${code}`"
+        v-bind:id="`additional_message${QuestionCode}`"
+        v-bind:name="`additional_message${QuestionCode}`"
         v-model="f_additional_message"
         class="form-control"
         :maxlength="225"
@@ -126,8 +126,8 @@
     </div>
     <div>
       <b-button
-        v-bind:id="`buttonUpload${code}`"
-        v-bind:name="`buttonUpload${code}`"
+        v-bind:id="`buttonUpload${QuestionCode}`"
+        v-bind:name="`buttonUpload${QuestionCode}`"
         variant="primary"
         @click="buttonUploadFile()"
         >บันทึกข้อมูล</b-button
@@ -264,11 +264,8 @@ async onChangeUploadFile(e) {
     },
     async  buttonUploadFile() {
           let buttonUploadID = event.target.id;
+          console.log('buttonUploadID : ',buttonUploadID)
           let CodeButton = buttonUploadID.split("buttonUpload");
-          let codeAddressUrl = "address_url" + CodeButton[1];
-          let codeAdditionalMessage = "additional_message" + CodeButton[1];
-          var input = document.getElementById(codeAddressUrl).value;
-          var input1 = document.getElementById(codeAdditionalMessage).value;  
           let yearData = new Date().getFullYear() + 543;
           const payload = {
             f_docrunning: localStorage.getItem("f_docrunning"),

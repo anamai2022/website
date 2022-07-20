@@ -464,8 +464,7 @@ export default {
       f_additional_message
     ) {
       this.openRightUploadDrawer = !this.openRightUploadDrawer;
-      console.log("Upload : ", index, f_code, f_title);
-      console.log("type : ", f_upload_image, f_upload_file);
+      console.log("Upload : ", index, 'Question Code ',f_code, 'Title ',f_title);
       this.titleDrawer = index;
       this.DrawerCode = f_code;
       this.DrawerTitle = f_title;
