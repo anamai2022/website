@@ -26,5 +26,14 @@ export class attachmentProvider extends HttpRequest {
         return { statusCode: error };
       }      
     }
-              
+
+    async GetImgFile(f_docrunning,f_hospitalCode,f_year,f_code){
+      try {
+        const { data } = await axios.post(`${process.env.VUE_APP_ENDPOINT}` + "/upload/show/"+ f_docrunning+'/'+ f_hospitalCode+'/'+ f_year+'/'+ f_code);   
+        return data;
+      } catch (error) {
+        return { statusCode: error };
+      }      
+    }
+
 }

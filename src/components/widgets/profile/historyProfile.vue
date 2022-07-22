@@ -7,20 +7,26 @@
             <div class="col-6">
               <h4 class="card-title">{{ historyProfile }}</h4>
               <p class="card-title-desc">
-                {{ historyProfiles }}&nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ budgetYear }}</font>
+                {{ historyProfiles }}&nbsp;&nbsp;:&nbsp;&nbsp;<font
+                  color="#DF06E6"
+                  >{{ documentCode }}</font
+                >
               </p>
             </div>
             <div class="col-6">
               <div class="row">
                 <div class="col-6">
                   <h4 class="font-size-15">
-                    {{ budgetYearName }} <font color='#DF06E6'>{{ budgetYear }}</font>
+                    {{ budgetYearName }}
+                    <font color="#DF06E6">{{ budgetYear }}</font>
                   </h4>
                 </div>
                 <div class="col-6">
                   <h4 class="font-size-15">
                     {{ selfAssessmentResults }}
-                    <font color='#DF06E6'>{{ statusSelfAssessmentResults }}</font>
+                    <font color="#DF06E6">{{
+                      statusSelfAssessmentResults
+                    }}</font>
                   </h4>
                 </div>
               </div>
@@ -37,9 +43,11 @@
                   <i class="fas fa-home"></i>
                 </span>
                 <span class="d-none d-sm-inline-block">G1</span>
-                &nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ totalG1 }}</font>
+                &nbsp;&nbsp;:&nbsp;&nbsp;<font color="#DF06E6">{{
+                  totalG1
+                }}</font>
               </template>
-              <DataTable GData="G1" />
+              <DataTable GData="G1" :documentCode="documentCode" />
             </b-tab>
             <b-tab>
               <template v-slot:title>
@@ -47,9 +55,11 @@
                   <i class="far fa-user"></i>
                 </span>
                 <span class="d-none d-sm-inline-block">G2</span>
-                &nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ totalG2 }}</font>
+                &nbsp;&nbsp;:&nbsp;&nbsp;<font color="#DF06E6">{{
+                  totalG2
+                }}</font>
               </template>
-              <DataTable GData="G2" />
+              <DataTable GData="G2" :documentCode="documentCode" />
             </b-tab>
             <b-tab>
               <template v-slot:title>
@@ -57,9 +67,11 @@
                   <i class="far fa-envelope"></i>
                 </span>
                 <span class="d-none d-sm-inline-block">G3</span>
-                &nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ totalG3 }}</font>
+                &nbsp;&nbsp;:&nbsp;&nbsp;<font color="#DF06E6">{{
+                  totalG3
+                }}</font>
               </template>
-              <DataTable GData="G3" />
+              <DataTable GData="G3" :documentCode="documentCode" />
             </b-tab>
             <b-tab>
               <template v-slot:title>
@@ -67,9 +79,11 @@
                   <i class="fas fa-cog"></i>
                 </span>
                 <span class="d-none d-sm-inline-block">G4</span>
-                &nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ totalG4 }}</font>
+                &nbsp;&nbsp;:&nbsp;&nbsp;<font color="#DF06E6">{{
+                  totalG4
+                }}</font>
               </template>
-              <DataTable GData="G4" />
+              <DataTable GData="G4" :documentCode="documentCode" />
             </b-tab>
             <b-tab>
               <template v-slot:title>
@@ -77,9 +91,11 @@
                   <i class="fas fa-cog"></i>
                 </span>
                 <span class="d-none d-sm-inline-block">G5</span>
-                &nbsp;&nbsp;:&nbsp;&nbsp;<font color='#DF06E6'>{{ totalG5 }}</font>
+                &nbsp;&nbsp;:&nbsp;&nbsp;<font color="#DF06E6">{{
+                  totalG5
+                }}</font>
               </template>
-              <DataTable GData="G5" />
+              <DataTable GData="G5" :documentCode="documentCode" />
             </b-tab>
           </b-tabs>
         </div>
@@ -90,8 +106,16 @@
 <script>
 import appConfig from "@/app.config";
 import Config from "@/config.json";
-import { MasterService, QuestionnaireService ,ScoreService } from "@/api/index.js";
 import DataTable from "@/components/widgets/profile/DataTable.vue";
+import {
+  MasterService,
+  QuestionnaireService,
+  ScoreService,
+  FlowAnswerService,
+  attachmentProvider,
+  AnswerService,
+} from "@/api/index.js";
+import moment from "moment";
 export default {
   name: "HistoryProfileWidgets",
   props: ["form", "mode", "questionnaire", "budgetYear"],
@@ -126,18 +150,26 @@ export default {
       OrganizationalData: appConfig.OrganizationalData,
       budgetYearName: appConfig.budgetYear,
       GData: null,
-      totalG1:0,
-      totalG2:0,
-      totalG3:0,
-      totalG4:0,
-      totalG5:0,
+      totalG1: 0,
+      totalG2: 0,
+      totalG3: 0,
+      totalG4: 0,
+      totalG5: 0,
+      setYear : new Date().getFullYear() + 543,
+      documentCode:null,
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    async getScoreGroup(){
+      let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)            
+      this.documentCode = data.result[0].f_docrunning
+    },
+  },
   beforeCreate() {},
   created() {
-    this.statusSelfAssessmentResults ='ไม่ผ่าน'
+    this.statusSelfAssessmentResults = "ไม่ผ่าน";
+    this.getScoreGroup();
   },
   beforeMount() {},
   mounted() {},

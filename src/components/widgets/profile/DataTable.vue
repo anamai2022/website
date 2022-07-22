@@ -24,24 +24,18 @@
           </td>
           <td class="subScore" v-if="values.f_hadertitle == 1">
             <div v-if="ShowScoreWT == 1">{{ values.f_questionWtMain }}</div>
-            <div v-else></div>
-          </td>
-          <td class="subScoreBack" v-else></td>
+            <div v-else>{{ values.f_questionWtMain }}</div>
+          </td> 
+          <td>{{ values.f_questionWtSub }}</td>         
           <td
             class="subScoreBack"
             v-if="values.f_hadertitle == 0"
             v-bind:id="`${values.f_code}data`"
             v-bind:name="`${values.f_code}data`"
           >
-            <div
-              v-for="row in GetScoreByRunning"
-              :key="GetScoreByRunning.f_code"
-            >
-              <p v-if="row.f_codetitle == values.f_code">
-                <font color="#D22F19">{{ row.f_score }}</font>
-              </p>
-            </div>
+            <font color="#D22F19">{{ values.f_score }}</font>            
           </td>
+          <td class="subScoreBack" v-else>{{ QuestionsAnswers }}</td>
           <td
             class="score"
             v-else
@@ -111,12 +105,14 @@ import {
   MasterService,
   QuestionnaireService,
   ScoreService,
+  FlowAnswerService,
+  attachmentProvider,
   AnswerService,
 } from "@/api/index.js";
 import moment from "moment";
 export default {
   name: "ProfileTable",
-  props: ["form", "mode", "questionnaire", "budgetYear", "GData"],
+  props: ["form", "mode", "questionnaire", "budgetYear", "GData" ],
   page: {
     title: appConfig.shortname,
     meta: [
@@ -155,6 +151,7 @@ export default {
       titleG3WT: appConfig.titleG3WT,
       titleG4WT: appConfig.titleG4WT,
       titleG5WT: appConfig.titleG5WT,
+      QuestionsAnswers: appConfig.QuestionsAnswers,
       QuestionnaireData: null,
       ShowScoreWT: Config.ShowScoreWT,
       evidenceExplanation: appConfig.evidenceExplanation,
@@ -163,9 +160,8 @@ export default {
       fillInInformationYear: appConfig.fillInInformationYear,
       evidenceExplanation: appConfig.evidenceExplanation,
       GetScoreByRunning: [],
-      wigthScore: appConfig.wigthScore,
-      setYear : new Date().getFullYear() + 543,
-      documentCode:null,
+      wigthScore: appConfig.wigthScore,      
+      setYear: new Date().getFullYear() + 543,      
     };
   },
   computed: {},
@@ -205,19 +201,13 @@ export default {
       const results = await MasterService.getZoneAreaAll();
       this.ZoneAreaData = results.result;
     },
-    async getQuestionnaireAll() {
-      const results = await QuestionnaireService.getQuestionnaireTabAll(
-        this.GData
-      );
-      this.QuestionnaireData = results.result;
-    },
     async getDataQuestionnaire() {
       this.dataDateTime = moment().format("LLLL");
       moment.locale("th");
       let yearData = new Date().getFullYear() + 543;
       let data = await ScoreService.GetScoreById(
         localStorage.getItem("profile"),
-        localStorage.getItem("f_docrunning"),
+        this.CodeDoc,
         this.setYear,
         this.GData
       );
@@ -227,18 +217,10 @@ export default {
         this.GetScoreByRunning = null;
       }
     },
-  async  getScoreToView() {                           
-      for (let i = 0; i < this.QuestionnaireData.length; i++) {                
-        if(this.QuestionnaireData[i].f_hadertitle == 0){          
-          await this.getScoreData(
-            localStorage.getItem("profile"),
-            localStorage.getItem("f_docrunning"),
-            this.setYear,
-            this.QuestionnaireData[i].f_section,
-            this.QuestionnaireData[i].f_code
-          )
-        }
-      }      
+    async getScoreGroup(){
+      let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)                
+      localStorage.setItem("f_docrunning",data.result[0].f_docrunning)
+      console.log('Score Group : ',data.result[0].f_docrunning)
     },
     async getScoreData(f_hospitalCode,f_docrunning,f_year,f_section,f_code){
      let dataShow =  await ScoreService.GetScoreByQuestionId(
@@ -248,14 +230,12 @@ export default {
         f_section,
         f_code
       )
-    },
-    async getScoreGroup(){
-      let data = await ScoreService.GetGroupDocumentRunning(localStorage.getItem("profile"),this.setYear)            
-      this.documentCode = data.result[0].f_docrunning
-      console.log('Document Code : ',data.result[0].f_docrunning)
+      console.log('Score Data : ',dataShow)
     },
     async getQuestion(){
       let data = await AnswerService.getDataAll(localStorage.getItem("f_docrunning"),this.setYear,localStorage.getItem("profile"))
+      console.log('Question Data : ',data)
+      this.QuestionnaireData = data.results
     }
   },
   beforeCreate() {},
@@ -263,10 +243,9 @@ export default {
     this.getYear();
     this.getScoreAll();
     this.getZoneAreaAll();
-    this.getQuestionnaireAll();
     this.getDataQuestionnaire();
+    this.getScoreGroup(); 
     this.getQuestion();
-    //this.getScoreGroup();    
   },
   beforeMount() {},
   mounted() {},
