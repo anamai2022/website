@@ -1,5 +1,8 @@
 <template>
   <div class="table-responsive">
+    <div class="col-12 center">
+      <qrcode :background="background" :size="size" :cls="qrCls" :value="qrText"></qrcode>
+    </div>
     <table class="table table-nowrap table-hover mb-0">
       <thead>
         <tr>
@@ -101,6 +104,7 @@
 <script>
 import appConfig from "@/app.config";
 import Config from "@/config.json";
+import Qrcode from 'v-qrcode/src/index'
 import {
   MasterService,
   QuestionnaireService,
@@ -122,7 +126,7 @@ export default {
       },
     ],
   },
-  components: {},
+  components: { Qrcode },
   data() {
     return {
       OrganizationalCharacteristics: appConfig.OrganizationalCharacteristics,
@@ -161,7 +165,11 @@ export default {
       evidenceExplanation: appConfig.evidenceExplanation,
       GetScoreByRunning: [],
       wigthScore: appConfig.wigthScore,      
-      setYear: new Date().getFullYear() + 543,      
+      setYear: new Date().getFullYear() + 543,    
+      qrText : appConfig.qrCodeValueA,  
+      qrCls: 'qrcode',
+      size: 100,
+      background: '#ffffff'         
     };
   },
   computed: {},
@@ -265,5 +273,8 @@ export default {
 }
 .ex1 {
   margin-left: 30px;
+}
+.center {
+  text-align: center;
 }
 </style>
